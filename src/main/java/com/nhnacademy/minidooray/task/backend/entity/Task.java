@@ -40,11 +40,11 @@ public class Task {
     @Column(name = "milestone_id")
     private Long milestoneId;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "project_id", insertable = false, updatable = false)
     private Project project;
 
-    @ManyToOne
-    @JoinColumn(name ="milestone_id", insertable = false, updatable = false)
+    @OneToOne
+    @JoinColumn(name = "milestone_id", insertable = false, updatable = false)
     private Milestone milestone;
 }
