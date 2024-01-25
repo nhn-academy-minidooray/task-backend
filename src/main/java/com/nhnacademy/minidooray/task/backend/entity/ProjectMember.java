@@ -26,7 +26,6 @@ import lombok.Setter;
 public class ProjectMember {
 
     @EmbeddedId
-    @NotNull
     private Pk pk;
 
     @MapsId("projectId")
@@ -43,11 +42,9 @@ public class ProjectMember {
     @NoArgsConstructor
     public static class Pk implements Serializable {
 
-        @NotNull
         @Column(name = "account_id")
         private String accountId;
 
-        @NotNull
         @Column(name = "project_id")
         private Long projectId;
     }

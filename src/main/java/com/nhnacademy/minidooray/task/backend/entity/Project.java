@@ -23,17 +23,14 @@ public class Project {
     @Id
     @Column(name = "project_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long projectId;
+    private Long id;
 
-    @NotNull
     @Column(name = "project_name")
-    private String projectName;
+    private String name;
 
-    @NotNull
     @Column(name = "project_status")
-    private String projectStatus;
+    private String status;
 
-    @NotNull
     @Column(name = "project_admin_id")
-    private String projectAdminId;
+    private String adminId;
 }

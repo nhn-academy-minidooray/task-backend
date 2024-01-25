@@ -46,11 +46,9 @@ public class ProjectTag {
     @Embeddable
     public static class Pk implements Serializable {
 
-        @NotNull
         @Column(name = "project_id")
         private Long projectId;
 
-        @NotNull
         @Column(name = "tag_id")
         private Long tagId;
     }

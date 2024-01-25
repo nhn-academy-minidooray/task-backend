@@ -44,6 +44,7 @@ public class ProjectMilestone {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Pk implements Serializable {
+
         @Column(name = "project_id")
         private Long projectId;
 

@@ -25,11 +25,10 @@ public class Comment {
     @Id
     @Column(name = "comment_Id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long commentId;
+    private Long id;
 
-    @NotNull
     @Column(name = "comment_content")
-    private String commentContent;
+    private String content;
 
 
     @ManyToOne

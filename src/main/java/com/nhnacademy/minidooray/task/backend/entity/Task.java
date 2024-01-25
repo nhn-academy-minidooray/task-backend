@@ -26,17 +26,14 @@ public class Task {
     @Id
     @Column(name = "task_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long taskId;
+    private Long id;
 
-    @NotNull
     @Column(name = "task_name")
-    private String taskName;
+    private String name;
 
-    @NotNull
     @Column(name = "project_id")
     private Long projectId;
 
-    @NotNull
     @Column(name = "milestone_id")
     private Long milestoneId;
 
