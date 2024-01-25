@@ -31,12 +31,6 @@ public class Task {
     @Column(name = "task_name")
     private String name;
 
-    @Column(name = "project_id")
-    private Long projectId;
-
-    @Column(name = "milestone_id")
-    private Long milestoneId;
-
     @ManyToOne
     @JoinColumn(name = "project_id", insertable = false, updatable = false)
     private Project project;
