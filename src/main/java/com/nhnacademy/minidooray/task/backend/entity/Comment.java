@@ -23,17 +23,13 @@ import lombok.Setter;
 public class Comment {
 
     @Id
-    @Column(name = "commentId")
+    @Column(name = "comment_Id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
 
     @NotNull
     @Column(name = "comment_content")
     private String commentContent;
-
-    @NotNull
-    @Column(name = "task_id", insertable = false, updatable = false)
-    private Long taskId;
 
 
     @ManyToOne
