@@ -36,5 +36,5 @@ public class Project {
 
     @NotNull
     @Column(name = "project_admin_id")
-    String projectAdminId; //타입 확인
+    String projectAdminId;
 }
