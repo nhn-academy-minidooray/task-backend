@@ -1,8 +1,13 @@
 package com.nhnacademy.minidooray.task.backend.service;
 
+import com.nhnacademy.minidooray.task.backend.domain.MilestoneDto;
+import com.nhnacademy.minidooray.task.backend.domain.MilestoneRequest;
 import com.nhnacademy.minidooray.task.backend.domain.ProjectDto;
-import com.nhnacademy.minidooray.task.backend.domain.ProjectRegistryRequest;
+import com.nhnacademy.minidooray.task.backend.domain.ProjectRequest;
+import com.nhnacademy.minidooray.task.backend.domain.Status;
+import com.nhnacademy.minidooray.task.backend.entity.Milestone;
 import com.nhnacademy.minidooray.task.backend.entity.Project;
+import com.nhnacademy.minidooray.task.backend.repository.MilestoneRepository;
 import com.nhnacademy.minidooray.task.backend.repository.ProjectRepository;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,20 +15,20 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
-    private ProjectRepository projectRepository;
+    private final ProjectRepository projectRepository;
 
-    public ProjectServiceImpl(ProjectRepository projectRepository) {
+    private final MilestoneRepository milestoneRepository;
+
+    public ProjectServiceImpl(ProjectRepository projectRepository, MilestoneRepository milestoneRepository) {
         this.projectRepository = projectRepository;
+        this.milestoneRepository = milestoneRepository;
     }
 
-
     @Override
-    public Project createProject(ProjectRegistryRequest projectRegistryRequest, String adminId) {
-        Project project = new Project();
-        project.setProjectName(projectRegistryRequest.getProjectName());
-        project.setProjectStatus("활성");
-        project.setProjectAdminId(adminId);
-        return projectRepository.save(project);
+    public void createProject(ProjectRequest projectRequest) {
+        Project project = new Project(projectRequest.getName(), Status.ACTIVATION.getValue(),
+                projectRequest.getAdminId());
+        projectRepository.save(project);
     }
 
     @Override
@@ -34,12 +39,12 @@ public class ProjectServiceImpl implements ProjectService {
                 .map(objects ->
                         new ProjectDto() {
                             @Override
-                            public Long getProjectId() {
+                            public Long getId() {
                                 return (Long) objects.get(0);
                             }
 
                             @Override
-                            public String getProjectName() {
+                            public String getName() {
                                 return (String) objects.get(1);
                             }
                         })
@@ -48,7 +53,46 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectDto getProjectDtoById(Long projectId) {
-        return projectRepository.findProjectByProjectId(projectId);
-
+        return projectRepository.findProjectById(projectId);
     }
+
+    @Override
+    public void createMileStone(MilestoneRequest milestoneRequest) {
+        Milestone milestone = new Milestone(
+                milestoneRequest.getName(),
+                milestoneRequest.getStartLocalDate(),
+                milestoneRequest.getEndLocalDate(),
+                "N");
+        milestoneRepository.save(milestone);
+    }
+
+    @Override
+    public List<MilestoneDto> getMilestoneList() {
+        return milestoneRepository.findAll()
+                .stream()
+                .map(milestone -> new MilestoneDto() {
+                    @Override
+                    public Long getId() {
+                        return milestone.getId();
+                    }
+
+                    @Override
+                    public String getName() {
+                        return milestone.getName();
+                    }
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public MilestoneDto getMilestoneById(Long milestoneId) {
+        return milestoneRepository.findMilestoneById(milestoneId).orElse(null);
+    }
+
+    @Override
+    public void deleteMilestone(Long milestoneId) {
+        milestoneRepository.deleteMilestoneById(milestoneId);
+    }
+
+
 }
