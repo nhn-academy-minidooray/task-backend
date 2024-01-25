@@ -8,9 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface ProjectRepository extends JpaRepository<Project, Long> {
-    @Query("SELECT p.projectId, p.projectName FROM Project p INNER JOIN ProjectMember m ON p.projectId = m.pk.projectId WHERE m.pk.accountId = :accountId")
+    @Query("SELECT p.id, p.name FROM Project p INNER JOIN ProjectMember m ON p.id = m.pk.projectId WHERE m.pk.accountId = :accountId")
     List<List<Object>> getProjectListById(@Param("accountId") String accountId);
 
-    ProjectDto findProjectByProjectId(Long projectId);
+    ProjectDto findProjectById(Long projectId);
 
 }
