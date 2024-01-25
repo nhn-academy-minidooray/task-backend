@@ -11,6 +11,7 @@ import javax.persistence.MapsId;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -41,6 +42,7 @@ public class ProjectTag {
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
+    @EqualsAndHashCode
     @Embeddable
     public static class Pk implements Serializable {
 

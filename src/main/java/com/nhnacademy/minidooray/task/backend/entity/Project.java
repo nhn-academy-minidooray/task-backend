@@ -21,20 +21,19 @@ import lombok.Setter;
 public class Project {
 
     @Id
-    @NotNull
     @Column(name = "project_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long projectId;
+    private Long projectId;
 
     @NotNull
     @Column(name = "project_name")
-    String projectName;
+    private String projectName;
 
     @NotNull
     @Column(name = "project_status")
-    String projectStatus;
+    private String projectStatus;
 
     @NotNull
     @Column(name = "project_admin_id")
-    String projectAdminId;
+    private String projectAdminId;
 }
