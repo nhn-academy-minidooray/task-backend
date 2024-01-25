@@ -3,6 +3,8 @@ package com.nhnacademy.minidooray.task.backend.entity;
 import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -20,21 +22,18 @@ import lombok.Setter;
 public class Milestone {
     @Id
     @Column(name = "milestone_id")
-    private Long milestoneId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @NotNull
     @Column(name = "milestone_name")
-    private String milestoneName;
+    private String name;
 
-    @NotNull
     @Column(name = "milestone_start_date")
-    private LocalDate milestoneStartDate;
+    private LocalDate startDate;
 
-    @NotNull
     @Column(name = "milestone_end_date")
-    private LocalDate milestoneEndDate;
+    private LocalDate endDate;
 
-    @NotNull
     @Column(name = "milestone_over_or_not")
-    private String milestoneOverOrNot;
+    private String overOrNot;
 }

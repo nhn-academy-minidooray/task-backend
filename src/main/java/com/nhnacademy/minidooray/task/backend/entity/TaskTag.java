@@ -23,8 +23,8 @@ import lombok.Setter;
 @Entity
 @Table(name = "Task-Tag")
 public class TaskTag {
+
     @EmbeddedId
-    @NotNull
     private Pk pk;
 
     @MapsId("tagId")
@@ -44,11 +44,10 @@ public class TaskTag {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Pk implements Serializable {
-        @NotNull
+
         @Column(name = "tag_id")
         private Long tagId;
 
-        @NotNull
         @Column(name = "task_id")
         private Long taskId;
     }
