@@ -30,10 +30,8 @@ public class Task {
     @Column(name = "task_name")
     private String name;
 
-<<<<<<< HEAD
 
-=======
->>>>>>> main
+
     @ManyToOne
     @JoinColumn(name = "project_id", insertable = false, updatable = false)
     private Project project;
