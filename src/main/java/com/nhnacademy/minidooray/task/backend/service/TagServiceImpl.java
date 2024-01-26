@@ -61,6 +61,7 @@ public class TagServiceImpl implements TagService{
         return false;
     }
 
+    @Transactional
     @Override
     public boolean deleteTag(Long id) {
         if(tagRepository.existsById(id)){
