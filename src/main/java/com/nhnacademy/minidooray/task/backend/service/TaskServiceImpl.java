@@ -37,20 +37,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskDto> findTaskListByProject(Long projectId) {
-        return taskRepository.taskListByProject(projectId)
-                .stream()
-                .map(objects -> new TaskDto() {
-                    @Override
-                    public Long getId() {
-                        return (Long) objects.get(0);
-                    }
-
-                    @Override
-                    public String getName() {
-                        return (String) objects.get(1);
-                    }
-                })
-                .collect(Collectors.toList());
+        return taskRepository.taskListByProject(projectId);
     }
 
     @Override
@@ -74,26 +61,13 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<CommentDto> findCommentListByTask(Long taskId) {
-        return commentRepository.commentListByTaskId(taskId)
-                .stream()
-                .map(objects -> new CommentDto() {
-                    @Override
-                    public Long getId() {
-                        return (Long) objects.get(0);
-                    }
-
-                    @Override
-                    public String getContent() {
-                        return (String) objects.get(1);
-                    }
-                })
-                .collect(Collectors.toList());
+        return commentRepository.commentListByTaskId(taskId);
     }
 
     @Override
     public void createComment(CommentRequest commentRequest, Long taskId) {
         Task task = taskRepository.getTaskById(taskId);
-        Comment comment = new Comment(commentRequest.getName(), task);
+        Comment comment = new Comment(commentRequest.getContent(), task);
 
         commentRepository.saveAndFlush(comment);
     }

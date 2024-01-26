@@ -12,9 +12,9 @@ class MilestoneRepositoryTest {
 
     @Test
     void test() {
-        List<List<Object>> mileStoneByProjectId = milestoneRepository.findMileStoneByProjectId(1L);
+//        List<List<Object>> mileStoneByProjectId = milestoneRepository.findMileStoneByProjectId(1L);
 
-        mileStoneByProjectId.stream().forEach(m -> System.out.println(m.get(1)));
+//        mileStoneByProjectId.stream().forEach(m -> System.out.println(m.get(1)));
 
     }
 

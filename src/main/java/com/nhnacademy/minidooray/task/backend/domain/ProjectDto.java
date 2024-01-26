@@ -1,10 +1,17 @@
 package com.nhnacademy.minidooray.task.backend.domain;
 
-public interface ProjectDto {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-    Long getId();
+@Getter
+@Setter
 
-    String getName();
-
-
+@AllArgsConstructor
+@ToString
+public class ProjectDto {
+    Long id;
+    String name;
 }

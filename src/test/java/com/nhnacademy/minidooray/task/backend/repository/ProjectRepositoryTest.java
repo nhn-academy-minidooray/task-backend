@@ -18,6 +18,9 @@ class ProjectRepositoryTest {
     @Autowired
     ProjectService projectService;
 
+    @Autowired
+    ProjectRepository projectRepository;
+
 
     @Test
     void test(){
@@ -41,5 +44,10 @@ class ProjectRepositoryTest {
 //
 //
 //    }
+
+    @Test
+    void as(){
+        projectRepository.getProjectListById("jkjk").stream().forEach(System.out::println);
+    }
 
 }

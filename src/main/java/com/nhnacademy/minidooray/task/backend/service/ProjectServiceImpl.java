@@ -36,22 +36,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<ProjectDto> getProjectListByAccountId(String accountId) {
-        List<List<Object>> projectListById = projectRepository.getProjectListById(accountId);
-
-        return projectListById.stream()
-                .map(objects ->
-                        new ProjectDto() {
-                            @Override
-                            public Long getId() {
-                                return (Long) objects.get(0);
-                            }
-
-                            @Override
-                            public String getName() {
-                                return (String) objects.get(1);
-                            }
-                        })
-                .collect(Collectors.toList());
+        return projectRepository.getProjectListById(accountId);
     }
 
     @Override
@@ -73,38 +58,12 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<MilestoneDto> getMilestoneList() {
-        return milestoneRepository.findAll()
-                .stream()
-                .map(milestone -> new MilestoneDto() {
-                    @Override
-                    public Long getId() {
-                        return milestone.getId();
-                    }
-
-                    @Override
-                    public String getName() {
-                        return milestone.getName();
-                    }
-                })
-                .collect(Collectors.toList());
+        return null;
     }
 
     @Override
     public List<MilestoneDto> getMilestoneByProject(Long projectId) {
-        List<List<Object>> mileStoneByProjectId = milestoneRepository.findMileStoneByProjectId(projectId);
-        return mileStoneByProjectId.stream()
-                .map(objects -> new MilestoneDto() {
-                    @Override
-                    public Long getId() {
-                        return (Long) objects.get(0);
-                    }
-
-                    @Override
-                    public String getName() {
-                        return (String) objects.get(1);
-                    }
-                })
-                .collect(Collectors.toList());
+        return milestoneRepository.findMileStoneByProjectId(projectId);
     }
 
     @Override
