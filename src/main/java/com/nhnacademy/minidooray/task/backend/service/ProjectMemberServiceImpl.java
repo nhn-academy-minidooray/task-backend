@@ -71,6 +71,7 @@ public class ProjectMemberServiceImpl implements ProjectMemberService{
     public boolean deleteProjectMember(ProjectMemberRegisterRequest request) {
         ProjectMember.Pk pk = new ProjectMember.Pk(request.getAccountId(), request.getProjectId());
         Optional<ProjectMember> member = projectMemberRepository.findById(pk);
+
         if(member.isPresent()){
             projectMemberRepository.deleteById(pk);
 

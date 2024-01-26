@@ -43,7 +43,7 @@ public class ProjectMemberController {
                 : ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
-    @PostMapping("/create")
+    @PostMapping("/register")
     public ResponseEntity<Void> registerProjectMember(@RequestBody ProjectMemberRegisterRequest request){
         boolean isProcessed = projectMemberService.registerProjectMember(request);
 

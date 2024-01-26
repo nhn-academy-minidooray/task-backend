@@ -1,0 +1,33 @@
+GET http://localhost:8080/member/list
+Content-Type: application/json
+
+{
+  "id": 1
+}
+
+###
+POST http://localhost:8080/member/list/register
+Content-Type: application/json
+
+{
+  "projectId": 1,
+  "accountIdList": ["jinwoo", "jinwooo", "jinwoooo"]
+}
+
+###
+POST http://localhost:8080/member/regsiter
+Content-Type: application/json
+
+{
+  "projectId" : 1,
+  "accountId" : "jinwoo"
+}
+
+###
+DELETE http://localhost:8080/member/delete
+Content-Type: application/json
+
+{
+  "projectId": 1,
+  "accountId": "jinwoo"
+}

@@ -27,7 +27,7 @@ public class TagController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<TagDTO>> getTags(ProjectIdOnlyRequest request){
+    public ResponseEntity<List<TagDTO>> getTags(@RequestBody ProjectIdOnlyRequest request){
         List<TagDTO> tagList = tagService.findAllByProjectId(request);
 
         return tagList.isEmpty()
