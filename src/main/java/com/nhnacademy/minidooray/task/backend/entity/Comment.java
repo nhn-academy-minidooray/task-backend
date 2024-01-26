@@ -31,7 +31,7 @@ public class Comment {
 
 
     @ManyToOne
-    @JoinColumn(name = "task_id", insertable = false, updatable = false)
+    @JoinColumn(name = "task_id")
     private Task task;
 
     public Comment(String content, Task task) {

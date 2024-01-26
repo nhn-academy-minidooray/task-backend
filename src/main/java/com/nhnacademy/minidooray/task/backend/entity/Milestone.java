@@ -39,7 +39,7 @@ public class Milestone {
     private String overOrNot;
 
     @ManyToOne
-    @JoinColumn(name = "product", insertable = false, updatable = false)
+    @JoinColumn(name = "product")
     private Project project;
 
     public Milestone(String name, LocalDate startDate, LocalDate endDate, String overOrNot, Project project) {

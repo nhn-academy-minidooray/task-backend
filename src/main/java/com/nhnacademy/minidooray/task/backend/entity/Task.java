@@ -33,11 +33,11 @@ public class Task {
 
 
     @ManyToOne
-    @JoinColumn(name = "project_id", insertable = false, updatable = false)
+    @JoinColumn(name = "project_id")
     private Project project;
 
     @OneToOne
-    @JoinColumn(name = "milestone_id", insertable = false, updatable = false)
+    @JoinColumn(name = "milestone_id")
     private Milestone milestone;
 
     public Task(String name, Project project, Milestone milestone) {

@@ -31,6 +31,6 @@ public class Tag {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "project_id", insertable = false, updatable = false)
+    @JoinColumn(name = "project_id")
     private Project project;
 }
