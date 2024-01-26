@@ -1,4 +1,4 @@
-package com.nhnacademy.minidooray.task.backend.domain;
+package com.nhnacademy.minidooray.task.backend.domain.requestbody;
 
 import java.util.List;
 import lombok.Data;
@@ -6,15 +6,10 @@ import lombok.Data;
 @Data
 public class TaskRegisterRequest {
     String name;
-    Project project;
 
     Milestone milestone;
 
     List<Tag> tags;
-
-    public static class Project {
-        Long id;
-    }
 
     public static class Milestone {
         Long id;
