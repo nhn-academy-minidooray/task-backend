@@ -1,7 +1,9 @@
 package com.nhnacademy.minidooray.task.backend.service;
 
 import com.nhnacademy.minidooray.task.backend.domain.dto.TagDTO;
+import com.nhnacademy.minidooray.task.backend.domain.requestbody.ProjectIdOnlyRequest;
 import com.nhnacademy.minidooray.task.backend.domain.requestbody.TagNameOnlyRequest;
+import com.nhnacademy.minidooray.task.backend.domain.requestbody.TagRegisterRequest;
 import com.nhnacademy.minidooray.task.backend.entity.Project;
 import com.nhnacademy.minidooray.task.backend.entity.Tag;
 import com.nhnacademy.minidooray.task.backend.repository.ProjectRepository;
@@ -21,15 +23,16 @@ public class TagServiceImpl implements TagService{
 
     private final ProjectRepository projectRepository;
 
+    @Transactional(readOnly = true)
     @Override
-    public List<TagDTO> findAllByProjectId(Long projectId) {
-        return tagRepository.findAllByProject_Id(projectId);
+    public List<TagDTO> findAllByProjectId(ProjectIdOnlyRequest request) {
+        return tagRepository.findAllByProject_Id(request.getId());
     }
 
     @Transactional
     @Override
-    public boolean createTag(Long projectId, TagNameOnlyRequest request) {
-        Optional<Project> project = projectRepository.findById(projectId);
+    public boolean createTag(TagRegisterRequest request) {
+        Optional<Project> project = projectRepository.findById(request.getProjectId());
 
         if(project.isPresent()) {
             Tag tag = new Tag(request.getName(), project.get());
@@ -38,7 +41,7 @@ public class TagServiceImpl implements TagService{
             return true;
         }
 
-        log.error("createTag() : Not found project by {}", projectId);
+        log.error("createTag() : Not found project by projectId {}", request.getProjectId());
 
         return false;
     }
@@ -56,7 +59,7 @@ public class TagServiceImpl implements TagService{
             return true;
         }
 
-        log.error("modifyTag() : Not found tag by {}", id);
+        log.error("modifyTag() : Not found tag by tagId {}", id);
 
         return false;
     }
@@ -69,6 +72,8 @@ public class TagServiceImpl implements TagService{
 
             return true;
         }
+
+        log.error("deleteTag() : Not found tag by tagId {}", id);
 
         return false;
     }
