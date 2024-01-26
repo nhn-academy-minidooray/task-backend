@@ -11,6 +11,11 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     @Query("SELECT p.id, p.name FROM Project p INNER JOIN ProjectMember m ON p.id = m.pk.projectId WHERE m.pk.accountId = :accountId")
     List<List<Object>> getProjectListById(@Param("accountId") String accountId);
 
+
     ProjectDto findProjectById(Long projectId);
+
+    Project getProjectById(Long projectId);
+
+
 
 }

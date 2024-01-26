@@ -5,6 +5,7 @@ import com.nhnacademy.minidooray.task.backend.domain.MilestoneDto;
 import com.nhnacademy.minidooray.task.backend.domain.MilestoneRequest;
 import com.nhnacademy.minidooray.task.backend.service.ProjectService;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,17 +42,19 @@ public class MilestoneController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createMilestone(@RequestBody MilestoneRequest milestoneRequest) {
-//        projectService.createMileStone(milestoneRequest);
+    public void createMilestone(@Valid @RequestBody MilestoneRequest milestoneRequest,
+                                @PathVariable("projectId") Long projectId) {
+        projectService.createMileStone(milestoneRequest, projectId);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/modify")
     @ResponseStatus(HttpStatus.OK)
-    public void updateMilestone(@PathVariable("id") Long id) {
-
+    public void updateMilestone(@PathVariable("projectId") Long projectId, @PathVariable("id") Long id,
+                                @Valid @RequestBody MilestoneRequest milestoneRequest) {
+        projectService.updateMilestone(milestoneRequest, id);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}/delete")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteMilestone(@PathVariable("id") Long id) {
         projectService.deleteMilestone(id);
