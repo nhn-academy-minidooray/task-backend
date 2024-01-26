@@ -1,5 +1,6 @@
 package com.nhnacademy.minidooray.task.backend.service;
 
+import com.nhnacademy.minidooray.task.backend.domain.MilestoneDetailDto;
 import com.nhnacademy.minidooray.task.backend.domain.MilestoneDto;
 import com.nhnacademy.minidooray.task.backend.domain.MilestoneRequest;
 import com.nhnacademy.minidooray.task.backend.domain.ProjectDto;
@@ -18,6 +19,8 @@ public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepository;
 
     private final MilestoneRepository milestoneRepository;
+
+
 
     public ProjectServiceImpl(ProjectRepository projectRepository, MilestoneRepository milestoneRepository) {
         this.projectRepository = projectRepository;
@@ -57,13 +60,15 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void createMileStone(MilestoneRequest milestoneRequest) {
+    public void createMileStone(MilestoneRequest milestoneRequest, Long projectId) {
         Milestone milestone = new Milestone(
                 milestoneRequest.getName(),
-                milestoneRequest.getStartLocalDate(),
-                milestoneRequest.getEndLocalDate(),
+                milestoneRequest.getStartDate(),
+                milestoneRequest.getEndDate(),
                 "N");
-        milestoneRepository.save(milestone);
+        Milestone saveMilestone = milestoneRepository.saveAndFlush(milestone);
+
+
     }
 
     @Override
@@ -85,7 +90,30 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public MilestoneDto getMilestoneById(Long milestoneId) {
+    public List<MilestoneDto> getMilestoneByProject(Long projectId) {
+        List<List<Object>> mileStoneByProjectId = milestoneRepository.findMileStoneByProjectId(projectId);
+        return mileStoneByProjectId.stream()
+                .map(objects -> new MilestoneDto() {
+                    @Override
+                    public Long getId() {
+                        return (Long) objects.get(0);
+                    }
+
+                    @Override
+                    public String getName() {
+                        return (String) objects.get(1);
+                    }
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public MilestoneDetailDto getMilestoneByProjectIdAndMilestoneId(Long projectId, Long milestoneId) {
+        return milestoneRepository.findMilestoneByProjectIdAndMilestoneId(projectId, milestoneId);
+    }
+
+    @Override
+    public MilestoneDetailDto getMilestoneById(Long milestoneId) {
         return milestoneRepository.findMilestoneById(milestoneId).orElse(null);
     }
 

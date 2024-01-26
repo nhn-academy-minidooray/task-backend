@@ -1,5 +1,6 @@
 package com.nhnacademy.minidooray.task.backend.service;
 
+import com.nhnacademy.minidooray.task.backend.domain.MilestoneDetailDto;
 import com.nhnacademy.minidooray.task.backend.domain.MilestoneDto;
 import com.nhnacademy.minidooray.task.backend.domain.MilestoneRequest;
 import com.nhnacademy.minidooray.task.backend.domain.ProjectDto;
@@ -13,11 +14,15 @@ public interface ProjectService {
 
     ProjectDto getProjectDtoById(Long projectId);
 
-    void createMileStone(MilestoneRequest milestoneRequest);
+    void createMileStone(MilestoneRequest milestoneRequest, Long projectId);
 
     List<MilestoneDto> getMilestoneList();
 
-    MilestoneDto getMilestoneById(Long milestoneId);
+    List<MilestoneDto> getMilestoneByProject(Long projectId);
+
+    MilestoneDetailDto getMilestoneByProjectIdAndMilestoneId(Long projectId, Long milestoneId);
+
+    MilestoneDetailDto getMilestoneById(Long milestoneId);
 
     void deleteMilestone(Long milestoneId);
 
