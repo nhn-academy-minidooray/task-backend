@@ -11,6 +11,7 @@ import com.nhnacademy.minidooray.task.backend.entity.Project;
 import com.nhnacademy.minidooray.task.backend.repository.MilestoneRepository;
 import com.nhnacademy.minidooray.task.backend.repository.ProjectRepository;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,6 @@ public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepository;
 
     private final MilestoneRepository milestoneRepository;
-
 
 
     public ProjectServiceImpl(ProjectRepository projectRepository, MilestoneRepository milestoneRepository) {
@@ -61,14 +61,14 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void createMileStone(MilestoneRequest milestoneRequest, Long projectId) {
+        Project projectById = projectRepository.getProjectById(projectId);
         Milestone milestone = new Milestone(
                 milestoneRequest.getName(),
                 milestoneRequest.getStartDate(),
                 milestoneRequest.getEndDate(),
-                "N");
-        Milestone saveMilestone = milestoneRepository.saveAndFlush(milestone);
+                "N", projectById);
 
-
+        milestoneRepository.saveAndFlush(milestone);
     }
 
     @Override
@@ -116,6 +116,19 @@ public class ProjectServiceImpl implements ProjectService {
     public MilestoneDetailDto getMilestoneById(Long milestoneId) {
         return milestoneRepository.findMilestoneById(milestoneId).orElse(null);
     }
+
+    @Override
+    public void updateMilestone(MilestoneRequest milestoneRequest, Long milestoneId) {
+        Milestone milestone = milestoneRepository.findById(milestoneId).orElse(null);
+        if (Objects.isNull(milestone)) {
+            return;
+        } else {
+            Milestone modify = milestone.modify(milestoneRequest.getName(), milestoneRequest.getStartDate(),
+                    milestoneRequest.getEndDate());
+            milestoneRepository.save(modify);
+        }
+    }
+
 
     @Override
     public void deleteMilestone(Long milestoneId) {

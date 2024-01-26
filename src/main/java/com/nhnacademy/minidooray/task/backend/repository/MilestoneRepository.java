@@ -12,6 +12,8 @@ public interface MilestoneRepository extends JpaRepository<Milestone, Long> {
 
     Optional<MilestoneDetailDto> findMilestoneById(Long id);
 
+    Optional<Milestone> findById(Long mileId);
+
     @Query("SELECT m.id, m.name from Milestone m INNER JOIN Project p ON p.id = m.project.id WHERE p.id = :id")
     List<List<Object>> findMileStoneByProjectId(@Param("id") Long id);
 

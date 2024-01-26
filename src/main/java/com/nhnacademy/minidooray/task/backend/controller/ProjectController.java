@@ -1,9 +1,11 @@
 package com.nhnacademy.minidooray.task.backend.controller;
 
 import com.nhnacademy.minidooray.task.backend.domain.ProjectDto;
+import com.nhnacademy.minidooray.task.backend.domain.ProjectListRequest;
 import com.nhnacademy.minidooray.task.backend.domain.ProjectRequest;
 import com.nhnacademy.minidooray.task.backend.service.ProjectService;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,8 +27,8 @@ public class ProjectController {
 
     @PostMapping("/list")
     @ResponseStatus(HttpStatus.OK)
-    public List<ProjectDto> projectList() {
-        return projectService.getProjectListByAccountId("");
+    public List<ProjectDto> projectList(@Valid @RequestBody ProjectListRequest projectListRequest) {
+        return projectService.getProjectListByAccountId(projectListRequest.getAccountId());
     }
 
     @PostMapping("/register")
