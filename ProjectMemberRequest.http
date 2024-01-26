@@ -15,12 +15,12 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:8080/member/regsiter
+POST http://localhost:8080/member/register
 Content-Type: application/json
 
 {
   "projectId" : 1,
-  "accountId" : "jinwoo"
+  "accountId" : "jinwoooosiu"
 }
 
 ###
