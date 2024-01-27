@@ -35,9 +35,8 @@ public class MilestoneController {
         return ResponseEntity.ok().body(projectService.getMilestoneByProject(request.getId()));
     }
 
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<MilestoneDetailDto> getMilestone(@RequestParam("milestoneId") Long milestoneId) {
+    @GetMapping("/{milestoneId}")
+    public ResponseEntity<MilestoneDetailDto> getMilestone(@PathVariable("milestoneId") Long milestoneId) {
         Optional<MilestoneDetailDto> milestoneInfo =
                 projectService.getMilestoneById(milestoneId);
 
@@ -46,11 +45,18 @@ public class MilestoneController {
                 : ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
+    @GetMapping
+    public ResponseEntity<MilestoneDto> getMilestoneTaskId(@RequestParam("taskId") Long taskId) {
+        Optional<MilestoneDto> milestoneByTask = projectService.getMilestoneByTask(taskId);
+
+        return milestoneByTask.isPresent()
+                ? ResponseEntity.ok().body(milestoneByTask.get())
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
 
     @PostMapping("/register")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Void> createMilestone(@Valid @RequestBody MilestoneRequest milestoneRequest,
-                                                @PathVariable("projectId") Long projectId) {
+    public ResponseEntity<Void> createMilestone(@Valid @RequestBody MilestoneRequest milestoneRequest) {
         boolean isProcessed = projectService.createMileStone(milestoneRequest);
 
         return isProcessed
@@ -58,8 +64,7 @@ public class MilestoneController {
                 : ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
-    @PutMapping("/modify")
-    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("/{milestoneId}/modify")
     public ResponseEntity<Void> updateMilestone(@RequestParam("milestoneId") Long id,
                                                 @Valid @RequestBody MilestoneRequest milestoneRequest) {
         boolean isProcessed = projectService.updateMilestone(milestoneRequest, id);
@@ -69,10 +74,8 @@ public class MilestoneController {
                 : ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
-    @DeleteMapping("/delete")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{milestoneId}/delete")
     public ResponseEntity<Void> deleteMilestone(@RequestParam("MilestoneId") Long id) {
-
         boolean isProcessed = projectService.deleteMilestone(id);
 
         return isProcessed
