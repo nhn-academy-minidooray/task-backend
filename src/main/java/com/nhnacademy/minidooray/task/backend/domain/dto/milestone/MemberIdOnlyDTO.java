@@ -1,9 +1,15 @@
 package com.nhnacademy.minidooray.task.backend.domain.dto.milestone;
 
-public interface MemberIdOnlyDTO {
-    Pk getPk();
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-    interface Pk {
-        String getAccountId();
-    }
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
+public class MemberIdOnlyDTO {
+    String accountId;
+
 }
