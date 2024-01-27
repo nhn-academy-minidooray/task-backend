@@ -1,32 +1,30 @@
-//package com.nhnacademy.minidooray.task.backend.repository;
-//
-//import static org.junit.jupiter.api.Assertions.*;
-//
-//import com.nhnacademy.minidooray.task.backend.domain.ProjectRegistryRequest;
-//import com.nhnacademy.minidooray.task.backend.entity.Project;
-//import com.nhnacademy.minidooray.task.backend.entity.ProjectDto;
-//import com.nhnacademy.minidooray.task.backend.entity.ProjectMember;
-//import com.nhnacademy.minidooray.task.backend.service.ProjectService;
-//import java.util.List;
-//import org.junit.jupiter.api.Assertions;
-//import org.junit.jupiter.api.Test;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.SpringBootTest;
-//
-//@SpringBootTest
-//class ProjectRepositoryTest {
-//    @Autowired
-//    ProjectService projectService;
-//
-//    @Autowired
-//    ProjectMemberRepository projectMemberRepository;
-//
-//    @Test
-//    void test(){
-//        ProjectRegistryRequest projectRegistryRequest = new ProjectRegistryRequest("hihi");
-//        projectService.createProject(projectRegistryRequest, "jkjk");
-//    }
-//
+package com.nhnacademy.minidooray.task.backend.repository;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+
+import com.nhnacademy.minidooray.task.backend.domain.ProjectRequest;
+import com.nhnacademy.minidooray.task.backend.entity.Project;
+
+import com.nhnacademy.minidooray.task.backend.service.ProjectService;
+import java.util.List;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class ProjectRepositoryTest {
+    @Autowired
+    ProjectService projectService;
+
+
+    @Test
+    void test(){
+        ProjectRequest projectRegistryRequest = new ProjectRequest("name", "id");
+        projectService.createProject(projectRegistryRequest);
+    }
+
 //    @Test
 //    void test1(){
 //
@@ -43,5 +41,5 @@
 //
 //
 //    }
-//
-//}
+
+}

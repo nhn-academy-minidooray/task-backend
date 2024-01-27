@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,4 +34,8 @@ public class Comment {
     @JoinColumn(name = "task_id", insertable = false, updatable = false)
     private Task task;
 
+    public Comment(String content, Task task) {
+        this.content = content;
+        this.task = task;
+    }
 }

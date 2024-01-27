@@ -6,7 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,4 +32,10 @@ public class Project {
 
     @Column(name = "project_admin_id")
     private String adminId;
+
+    public Project(String name, String status, String adminId) {
+        this.name = name;
+        this.status = status;
+        this.adminId = adminId;
+    }
 }
