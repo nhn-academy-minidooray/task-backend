@@ -55,23 +55,25 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public boolean createTask(TaskRequest taskRequest) {
-        Project project = projectRepository.getProjectById(taskRequest.getProject().getId());
-
-        Milestone milestone = milestoneRepository.findById(taskRequest.getMilestone().getId()).orElse(null);
-
         Optional<Project> optionalProject = projectRepository.getProjectById(taskRequest.getProject().getId());
         Optional<Milestone> optionalMilestone = milestoneRepository.findById(taskRequest.getMilestone().getId());
 
+        if (optionalProject.isPresent() && optionalMilestone.isPresent()) {
+            Project project = optionalProject.get();
+            Milestone milestone = optionalMilestone.get();
 
-        Task task = Task.builder()
-                .name(taskRequest.getName())
-                .project(project)
-                .milestone(milestone)
-                .build();
-        Task saveTask = taskRepository.save(task);
-        saveTaskTag(taskRequest, saveTask);
+            Task task = Task.builder()
+                    .name(taskRequest.getName())
+                    .project(project)
+                    .milestone(milestone)
+                    .build();
+            Task saveTask = taskRepository.save(task);
+            saveTaskTag(taskRequest, saveTask);
 
-        return Objects.equals(task, saveTask);
+            return Objects.equals(task, saveTask);
+        } else {
+            return false;
+        }
     }
 
     private void saveTaskTag(TaskRequest taskRequest, Task saveTask) {

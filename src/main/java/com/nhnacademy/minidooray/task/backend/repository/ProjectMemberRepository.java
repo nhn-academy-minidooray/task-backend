@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProjectMemberRepository extends JpaRepository<ProjectMember, ProjectMember.Pk> {
 
-    @
+
     List<MemberIdOnlyDTO> getProjectMembersByPk_ProjectId(Long projectId);
 }
