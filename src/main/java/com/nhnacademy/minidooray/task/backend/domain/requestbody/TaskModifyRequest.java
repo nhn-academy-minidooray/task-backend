@@ -1,15 +1,18 @@
-package com.nhnacademy.minidooray.task.backend.domain.requestbody;
+package com.nhnacademy.minidooray.task.backend.domain;
 
 import java.util.List;
 import lombok.Data;
 
 @Data
 public class TaskModifyRequest {
-    String name;
+    private Long id;
 
-    Milestone milestone;
+    private String name;
 
-    List<Tag> tags;
+    private Milestone milestone;
+
+    private List<Tag> tags;
+
     public static class Milestone {
         Long id;
     }

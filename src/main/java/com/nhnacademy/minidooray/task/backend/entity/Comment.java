@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +20,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "Comment")
+@Builder
 public class Comment {
 
     @Id
@@ -31,11 +33,7 @@ public class Comment {
 
 
     @ManyToOne
-    @JoinColumn(name = "task_id", insertable = false, updatable = false)
+    @JoinColumn(name = "task_id")
     private Task task;
 
-    public Comment(String content, Task task) {
-        this.content = content;
-        this.task = task;
-    }
 }

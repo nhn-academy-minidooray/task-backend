@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TaskRequest {
-    Long projectId;
-    String name;
-    Long milestoneId;
+    private Long projectId;
+    private String name;
+    private Long milestoneId;
 }

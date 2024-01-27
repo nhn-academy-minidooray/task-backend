@@ -30,7 +30,7 @@ public class ProjectMember {
 
     @MapsId("projectId")
     @ManyToOne
-    @JoinColumn(name = "project_id", insertable = false, updatable = false)
+    @JoinColumn(name = "project_id")
     private Project project;
 
 

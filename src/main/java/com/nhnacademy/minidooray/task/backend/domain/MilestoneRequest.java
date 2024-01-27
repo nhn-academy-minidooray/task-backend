@@ -10,7 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @AllArgsConstructor
 public class MilestoneRequest {
     @NotNull
-    Long projectId;
+    private Long projectId;
 
     @NotNull
     private String name;
@@ -20,5 +20,7 @@ public class MilestoneRequest {
 
     @NotNull
     private LocalDate endDate;
+
+
 
 }
