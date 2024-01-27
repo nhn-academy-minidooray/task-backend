@@ -9,25 +9,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TaskRequest {
-    private Project project;
+    private Long projectId;
+
     private String name;
-    private Milestone milestone;
-    private List<Tag> tags;
 
+    private Long milestoneId;
 
-    @Data
-    public static class Project {
-        Long id;
-    }
+    private List<Long> tagList;
 
-    @Data
-    public static class Milestone {
-        Long id;
-    }
-
-    @Data
-    public static class Tag {
-        Long id;
-    }
     private String detail;
 }
