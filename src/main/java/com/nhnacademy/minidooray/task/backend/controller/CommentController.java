@@ -2,6 +2,7 @@ package com.nhnacademy.minidooray.task.backend.controller;
 
 import com.nhnacademy.minidooray.task.backend.domain.CommentDto;
 import com.nhnacademy.minidooray.task.backend.domain.CommentRequest;
+import com.nhnacademy.minidooray.task.backend.domain.TaskIdOnlyRequest;
 import com.nhnacademy.minidooray.task.backend.service.TaskService;
 import java.util.List;
 import javax.validation.Valid;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/project/{projectId}/task/{taskId}/comment")
+@RequestMapping("/comment")
 public class CommentController {
     private final TaskService taskService;
 
@@ -25,21 +26,21 @@ public class CommentController {
     }
 
     @GetMapping("/list")
-    public List<CommentDto> getCommentList(@PathVariable("taskId") Long taskId) {
-        return taskService.findCommentListByTask(taskId);
+    public List<CommentDto> getCommentList(@RequestBody TaskIdOnlyRequest request) {
+        return taskService.findCommentListByTask(request.getId());
     }
 
-    @PostMapping("")
-    public void createComment(@PathVariable("taskId") Long taskId, @Valid @RequestBody CommentRequest commentRequest) {
-        taskService.createComment(commentRequest, taskId);
+    @PostMapping("/create")
+    public void createComment(@Valid @RequestBody CommentRequest commentRequest) {
+        taskService.createComment(commentRequest, commentRequest.getTaskId());
     }
 
-    @PutMapping("")
+    @PutMapping("/{commentId}/modify")
     public void modifyComment(@PathVariable("commentId")Long commentId,  @Valid @RequestBody CommentRequest commentRequest){
         //TODO
     }
 
-    @DeleteMapping("")
+    @DeleteMapping("/{commentId}/delete")
     public void deleteComment(){
         //TODO
     }

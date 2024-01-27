@@ -7,9 +7,11 @@ import com.nhnacademy.minidooray.task.backend.service.ProjectService;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -25,10 +27,10 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
-    @PostMapping("/list")
+    @PostMapping("/list/{accountId}")
     @ResponseStatus(HttpStatus.OK)
-    public List<ProjectDto> projectList(@Valid @RequestBody ProjectListRequest projectListRequest) {
-        return projectService.getProjectListByAccountId(projectListRequest.getAccountId());
+    public List<ProjectDto> projectList(@PathVariable("accountId") String accountId) {
+        return projectService.getProjectListByAccountId(accountId);
     }
 
     @PostMapping("/register")
@@ -37,10 +39,19 @@ public class ProjectController {
         projectService.createProject(projectRequest);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{projectId}")
     @ResponseStatus(HttpStatus.OK)
-    public ProjectDto getProject(@PathVariable("id") Long projectId) {
+    public ProjectDto getProject(@PathVariable("projectId") Long projectId) {
         return projectService.getProjectDtoById(projectId);
     }
 
+    @PutMapping("/{projectId}/modify")
+    public void modifyProject(@PathVariable("projectId") Long projectId){
+        //TODO: 수정할때 필요한 modifyProjectRequest Class 필요
+    }
+
+    @DeleteMapping("/{projectId}/delete")
+    public void deleteProject(@PathVariable("projectId") Long projectId){
+        //TODO
+    }
 }

@@ -1,5 +1,6 @@
 package com.nhnacademy.minidooray.task.backend.controller;
 
+import com.nhnacademy.minidooray.task.backend.domain.ProjectIdOnlyRequest;
 import com.nhnacademy.minidooray.task.backend.domain.TaskDto;
 import com.nhnacademy.minidooray.task.backend.domain.TaskRequest;
 import com.nhnacademy.minidooray.task.backend.service.TaskService;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/project/{projectId}/task")
+@RequestMapping("/task")
 public class TaskController {
     private final TaskService taskService;
 
@@ -27,30 +28,31 @@ public class TaskController {
 
     @GetMapping("/list")
     @ResponseStatus(HttpStatus.OK)
-    public List<TaskDto> taskDtoList(@PathVariable("projectId") Long projectId) {
-        return taskService.findTaskListByProject(projectId);
+    public List<TaskDto> taskDtoList(@RequestBody ProjectIdOnlyRequest request) {
+        return taskService.findTaskListByProject(request.getId());
     }
 
     @GetMapping("/{taskId}")
     @ResponseStatus(HttpStatus.OK)
-    public TaskDto findTaskDto(@PathVariable("projectId") Long projectId,
-                               @PathVariable("taskId") Long taskId) {
-        return taskService.findTask(projectId, taskId);
+    public TaskDto findTaskDto(@PathVariable("taskId") Long taskId) {
+        //TODO: taskId만으로 조회가 가능할 것 같습니다.
+//        return taskService.findTask(projectId, taskId);
+        return null;
     }
 
-    @PostMapping("/register")
+    @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createTask(@PathVariable("projectId") Long projectId, @Valid @RequestBody TaskRequest taskRequest) {
-        taskService.createTask(taskRequest, projectId);
+    public void createTask(@Valid @RequestBody TaskRequest taskRequest) {
+        taskService.createTask(taskRequest, taskRequest.getProjectId());
     }
 
-    @PutMapping("/{taskId}")
+    @PutMapping("/{taskId}/modify")
     @ResponseStatus(HttpStatus.OK)
     public void modifyTask(@PathVariable("taskId") Long taskId) {
 
     }
 
-    @DeleteMapping("/{taskId}")
+    @DeleteMapping("/{taskId}/delete")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTask(@PathVariable("taskId") Long taskId) {
         taskService.deleteTask(taskId);

@@ -10,6 +10,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 @AllArgsConstructor
 public class MilestoneRequest {
     @NotNull
+    Long projectId;
+
+    @NotNull
     private String name;
 
     @NotNull
