@@ -13,4 +13,7 @@ import lombok.ToString;
 public class ProjectDto {
     Long id;
     String name;
+    String status;
+    String content;
+    String adminId;
 }

@@ -32,12 +32,15 @@ public class Project {
     @Column(name = "project_status")
     private String status;
 
+    @Column(name = "project_content")
+    private String content;
+
     @Column(name = "project_admin_id")
     private String adminId;
 
-    public Project(String name, String status, String adminId) {
-        this.name = name;
-        this.status = status;
-        this.adminId = adminId;
-    }
+//    public Project(String name, String status, String adminId) {
+//        this.name = name;
+//        this.status = status;
+//        this.adminId = adminId;
+//    }
 }
