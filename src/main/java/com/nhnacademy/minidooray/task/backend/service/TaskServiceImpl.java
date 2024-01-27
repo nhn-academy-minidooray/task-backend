@@ -1,10 +1,10 @@
 package com.nhnacademy.minidooray.task.backend.service;
 
 import com.nhnacademy.minidooray.task.backend.domain.CommentDto;
-import com.nhnacademy.minidooray.task.backend.domain.CommentModifyRequest;
 import com.nhnacademy.minidooray.task.backend.domain.CommentRequest;
 import com.nhnacademy.minidooray.task.backend.domain.TaskDto;
 import com.nhnacademy.minidooray.task.backend.domain.TaskRequest;
+import com.nhnacademy.minidooray.task.backend.domain.requestbody.CommentModifyRequest;
 import com.nhnacademy.minidooray.task.backend.entity.Comment;
 import com.nhnacademy.minidooray.task.backend.entity.Milestone;
 import com.nhnacademy.minidooray.task.backend.entity.Project;

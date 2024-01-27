@@ -1,0 +1,26 @@
+GET http://localhost:8080/tag/list
+Content-Type: application/json
+
+{
+  "id": 1
+}
+
+###
+POST http://localhost:8080/tag/register
+Content-Type: application/json
+
+{
+  "projectId": 1,
+  "name": "test"
+}
+
+###
+PUT http://localhost:8080/tag/1/modify
+Content-Type: application/json
+
+{
+  "name": "modify"
+}
+
+###
+DELETE http://localhost:8080/tag/1/delete
