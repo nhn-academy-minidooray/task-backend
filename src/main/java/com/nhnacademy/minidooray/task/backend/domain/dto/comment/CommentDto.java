@@ -1,4 +1,4 @@
-package com.nhnacademy.minidooray.task.backend.domain;
+package com.nhnacademy.minidooray.task.backend.domain.dto.comment;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

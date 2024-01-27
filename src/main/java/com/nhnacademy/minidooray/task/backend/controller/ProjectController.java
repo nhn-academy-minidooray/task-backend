@@ -1,12 +1,11 @@
 package com.nhnacademy.minidooray.task.backend.controller;
 
-import com.nhnacademy.minidooray.task.backend.domain.ProjectDto;
-
-import com.nhnacademy.minidooray.task.backend.domain.ProjectRequest;
-import com.nhnacademy.minidooray.task.backend.service.ProjectService;
+import com.nhnacademy.minidooray.task.backend.domain.dto.project.ProjectDto;
+import com.nhnacademy.minidooray.task.backend.domain.requestbody.project.ProjectRequest;
+import com.nhnacademy.minidooray.task.backend.service.interfaces.ProjectService;
 import java.util.List;
 import java.util.Optional;
-import javax.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequestMapping("/project")
 public class ProjectController {
@@ -28,8 +28,11 @@ public class ProjectController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<ProjectDto>> projectList(@RequestParam("accountId") String accountId) {
-        return ResponseEntity.ok().body(projectService.getProjectListByAccountId(accountId));
+    public ResponseEntity<List<ProjectDto>> getProjectListByAccountId(@RequestParam(name = "accountId") String accountId) {
+        List<ProjectDto> list = projectService.getProjectListByAccountId(accountId);
+
+        log.info(list.toString());
+        return ResponseEntity.ok().body(list);
     }
 
     @PostMapping("/register")

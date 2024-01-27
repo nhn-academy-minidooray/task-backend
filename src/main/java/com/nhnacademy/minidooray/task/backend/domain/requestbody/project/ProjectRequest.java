@@ -1,4 +1,4 @@
-package com.nhnacademy.minidooray.task.backend.domain;
+package com.nhnacademy.minidooray.task.backend.domain.requestbody.project;
 
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -14,10 +14,8 @@ public class ProjectRequest {
     private String name;
 
     @NotNull
-    private String adminId;
+    private String detail;
 
     @NotNull
-    private String content;
-
-
+    private String adminId;
 }

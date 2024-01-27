@@ -1,10 +1,10 @@
 package com.nhnacademy.minidooray.task.backend.service;
 
-import com.nhnacademy.minidooray.task.backend.domain.CommentDto;
-import com.nhnacademy.minidooray.task.backend.domain.CommentRequest;
-import com.nhnacademy.minidooray.task.backend.domain.TaskDto;
-import com.nhnacademy.minidooray.task.backend.domain.TaskRequest;
-import com.nhnacademy.minidooray.task.backend.domain.requestbody.CommentModifyRequest;
+import com.nhnacademy.minidooray.task.backend.domain.dto.comment.CommentDto;
+import com.nhnacademy.minidooray.task.backend.domain.requestbody.comment.CommentRequest;
+import com.nhnacademy.minidooray.task.backend.domain.dto.task.TaskDto;
+import com.nhnacademy.minidooray.task.backend.domain.requestbody.task.TaskRequest;
+import com.nhnacademy.minidooray.task.backend.domain.requestbody.comment.CommentModifyRequest;
 import com.nhnacademy.minidooray.task.backend.entity.Comment;
 import com.nhnacademy.minidooray.task.backend.entity.Milestone;
 import com.nhnacademy.minidooray.task.backend.entity.Project;
@@ -17,6 +17,7 @@ import com.nhnacademy.minidooray.task.backend.repository.ProjectRepository;
 import com.nhnacademy.minidooray.task.backend.repository.TagRepository;
 import com.nhnacademy.minidooray.task.backend.repository.TaskRepository;
 import com.nhnacademy.minidooray.task.backend.repository.TaskTagRepository;
+import com.nhnacademy.minidooray.task.backend.service.interfaces.TaskService;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -45,7 +46,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskDto> findTaskListByProject(Long projectId) {
-        return taskRepository.taskListByProject(projectId);
+        return taskRepository.taskListByProjectId(projectId);
     }
 
     @Override
