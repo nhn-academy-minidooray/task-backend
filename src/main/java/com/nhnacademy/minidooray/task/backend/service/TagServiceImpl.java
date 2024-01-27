@@ -1,13 +1,14 @@
 package com.nhnacademy.minidooray.task.backend.service;
 
-import com.nhnacademy.minidooray.task.backend.domain.dto.TagDTO;
-import com.nhnacademy.minidooray.task.backend.domain.requestbody.TagNameOnlyRequest;
-import com.nhnacademy.minidooray.task.backend.domain.requestbody.TagRegisterRequest;
+import com.nhnacademy.minidooray.task.backend.domain.dto.tag.TagDTO;
+import com.nhnacademy.minidooray.task.backend.domain.requestbody.tag.TagNameOnlyRequest;
+import com.nhnacademy.minidooray.task.backend.domain.requestbody.tag.TagRegisterRequest;
 import com.nhnacademy.minidooray.task.backend.entity.Project;
 import com.nhnacademy.minidooray.task.backend.entity.Tag;
 import com.nhnacademy.minidooray.task.backend.repository.ProjectRepository;
 import com.nhnacademy.minidooray.task.backend.repository.TagRepository;
 import com.nhnacademy.minidooray.task.backend.repository.TaskTagRepository;
+import com.nhnacademy.minidooray.task.backend.service.interfaces.TagService;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class TagServiceImpl implements TagService{
+public class TagServiceImpl implements TagService {
     private final TagRepository tagRepository;
 
     private final TaskTagRepository taskTagRepository;

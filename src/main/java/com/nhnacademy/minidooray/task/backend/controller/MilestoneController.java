@@ -1,10 +1,10 @@
 package com.nhnacademy.minidooray.task.backend.controller;
 
-import com.nhnacademy.minidooray.task.backend.domain.MilestoneDetailDto;
-import com.nhnacademy.minidooray.task.backend.domain.MilestoneDto;
-import com.nhnacademy.minidooray.task.backend.domain.MilestoneRequest;
-import com.nhnacademy.minidooray.task.backend.domain.ProjectIdOnlyRequest;
-import com.nhnacademy.minidooray.task.backend.service.ProjectService;
+import com.nhnacademy.minidooray.task.backend.domain.dto.milestone.MilestoneDetailDto;
+import com.nhnacademy.minidooray.task.backend.domain.dto.milestone.MilestoneDto;
+import com.nhnacademy.minidooray.task.backend.domain.requestbody.milestone.MilestoneRequest;
+import com.nhnacademy.minidooray.task.backend.domain.requestbody.project.ProjectIdOnlyRequest;
+import com.nhnacademy.minidooray.task.backend.service.interfaces.ProjectService;
 import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;

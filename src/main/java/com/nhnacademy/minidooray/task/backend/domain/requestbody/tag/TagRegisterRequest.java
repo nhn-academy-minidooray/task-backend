@@ -1,4 +1,4 @@
-package com.nhnacademy.minidooray.task.backend.domain.requestbody;
+package com.nhnacademy.minidooray.task.backend.domain.requestbody.tag;
 
 import lombok.Data;
 

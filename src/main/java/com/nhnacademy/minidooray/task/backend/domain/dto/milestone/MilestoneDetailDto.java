@@ -1,4 +1,4 @@
-package com.nhnacademy.minidooray.task.backend.domain;
+package com.nhnacademy.minidooray.task.backend.domain.dto.milestone;
 
 import java.time.LocalDate;
 

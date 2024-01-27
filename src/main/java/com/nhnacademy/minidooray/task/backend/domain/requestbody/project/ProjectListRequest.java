@@ -1,4 +1,4 @@
-package com.nhnacademy.minidooray.task.backend.domain;
+package com.nhnacademy.minidooray.task.backend.domain.requestbody.project;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TaskIdOnlyRequest {
-    private Long id;
+public class ProjectListRequest {
+    String accountId;
 }

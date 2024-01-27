@@ -1,12 +1,13 @@
 package com.nhnacademy.minidooray.task.backend.service;
 
-import com.nhnacademy.minidooray.task.backend.domain.dto.MemberIdOnlyDTO;
-import com.nhnacademy.minidooray.task.backend.domain.requestbody.ProjectMemberListRegisterRequest;
-import com.nhnacademy.minidooray.task.backend.domain.requestbody.ProjectMemberRegisterRequest;
+import com.nhnacademy.minidooray.task.backend.domain.dto.milestone.MemberIdOnlyDTO;
+import com.nhnacademy.minidooray.task.backend.domain.requestbody.member.ProjectMemberListRegisterRequest;
+import com.nhnacademy.minidooray.task.backend.domain.requestbody.member.ProjectMemberRegisterRequest;
 import com.nhnacademy.minidooray.task.backend.entity.Project;
 import com.nhnacademy.minidooray.task.backend.entity.ProjectMember;
 import com.nhnacademy.minidooray.task.backend.repository.ProjectMemberRepository;
 import com.nhnacademy.minidooray.task.backend.repository.ProjectRepository;
+import com.nhnacademy.minidooray.task.backend.service.interfaces.ProjectMemberService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ProjectMemberServiceImpl implements ProjectMemberService{
+public class ProjectMemberServiceImpl implements ProjectMemberService {
     private final ProjectMemberRepository projectMemberRepository;
 
     private final ProjectRepository projectRepository;
