@@ -1,9 +1,9 @@
 package com.nhnacademy.minidooray.task.backend.controller;
 
 import com.nhnacademy.minidooray.task.backend.domain.CommentDto;
-import com.nhnacademy.minidooray.task.backend.domain.CommentModifyRequest;
 import com.nhnacademy.minidooray.task.backend.domain.CommentRequest;
 import com.nhnacademy.minidooray.task.backend.domain.TaskIdOnlyRequest;
+import com.nhnacademy.minidooray.task.backend.domain.requestbody.CommentModifyRequest;
 import com.nhnacademy.minidooray.task.backend.service.TaskService;
 import java.util.List;
 import javax.validation.Valid;
