@@ -38,7 +38,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskDto> findTaskListByProject(Long projectId) {
-        return taskRepository.taskListByProject(projectId);
+        return taskRepository.taskListByProjectId(projectId);
     }
 
     @Override
@@ -75,7 +75,10 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public boolean createComment(CommentRequest commentRequest, Long taskId) {
         Task task = taskRepository.getTaskById(taskId);
-        Comment comment = Comment.builder().content(commentRequest.getContent()).task(task).build();
+        Comment comment = Comment.builder()
+            .content(commentRequest.getContent())
+            .task(task)
+            .build();
 
         commentRepository.save(comment);
 
@@ -99,7 +102,11 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public boolean modifyTask(Long taskId, TaskRequest taskRequest) {
         Project project = projectRepository.getProjectById(taskRequest.getProjectId());
-        Task task = Task.builder().name(taskRequest.getName()).project(project).build();
+        Task task = Task.builder()
+            .name(taskRequest.getName())
+            .project(project)
+            .detail(taskRequest.getDetail())
+            .build();
         taskRepository.save(task);
         return true;
     }

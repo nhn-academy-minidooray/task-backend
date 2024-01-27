@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 public class TaskRequest {
     private Long projectId;
     private String name;
+    private String detail;
     private Long milestoneId;
 }

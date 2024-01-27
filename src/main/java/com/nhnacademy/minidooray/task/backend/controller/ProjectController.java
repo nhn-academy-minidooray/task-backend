@@ -26,9 +26,9 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
-    @PostMapping("/list")
-    public ResponseEntity<List<ProjectDto>> projectList(@Valid @RequestBody ProjectListRequest projectListRequest) {
-        return ResponseEntity.ok().body(projectService.getProjectListByAccountId(projectListRequest.getAccountId()));
+    @GetMapping("/list")
+    public ResponseEntity<List<ProjectDto>> getProjectListByAccountId(@RequestParam(name = "accountId") String accountId) {
+        return ResponseEntity.ok().body(projectService.getProjectListByAccountId(accountId));
     }
 
     @PostMapping("/register")

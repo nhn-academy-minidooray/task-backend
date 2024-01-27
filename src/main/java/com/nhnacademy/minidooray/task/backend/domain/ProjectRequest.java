@@ -14,13 +14,8 @@ public class ProjectRequest {
     private String name;
 
     @NotNull
-    private String status;
+    private String detail;
 
     @NotNull
     private String adminId;
-
-    @NotNull
-    private String content;
-
-
 }

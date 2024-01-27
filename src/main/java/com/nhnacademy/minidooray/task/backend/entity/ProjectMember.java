@@ -25,6 +25,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "Member")
 @Builder
+@EqualsAndHashCode
 public class ProjectMember {
 
     @EmbeddedId
