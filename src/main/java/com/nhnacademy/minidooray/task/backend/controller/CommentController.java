@@ -29,11 +29,10 @@ public class CommentController {
 
     @GetMapping("/list")
     public ResponseEntity<List<CommentDto>> getCommentList(@RequestBody TaskIdOnlyRequest request) {
-
         return ResponseEntity.ok().body(taskService.findCommentListByTask(request.getId()));
     }
 
-    @PostMapping("/create")
+    @PostMapping("/register")
     public ResponseEntity<Void> createComment(@Valid @RequestBody CommentRequest commentRequest) {
         boolean isProcessed = taskService.createComment(commentRequest, commentRequest.getTaskId());
 
@@ -43,16 +42,17 @@ public class CommentController {
 
     }
 
-    @PutMapping("/modify")
+    @PutMapping("/{commentId}/modify")
     public ResponseEntity<Void> modifyComment(@RequestParam("commentId") Long commentId,
                                               @Valid @RequestBody CommentModifyRequest commentModifyRequest) {
         boolean isProcessed = taskService.modifyComment(commentId, commentModifyRequest);
+
         return isProcessed
                 ? ResponseEntity.status(HttpStatus.OK).build()
                 : ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/{commentId}/delete")
     public ResponseEntity<Void> deleteComment(@RequestParam("commentId") Long commentId) {
         boolean isProcessed = taskService.deleteComment(commentId);
 

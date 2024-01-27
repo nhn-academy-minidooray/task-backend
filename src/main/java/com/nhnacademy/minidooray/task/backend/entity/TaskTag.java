@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "Task-Tag")
+@Builder
 public class TaskTag {
 
     @EmbeddedId
@@ -42,6 +44,7 @@ public class TaskTag {
     @EqualsAndHashCode
     @AllArgsConstructor
     @NoArgsConstructor
+    @Builder
     public static class Pk implements Serializable {
 
         @Column(name = "tag_id")

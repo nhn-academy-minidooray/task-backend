@@ -75,18 +75,17 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
 
-
     @Override
     public boolean createMileStone(MilestoneRequest milestoneRequest) {
-        Project projectById = projectRepository.getProjectById(milestoneRequest.getProjectId());
+        Optional<Project> projectById = projectRepository.getProjectById(milestoneRequest.getProjectId());
         Milestone milestone = Milestone.builder()
                 .name(milestoneRequest.getName())
                 .startDate(milestoneRequest.getStartDate())
                 .endDate(milestoneRequest.getEndDate())
-                .overOrNot("N").project(projectById).build();
+                .overOrNot("N").project(projectById.get()).build();
 
-        milestoneRepository.save(milestone);
-        return true;
+        Milestone saveMilestone = milestoneRepository.save(milestone);
+        return Objects.equals(milestone, saveMilestone);
     }
 
 
@@ -102,14 +101,16 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public boolean updateMilestone(MilestoneRequest milestoneRequest, Long milestoneId) {
-        Milestone milestone = milestoneRepository.findById(milestoneId).orElse(null);
-        if (Objects.isNull(milestone)) {
-            return false;
-        } else {
-            Milestone modify = milestone.modify(milestoneRequest.getName(), milestoneRequest.getStartDate(),
+        Optional<Milestone> milestone = milestoneRepository.findById(milestoneId);
+        if (milestone.isPresent()) {
+            Milestone getMilestone = milestone.get();
+            getMilestone.modify(milestoneRequest.getName(), milestoneRequest.getStartDate(),
                     milestoneRequest.getEndDate());
-            milestoneRepository.save(modify);
-            return true;
+            Milestone saveMilestone = milestoneRepository.save(getMilestone);
+            return Objects.equals(getMilestone, saveMilestone);
+        } else {
+
+            return false;
         }
     }
 
@@ -121,5 +122,10 @@ public class ProjectServiceImpl implements ProjectService {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public Optional<MilestoneDto> getMilestoneByTask(Long taskId) {
+        return milestoneRepository.findMileStoneByTaskId(taskId);
     }
 }

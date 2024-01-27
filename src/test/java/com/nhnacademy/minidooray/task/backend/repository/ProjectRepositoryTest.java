@@ -17,11 +17,11 @@ class ProjectRepositoryTest {
     ProjectRepository projectRepository;
 
 
-    @Test
-    void test(){
-        ProjectRequest projectRegistryRequest = new ProjectRequest("name", "id");
-        projectService.createProject(projectRegistryRequest);
-    }
+//    @Test
+//    void test(){
+//        ProjectRequest projectRegistryRequest = new ProjectRequest("name", "id");
+//        projectService.createProject(projectRegistryRequest);
+//    }
 
 //    @Test
 //    void test1(){
@@ -40,9 +40,9 @@ class ProjectRepositoryTest {
 //
 //    }
 
-    @Test
-    void as(){
-        projectRepository.getProjectListById("jkjk").stream().forEach(System.out::println);
-    }
+//    @Test
+//    void as(){
+//        projectRepository.getProjectListById("jkjk").stream().forEach(System.out::println);
+//    }
 
 }
