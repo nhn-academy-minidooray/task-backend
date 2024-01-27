@@ -1,7 +1,6 @@
 package com.nhnacademy.minidooray.task.backend.controller;
 
 import com.nhnacademy.minidooray.task.backend.domain.dto.MemberIdOnlyDTO;
-import com.nhnacademy.minidooray.task.backend.domain.requestbody.ProjectIdOnlyRequest;
 import com.nhnacademy.minidooray.task.backend.domain.requestbody.ProjectMemberListRegisterRequest;
 import com.nhnacademy.minidooray.task.backend.domain.requestbody.ProjectMemberRegisterRequest;
 import com.nhnacademy.minidooray.task.backend.service.ProjectMemberService;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -25,8 +25,8 @@ public class ProjectMemberController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<MemberIdOnlyDTO>> getProjectMembers(@RequestBody ProjectIdOnlyRequest request){
-        List<MemberIdOnlyDTO> memberList = projectMemberService.getProjectMembers(request);
+    public ResponseEntity<List<MemberIdOnlyDTO>> getProjectMembers(@RequestParam(name = "projectId") Long projectId){
+        List<MemberIdOnlyDTO> memberList = projectMemberService.getProjectMembers(projectId);
 
         return memberList.isEmpty()
                 ? ResponseEntity.status(HttpStatus.NOT_FOUND).build()

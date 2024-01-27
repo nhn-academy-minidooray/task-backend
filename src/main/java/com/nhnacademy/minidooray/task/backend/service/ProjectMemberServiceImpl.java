@@ -1,7 +1,6 @@
 package com.nhnacademy.minidooray.task.backend.service;
 
 import com.nhnacademy.minidooray.task.backend.domain.dto.MemberIdOnlyDTO;
-import com.nhnacademy.minidooray.task.backend.domain.requestbody.ProjectIdOnlyRequest;
 import com.nhnacademy.minidooray.task.backend.domain.requestbody.ProjectMemberListRegisterRequest;
 import com.nhnacademy.minidooray.task.backend.domain.requestbody.ProjectMemberRegisterRequest;
 import com.nhnacademy.minidooray.task.backend.entity.Project;
@@ -26,8 +25,8 @@ public class ProjectMemberServiceImpl implements ProjectMemberService{
 
     @Transactional(readOnly = true)
     @Override
-    public List<MemberIdOnlyDTO> getProjectMembers(ProjectIdOnlyRequest request) {
-        return projectMemberRepository.getProjectMembersByPk_ProjectId(request.getId());
+    public List<MemberIdOnlyDTO> getProjectMembers(Long projectId) {
+        return projectMemberRepository.getProjectMembersByPk_ProjectId(projectId);
     }
 
     @Transactional
