@@ -6,6 +6,7 @@ import com.nhnacademy.minidooray.task.backend.domain.requestbody.TagNameOnlyRequ
 import com.nhnacademy.minidooray.task.backend.domain.requestbody.TagRegisterRequest;
 import com.nhnacademy.minidooray.task.backend.service.TagService;
 import java.util.List;
+import java.util.Objects;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -27,12 +29,25 @@ public class TagController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<TagDTO>> getTags(@RequestBody ProjectIdOnlyRequest request){
-        List<TagDTO> tagList = tagService.findAllByProjectId(request);
+    public ResponseEntity<List<TagDTO>> getTags(@RequestParam(name = "projectId", required = false) Long projectId,
+                                                @RequestParam(name = "taskId", required = false) Long taskId){
+        if(Objects.nonNull(projectId)) {
+            List<TagDTO> tagList = tagService.findAllByProjectId(projectId);
 
-        return tagList.isEmpty()
-                ? ResponseEntity.status(HttpStatus.NOT_FOUND).build()
-                : ResponseEntity.ok(tagList);
+            return tagList.isEmpty()
+                    ? ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+                    : ResponseEntity.ok(tagList);
+        }
+
+        if(Objects.nonNull(taskId)) {
+            List<TagDTO> tagList = tagService.findAllByTaskId(taskId);
+
+            return tagList.isEmpty()
+                    ? ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+                    : ResponseEntity.ok(tagList);
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     @PostMapping("/register")

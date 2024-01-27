@@ -7,7 +7,9 @@ import com.nhnacademy.minidooray.task.backend.domain.requestbody.TagRegisterRequ
 import java.util.List;
 
 public interface TagService {
-    List<TagDTO> findAllByProjectId(ProjectIdOnlyRequest request);
+    List<TagDTO> findAllByProjectId(Long projectId);
+
+    List<TagDTO> findAllByTaskId(Long taskId);
 
     boolean createTag(TagRegisterRequest request);
 

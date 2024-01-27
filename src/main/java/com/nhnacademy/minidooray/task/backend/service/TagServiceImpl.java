@@ -8,6 +8,7 @@ import com.nhnacademy.minidooray.task.backend.entity.Project;
 import com.nhnacademy.minidooray.task.backend.entity.Tag;
 import com.nhnacademy.minidooray.task.backend.repository.ProjectRepository;
 import com.nhnacademy.minidooray.task.backend.repository.TagRepository;
+import com.nhnacademy.minidooray.task.backend.repository.TaskTagRepository;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -21,12 +22,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class TagServiceImpl implements TagService{
     private final TagRepository tagRepository;
 
+    private final TaskTagRepository taskTagRepository;
+
     private final ProjectRepository projectRepository;
 
     @Transactional(readOnly = true)
     @Override
-    public List<TagDTO> findAllByProjectId(ProjectIdOnlyRequest request) {
-        return tagRepository.findAllByProject_Id(request.getId());
+    public List<TagDTO> findAllByProjectId(Long projectId) {
+        return tagRepository.findAllByProject_Id(projectId);
+    }
+
+    @Override
+    public List<TagDTO> findAllByTaskId(Long taskId) {
+        return taskTagRepository.findAllByTaskId(taskId);
     }
 
     @Transactional
