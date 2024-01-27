@@ -58,6 +58,11 @@ public class TaskServiceImpl implements TaskService {
         Project project = projectRepository.getProjectById(taskRequest.getProject().getId());
 
         Milestone milestone = milestoneRepository.findById(taskRequest.getMilestone().getId()).orElse(null);
+
+        Optional<Project> optionalProject = projectRepository.getProjectById(taskRequest.getProject().getId());
+        Optional<Milestone> optionalMilestone = milestoneRepository.findById(taskRequest.getMilestone().getId());
+
+
         Task task = Task.builder()
                 .name(taskRequest.getName())
                 .project(project)
