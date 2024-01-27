@@ -9,14 +9,18 @@ import com.nhnacademy.minidooray.task.backend.domain.Status;
 import com.nhnacademy.minidooray.task.backend.entity.Milestone;
 import com.nhnacademy.minidooray.task.backend.entity.Project;
 import com.nhnacademy.minidooray.task.backend.entity.ProjectMember;
+import com.nhnacademy.minidooray.task.backend.exception.ProjectCreationFailedException;
+import com.nhnacademy.minidooray.task.backend.exception.ProjectMemberAddFailedException;
 import com.nhnacademy.minidooray.task.backend.repository.MilestoneRepository;
 import com.nhnacademy.minidooray.task.backend.repository.ProjectMemberRepository;
 import com.nhnacademy.minidooray.task.backend.repository.ProjectRepository;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepository;
@@ -36,22 +40,31 @@ public class ProjectServiceImpl implements ProjectService {
     public boolean createProject(ProjectRequest projectRequest) {
         Project project = Project.builder()
                 .name(projectRequest.getName())
-                .status(Status.ACTIVATION.getValue())
                 .adminId(projectRequest.getAdminId())
-                .content(projectRequest.getContent())
+            .status(Status.ACTIVATION.getValue())
+                .detail(projectRequest.getDetail())
                 .build();
 
-        Project save = projectRepository.save(project);
-        ProjectMember.Pk pk = new ProjectMember.Pk(project.getAdminId(), project.getId());
-        ProjectMember projectMember = ProjectMember.builder().pk(pk).project(save).build();
+        Project savedProject = projectRepository.save(project);
+        if(!Objects.equals(project, savedProject)) {
+            throw new ProjectCreationFailedException("프로젝트 생성 중 오류가 발생하였습니다");
+        }
+        ProjectMember.Pk projectMemberPk = new ProjectMember.Pk(savedProject.getAdminId(), savedProject.getId());
+        ProjectMember projectMember = ProjectMember.builder()
+            .pk(projectMemberPk)
+            .project(savedProject)
+            .build();
 
+        ProjectMember savedProjectMember = projectMemberRepository.save(projectMember);
+        if(!Objects.equals(projectMember, savedProjectMember)) {
+            throw new ProjectMemberAddFailedException("멤버 등록 중 오류가 발생하였습니다");
+        }
 
-        return Objects.nonNull(save) && Objects.nonNull(projectMember) ? true : false;
+        return true;
     }
 
     @Override
     public List<ProjectDto> getProjectListByAccountId(String accountId) {
-
         return projectRepository.getProjectListById(accountId);
     }
 

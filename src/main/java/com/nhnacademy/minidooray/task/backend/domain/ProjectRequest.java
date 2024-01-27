@@ -18,7 +18,4 @@ public class ProjectRequest {
 
     @NotNull
     private String adminId;
-
-    @NotNull
-    private String status;
 }
