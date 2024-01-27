@@ -14,6 +14,13 @@ public class ProjectRequest {
     private String name;
 
     @NotNull
+    private String status;
+
+    @NotNull
     private String adminId;
+
+    @NotNull
+    private String content;
+
 
 }
