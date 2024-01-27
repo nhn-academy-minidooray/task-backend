@@ -8,7 +8,9 @@ import com.nhnacademy.minidooray.task.backend.domain.ProjectRequest;
 import com.nhnacademy.minidooray.task.backend.domain.Status;
 import com.nhnacademy.minidooray.task.backend.entity.Milestone;
 import com.nhnacademy.minidooray.task.backend.entity.Project;
+import com.nhnacademy.minidooray.task.backend.entity.ProjectMember;
 import com.nhnacademy.minidooray.task.backend.repository.MilestoneRepository;
+import com.nhnacademy.minidooray.task.backend.repository.ProjectMemberRepository;
 import com.nhnacademy.minidooray.task.backend.repository.ProjectRepository;
 import java.util.List;
 import java.util.Objects;
@@ -21,10 +23,13 @@ public class ProjectServiceImpl implements ProjectService {
 
     private final MilestoneRepository milestoneRepository;
 
+    private final ProjectMemberRepository projectMemberRepository;
 
-    public ProjectServiceImpl(ProjectRepository projectRepository, MilestoneRepository milestoneRepository) {
+    public ProjectServiceImpl(ProjectRepository projectRepository, MilestoneRepository milestoneRepository,
+                              ProjectMemberRepository projectMemberRepository) {
         this.projectRepository = projectRepository;
         this.milestoneRepository = milestoneRepository;
+        this.projectMemberRepository = projectMemberRepository;
     }
 
     @Override
@@ -33,10 +38,15 @@ public class ProjectServiceImpl implements ProjectService {
                 .name(projectRequest.getName())
                 .status(Status.ACTIVATION.getValue())
                 .adminId(projectRequest.getAdminId())
+                .content(projectRequest.getContent())
                 .build();
 
         Project save = projectRepository.save(project);
-        return Objects.nonNull(save) ? true : false;
+        ProjectMember.Pk pk = new ProjectMember.Pk(project.getAdminId(), project.getId());
+        ProjectMember projectMember = ProjectMember.builder().pk(pk).project(save).build();
+
+
+        return Objects.nonNull(save) && Objects.nonNull(projectMember) ? true : false;
     }
 
     @Override
@@ -49,6 +59,8 @@ public class ProjectServiceImpl implements ProjectService {
     public Optional<ProjectDto> getProjectDtoById(Long projectId) {
         return projectRepository.findProjectById(projectId);
     }
+
+
 
     @Override
     public boolean createMileStone(MilestoneRequest milestoneRequest) {
