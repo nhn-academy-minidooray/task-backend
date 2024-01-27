@@ -38,11 +38,14 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
         if(project.isPresent()){
             List<ProjectMember> memberList = new ArrayList<>();
 
-            request.getAccountIdList().forEach(accountId -> {
+            for (String accountId : request.getAccountIdList()) {
                 ProjectMember.Pk pk = new ProjectMember.Pk(accountId, request.getProjectId());
+                if (projectMemberRepository.existsById(pk)) {
+                    return false;
+                }
                 ProjectMember projectMember = new ProjectMember(pk, project.get());
                 memberList.add(projectMember);
-            });
+            }
 
             projectMemberRepository.saveAll(memberList);
 
@@ -59,6 +62,11 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
 
         if(project.isPresent()){
             ProjectMember.Pk pk = new ProjectMember.Pk(request.getAccountId(), request.getProjectId());
+
+            if (projectMemberRepository.existsById(pk)) {
+                return false;
+            }
+
             ProjectMember projectMember = new ProjectMember(pk, project.get());
             projectMemberRepository.save(projectMember);
 
