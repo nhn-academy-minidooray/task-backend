@@ -1,9 +1,13 @@
 package com.nhnacademy.minidooray.task.backend.domain;
 
 import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class TaskRegisterRequest {
     String name;
     Project project;
@@ -11,6 +15,7 @@ public class TaskRegisterRequest {
     Milestone milestone;
 
     List<Tag> tags;
+
 
     public static class Project {
         Long id;

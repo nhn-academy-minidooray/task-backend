@@ -12,7 +12,7 @@ import com.nhnacademy.minidooray.task.backend.repository.MilestoneRepository;
 import com.nhnacademy.minidooray.task.backend.repository.ProjectRepository;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,38 +28,41 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void createProject(ProjectRequest projectRequest) {
-        Project project = new Project(projectRequest.getName(), Status.ACTIVATION.getValue(),
-                projectRequest.getAdminId());
-        projectRepository.save(project);
+    public boolean createProject(ProjectRequest projectRequest) {
+        Project project = Project.builder()
+                .name(projectRequest.getName())
+                .status(Status.ACTIVATION.getValue())
+                .adminId(projectRequest.getAdminId())
+                .build();
+
+        Project save = projectRepository.save(project);
+        return Objects.nonNull(save) ? true : false;
     }
 
     @Override
     public List<ProjectDto> getProjectListByAccountId(String accountId) {
+
         return projectRepository.getProjectListById(accountId);
     }
 
     @Override
-    public ProjectDto getProjectDtoById(Long projectId) {
+    public Optional<ProjectDto> getProjectDtoById(Long projectId) {
         return projectRepository.findProjectById(projectId);
     }
 
     @Override
-    public void createMileStone(MilestoneRequest milestoneRequest, Long projectId) {
-        Project projectById = projectRepository.getProjectById(projectId);
-        Milestone milestone = new Milestone(
-                milestoneRequest.getName(),
-                milestoneRequest.getStartDate(),
-                milestoneRequest.getEndDate(),
-                "N", projectById);
+    public boolean createMileStone(MilestoneRequest milestoneRequest) {
+        Project projectById = projectRepository.getProjectById(milestoneRequest.getProjectId());
+        Milestone milestone = Milestone.builder()
+                .name(milestoneRequest.getName())
+                .startDate(milestoneRequest.getStartDate())
+                .endDate(milestoneRequest.getEndDate())
+                .overOrNot("N").project(projectById).build();
 
-        milestoneRepository.saveAndFlush(milestone);
+        milestoneRepository.save(milestone);
+        return true;
     }
 
-    @Override
-    public List<MilestoneDto> getMilestoneList() {
-        return null;
-    }
 
     @Override
     public List<MilestoneDto> getMilestoneByProject(Long projectId) {
@@ -67,32 +70,30 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public MilestoneDetailDto getMilestoneByProjectIdAndMilestoneId(Long projectId, Long milestoneId) {
-        return milestoneRepository.findMilestoneByProjectIdAndMilestoneId(projectId, milestoneId);
+    public Optional<MilestoneDetailDto> getMilestoneById(Long milestoneId) {
+        return milestoneRepository.findMilestoneById(milestoneId);
     }
 
     @Override
-    public MilestoneDetailDto getMilestoneById(Long milestoneId) {
-        return milestoneRepository.findMilestoneById(milestoneId).orElse(null);
-    }
-
-    @Override
-    public void updateMilestone(MilestoneRequest milestoneRequest, Long milestoneId) {
+    public boolean updateMilestone(MilestoneRequest milestoneRequest, Long milestoneId) {
         Milestone milestone = milestoneRepository.findById(milestoneId).orElse(null);
         if (Objects.isNull(milestone)) {
-            return;
+            return false;
         } else {
             Milestone modify = milestone.modify(milestoneRequest.getName(), milestoneRequest.getStartDate(),
                     milestoneRequest.getEndDate());
             milestoneRepository.save(modify);
+            return true;
         }
     }
 
-
     @Override
-    public void deleteMilestone(Long milestoneId) {
-        milestoneRepository.deleteMilestoneById(milestoneId);
+    public boolean deleteMilestone(Long milestoneId) {
+        if (milestoneRepository.existsById(milestoneId)) {
+            milestoneRepository.deleteMilestoneById(milestoneId);
+            return true;
+        } else {
+            return false;
+        }
     }
-
-
 }

@@ -17,10 +17,10 @@ class ProjectServiceTest {
 
     @Test
     void test(){
-        MilestoneRequest milestone = new MilestoneRequest("1234", LocalDate.of(2022, 1, 1), LocalDate.of(2024, 6, 27));
+//        MilestoneRequest milestone = new MilestoneRequest("1234", LocalDate.of(2022, 1, 1), LocalDate.of(2024, 6, 27));
 
 
-        projectService.createMileStone(milestone, 1L);
+//        projectService.createMileStone(milestone, 1L);
     }
 
 

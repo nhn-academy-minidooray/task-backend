@@ -10,6 +10,6 @@ import lombok.ToString;
 @Setter
 @AllArgsConstructor
 public class CommentDto {
-    Long getId;
-    String getContent;
+    private Long getId;
+    private String getContent;
 }

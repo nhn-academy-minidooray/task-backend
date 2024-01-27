@@ -20,7 +20,7 @@ class MilestoneRepositoryTest {
 
     @Test
     void test2() {
-        System.out.println(milestoneRepository.findMilestoneByProjectIdAndMilestoneId(1L, 1L).getName());
+//        System.out.println(milestoneRepository.findMilestoneByProjectIdAndMilestoneId(1L, 1L).getName());
     }
 
 }

@@ -1,23 +1,29 @@
 package com.nhnacademy.minidooray.task.backend.service;
 
 import com.nhnacademy.minidooray.task.backend.domain.CommentDto;
+import com.nhnacademy.minidooray.task.backend.domain.CommentModifyRequest;
 import com.nhnacademy.minidooray.task.backend.domain.CommentRequest;
 import com.nhnacademy.minidooray.task.backend.domain.TaskDto;
 import com.nhnacademy.minidooray.task.backend.domain.TaskRequest;
 import java.util.List;
+import java.util.Optional;
 
 public interface TaskService {
     List<TaskDto> findTaskListByProject(Long projectId);
 
-    TaskDto findTask(Long projectId, Long taskId);
+    Optional<TaskDto> findTask(Long taskId);
 
-    void createTask(TaskRequest taskRequest, Long projectId);
+    boolean createTask(TaskRequest taskRequest);
 
-    void deleteTask(Long taskId);
+    boolean deleteTask(Long taskId);
 
     List<CommentDto> findCommentListByTask(Long taskId);
 
-    void createComment(CommentRequest commentRequest, Long taskId);
+    boolean createComment(CommentRequest commentRequest, Long taskId);
 
-    void deleteComment(Long taskId);
+    boolean modifyComment(Long commentId, CommentModifyRequest commentModifyRequest);
+
+    boolean modifyTask(Long taskId, TaskRequest taskRequest);
+
+    boolean deleteComment(Long taskId);
 }

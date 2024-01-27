@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,6 +21,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "Task")
+@Builder
 public class Task {
 
     @Id
@@ -30,8 +32,6 @@ public class Task {
     @Column(name = "task_name")
     private String name;
 
-
-
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
@@ -40,9 +40,5 @@ public class Task {
     @JoinColumn(name = "milestone_id")
     private Milestone milestone;
 
-    public Task(String name, Project project, Milestone milestone) {
-        this.name = name;
-        this.project = project;
-        this.milestone = milestone;
-    }
+
 }

@@ -1,34 +1,29 @@
 package com.nhnacademy.minidooray.task.backend.service;
 
-import com.nhnacademy.minidooray.task.backend.domain.CommentRequest;
+
 import com.nhnacademy.minidooray.task.backend.domain.MilestoneDetailDto;
 import com.nhnacademy.minidooray.task.backend.domain.MilestoneDto;
 import com.nhnacademy.minidooray.task.backend.domain.MilestoneRequest;
 import com.nhnacademy.minidooray.task.backend.domain.ProjectDto;
 import com.nhnacademy.minidooray.task.backend.domain.ProjectRequest;
 import java.util.List;
+import java.util.Optional;
 
 public interface ProjectService {
-    void createProject(ProjectRequest projectRequest);
+    boolean createProject(ProjectRequest projectRequest);
 
     List<ProjectDto> getProjectListByAccountId(String accountId);
 
-    ProjectDto getProjectDtoById(Long projectId);
+    Optional<ProjectDto> getProjectDtoById(Long projectId);
 
-    void createMileStone(MilestoneRequest milestoneRequest, Long projectId);
-
-    List<MilestoneDto> getMilestoneList();
+    boolean createMileStone(MilestoneRequest milestoneRequest);
 
     List<MilestoneDto> getMilestoneByProject(Long projectId);
 
-    MilestoneDetailDto getMilestoneByProjectIdAndMilestoneId(Long projectId, Long milestoneId);
+    Optional<MilestoneDetailDto> getMilestoneById(Long milestoneId);
 
-    MilestoneDetailDto getMilestoneById(Long milestoneId);
+    boolean updateMilestone(MilestoneRequest milestoneRequest, Long milestoneId);
 
-    void updateMilestone(MilestoneRequest milestoneRequest, Long milestoneId);
-
-    void deleteMilestone(Long milestoneId);
-
-
+    boolean deleteMilestone(Long milestoneId);
 
 }

@@ -5,13 +5,14 @@ import lombok.Data;
 
 @Data
 public class TaskModifyRequest {
-    Long id;
+    private Long id;
 
-    String name;
+    private String name;
 
-    Milestone milestone;
+    private Milestone milestone;
 
-    List<Tag> tags;
+    private List<Tag> tags;
+
     public static class Milestone {
         Long id;
     }

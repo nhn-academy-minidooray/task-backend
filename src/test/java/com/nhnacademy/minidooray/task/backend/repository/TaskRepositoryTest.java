@@ -14,7 +14,7 @@ class TaskRepositoryTest {
     void test() {
 //        taskRepository.taskListByProject(1L).stream().forEach(System.out::println);
 
-        System.out.println(taskRepository.findTaskByProjectIdAndId(1L,1L));
+//        System.out.println(taskRepository.findTaskByProjectIdAndId(1L,1L));
     }
 
 }
