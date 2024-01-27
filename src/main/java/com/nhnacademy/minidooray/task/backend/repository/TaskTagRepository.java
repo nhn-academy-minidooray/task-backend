@@ -8,8 +8,10 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface TaskTagRepository extends JpaRepository<TaskTag, TaskTag.Pk> {
     @Query("SELECT " +
-            "tt.pk.tagId as id, tt.tag.name as name " +
+            "tt.pk.tagId as id, t.name as name " +
             "FROM TaskTag tt " +
+            "INNER JOIN Tag t " +
+            "ON tt.pk.tagId = t.id " +
             "WHERE tt.pk.taskId = ?1")
     List<TagDTO> findAllByTaskId(Long taskId);
 }
