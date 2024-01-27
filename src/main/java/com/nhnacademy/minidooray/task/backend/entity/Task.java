@@ -40,5 +40,10 @@ public class Task {
     @JoinColumn(name = "milestone_id")
     private Milestone milestone;
 
+    public void modify(String name, Milestone milestone) {
+        this.name = name;
+        this.milestone = milestone;
+    }
+
 
 }

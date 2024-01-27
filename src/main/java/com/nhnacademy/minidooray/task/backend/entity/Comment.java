@@ -36,4 +36,8 @@ public class Comment {
     @JoinColumn(name = "task_id")
     private Task task;
 
+    public void modify(String content){
+        this.content = content;
+    }
+
 }

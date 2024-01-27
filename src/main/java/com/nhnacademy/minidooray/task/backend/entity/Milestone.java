@@ -44,11 +44,10 @@ public class Milestone {
     @JoinColumn(name = "product")
     private Project project;
 
-    public Milestone modify(String name, LocalDate startDate, LocalDate endDate){
+    public void modify(String name, LocalDate startDate, LocalDate endDate){
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
 
-        return this;
     }
 }
