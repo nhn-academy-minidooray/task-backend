@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +20,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "Tag")
 public class Tag {
-
     @Id
     @Column(name = "tag_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +29,11 @@ public class Tag {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "project_id", insertable = false, updatable = false)
+    @JoinColumn(name = "project_id")
     private Project project;
+
+    public Tag(String name, Project project) {
+        this.name = name;
+        this.project = project;
+    }
 }
