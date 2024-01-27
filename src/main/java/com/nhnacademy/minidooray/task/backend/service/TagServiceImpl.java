@@ -31,6 +31,7 @@ public class TagServiceImpl implements TagService{
         return tagRepository.findAllByProject_Id(projectId);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<TagDTO> findAllByTaskId(Long taskId) {
         return taskTagRepository.findAllByTaskId(taskId);
