@@ -1,10 +1,10 @@
 package com.nhnacademy.minidooray.task.backend.service;
 
 import com.nhnacademy.minidooray.task.backend.domain.dto.comment.CommentDto;
-import com.nhnacademy.minidooray.task.backend.domain.requestbody.comment.CommentRequest;
 import com.nhnacademy.minidooray.task.backend.domain.dto.task.TaskDto;
-import com.nhnacademy.minidooray.task.backend.domain.requestbody.task.TaskRequest;
 import com.nhnacademy.minidooray.task.backend.domain.requestbody.comment.CommentModifyRequest;
+import com.nhnacademy.minidooray.task.backend.domain.requestbody.comment.CommentRequest;
+import com.nhnacademy.minidooray.task.backend.domain.requestbody.task.TaskRequest;
 import com.nhnacademy.minidooray.task.backend.entity.Comment;
 import com.nhnacademy.minidooray.task.backend.entity.Milestone;
 import com.nhnacademy.minidooray.task.backend.entity.Project;
@@ -56,8 +56,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public boolean createTask(TaskRequest taskRequest) {
-        Optional<Project> optionalProject = projectRepository.getProjectById(taskRequest.getProject().getId());
-        Optional<Milestone> optionalMilestone = milestoneRepository.findById(taskRequest.getMilestone().getId());
+        Optional<Project> optionalProject = projectRepository.getProjectById(taskRequest.getProjectId());
+        Optional<Milestone> optionalMilestone = milestoneRepository.findById(taskRequest.getMilestoneId());
 
         if (optionalProject.isPresent() && optionalMilestone.isPresent()) {
             Project project = optionalProject.get();
@@ -78,14 +78,20 @@ public class TaskServiceImpl implements TaskService {
     }
 
     private void saveTaskTag(TaskRequest taskRequest, Task saveTask) {
+
         TaskTag.Pk pk;
         TaskTag taskTag;
         Tag tag;
-        for (TaskRequest.Tag tags : taskRequest.getTags()) {
-            pk = TaskTag.Pk.builder().tagId(tags.getId()).taskId(saveTask.getId()).build();
-            tag = tagRepository.findById(tags.getId()).orElse(null);
-            taskTag = TaskTag.builder().pk(pk).tag(tag).task(saveTask).build();
-            taskTagRepository.save(taskTag);
+        for (Long tagId : taskRequest.getTagList()) {
+            Optional<Tag> byId = tagRepository.findById(tagId);
+            if (byId.isPresent()) {
+                tag = byId.get();
+                pk = TaskTag.Pk.builder().tagId(tagId).taskId(saveTask.getId()).build();
+                taskTag = TaskTag.builder().pk(pk).tag(tag).task(saveTask).build();
+                taskTagRepository.save(taskTag);
+            } else {
+                //TODO exception
+            }
         }
     }
 
@@ -132,7 +138,7 @@ public class TaskServiceImpl implements TaskService {
     public boolean modifyTask(Long taskId, TaskRequest taskRequest) {
         Optional<Task> task = taskRepository.findById(taskId);
         if (task.isPresent()) {
-            Milestone milestone = milestoneRepository.findById(taskRequest.getMilestone().getId()).orElse(null);
+            Milestone milestone = milestoneRepository.findById(taskRequest.getMilestoneId()).orElse(null);
             Task modifyTask = task.get();
             modifyTask.modify(taskRequest.getName(), milestone);
 
