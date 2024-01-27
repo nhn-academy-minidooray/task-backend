@@ -1,10 +1,10 @@
 package com.nhnacademy.minidooray.task.backend.service;
 
-import com.nhnacademy.minidooray.task.backend.domain.MilestoneDetailDto;
-import com.nhnacademy.minidooray.task.backend.domain.MilestoneDto;
-import com.nhnacademy.minidooray.task.backend.domain.MilestoneRequest;
-import com.nhnacademy.minidooray.task.backend.domain.ProjectDto;
-import com.nhnacademy.minidooray.task.backend.domain.ProjectRequest;
+import com.nhnacademy.minidooray.task.backend.domain.dto.milestone.MilestoneDetailDto;
+import com.nhnacademy.minidooray.task.backend.domain.dto.milestone.MilestoneDto;
+import com.nhnacademy.minidooray.task.backend.domain.requestbody.milestone.MilestoneRequest;
+import com.nhnacademy.minidooray.task.backend.domain.dto.project.ProjectDto;
+import com.nhnacademy.minidooray.task.backend.domain.requestbody.project.ProjectRequest;
 import com.nhnacademy.minidooray.task.backend.domain.Status;
 import com.nhnacademy.minidooray.task.backend.entity.Milestone;
 import com.nhnacademy.minidooray.task.backend.entity.Project;
@@ -14,6 +14,7 @@ import com.nhnacademy.minidooray.task.backend.exception.ProjectMemberAddFailedEx
 import com.nhnacademy.minidooray.task.backend.repository.MilestoneRepository;
 import com.nhnacademy.minidooray.task.backend.repository.ProjectMemberRepository;
 import com.nhnacademy.minidooray.task.backend.repository.ProjectRepository;
+import com.nhnacademy.minidooray.task.backend.service.interfaces.ProjectService;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;

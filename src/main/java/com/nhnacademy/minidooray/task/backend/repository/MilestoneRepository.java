@@ -1,7 +1,7 @@
 package com.nhnacademy.minidooray.task.backend.repository;
 
-import com.nhnacademy.minidooray.task.backend.domain.MilestoneDetailDto;
-import com.nhnacademy.minidooray.task.backend.domain.MilestoneDto;
+import com.nhnacademy.minidooray.task.backend.domain.dto.milestone.MilestoneDetailDto;
+import com.nhnacademy.minidooray.task.backend.domain.dto.milestone.MilestoneDto;
 import com.nhnacademy.minidooray.task.backend.entity.Milestone;
 import java.util.List;
 import java.util.Optional;

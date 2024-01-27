@@ -1,6 +1,6 @@
 package com.nhnacademy.minidooray.task.backend.repository;
 
-import com.nhnacademy.minidooray.task.backend.domain.ProjectDto;
+import com.nhnacademy.minidooray.task.backend.domain.dto.project.ProjectDto;
 import com.nhnacademy.minidooray.task.backend.entity.Project;
 import java.util.List;
 import java.util.Optional;

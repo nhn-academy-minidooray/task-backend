@@ -1,4 +1,4 @@
-package com.nhnacademy.minidooray.task.backend.domain;
+package com.nhnacademy.minidooray.task.backend.domain.requestbody.comment;
 
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

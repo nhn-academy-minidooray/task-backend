@@ -1,9 +1,9 @@
 package com.nhnacademy.minidooray.task.backend.controller;
 
-import com.nhnacademy.minidooray.task.backend.domain.dto.TagDTO;
-import com.nhnacademy.minidooray.task.backend.domain.requestbody.TagNameOnlyRequest;
-import com.nhnacademy.minidooray.task.backend.domain.requestbody.TagRegisterRequest;
-import com.nhnacademy.minidooray.task.backend.service.TagService;
+import com.nhnacademy.minidooray.task.backend.domain.dto.tag.TagDTO;
+import com.nhnacademy.minidooray.task.backend.domain.requestbody.tag.TagNameOnlyRequest;
+import com.nhnacademy.minidooray.task.backend.domain.requestbody.tag.TagRegisterRequest;
+import com.nhnacademy.minidooray.task.backend.service.interfaces.TagService;
 import java.util.List;
 import java.util.Objects;
 import org.springframework.http.HttpStatus;
