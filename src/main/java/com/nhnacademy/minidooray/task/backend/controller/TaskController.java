@@ -65,7 +65,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/delete")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     public void deleteTask(@RequestParam("taskId") Long taskId) {
         taskService.deleteTask(taskId);
     }

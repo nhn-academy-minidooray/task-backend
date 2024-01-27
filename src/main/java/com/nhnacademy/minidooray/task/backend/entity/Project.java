@@ -32,8 +32,8 @@ public class Project {
     @Column(name = "project_status")
     private String status;
 
-    @Column(name = "project_content")
-    private String content;
+    @Column(name = "project_detail")
+    private String detail;
 
     @Column(name = "project_admin_id")
     private String adminId;

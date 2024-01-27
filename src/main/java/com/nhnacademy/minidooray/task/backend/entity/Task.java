@@ -32,6 +32,9 @@ public class Task {
     @Column(name = "task_name")
     private String name;
 
+    @Column(name = "task_detail")
+    private String detail;
+
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
