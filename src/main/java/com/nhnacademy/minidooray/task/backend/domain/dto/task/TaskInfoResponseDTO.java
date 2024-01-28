@@ -15,21 +15,25 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class TaskInfoResponseDTO {
-    Long id;
-    String name;
-    String detail;
-    List<Long> tagIdList;
-    List<String> tagNameList;
+    private Long id;
+    private String name;
+    private String detail;
+    private List<Long> tagIdList;
+    private List<String> tagNameList;
 
-    Long milestoneId;
-    String milestoneName;
+    private Long milestoneId;
+    private String milestoneName;
 
-    public TaskInfoResponseDTO(Long id, String name, String detail, String tagIdList, String tagNameList, Long milestoneId, String milestoneName) {
+    public TaskInfoResponseDTO(Long id, String name, String detail, String tagIdList, String tagNameList,
+                               Long milestoneId, String milestoneName) {
         this.id = id;
         this.name = name;
         this.detail = detail;
-        this.tagIdList = !tagIdList.isEmpty() ? Arrays.stream(tagIdList.split(",")).map(Long::parseLong).collect(Collectors.toList()) : Collections.emptyList();
-        this.tagNameList = !tagNameList.isEmpty() ? Arrays.stream(tagNameList.split(",")).collect(Collectors.toList()) : Collections.emptyList();
+        this.tagIdList = !tagIdList.isEmpty() ?
+                Arrays.stream(tagIdList.split(",")).map(Long::parseLong).collect(Collectors.toList()) :
+                Collections.emptyList();
+        this.tagNameList = !tagNameList.isEmpty() ? Arrays.stream(tagNameList.split(",")).collect(Collectors.toList()) :
+                Collections.emptyList();
         this.milestoneId = milestoneId;
         this.milestoneName = milestoneName;
     }

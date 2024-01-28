@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class TagRegisterRequest {
-    Long projectId;
-    String name;
+    private Long projectId;
+    private String name;
 }

@@ -1,6 +1,5 @@
 package com.nhnacademy.minidooray.task.backend.domain.dto.milestone;
 
-import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,8 +8,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 public class MilestoneDto {
-    Long id;
+    private Long id;
 
-    String name;
-
+    private String name;
 }

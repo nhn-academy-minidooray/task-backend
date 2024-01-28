@@ -28,7 +28,8 @@ public class ProjectController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<ProjectDto>> getProjectListByAccountId(@RequestParam(name = "accountId") String accountId) {
+    public ResponseEntity<List<ProjectDto>> getProjectListByAccountId(
+            @RequestParam(name = "accountId") String accountId) {
         List<ProjectDto> list = projectService.getProjectListByAccountId(accountId);
 
         log.info(list.toString());

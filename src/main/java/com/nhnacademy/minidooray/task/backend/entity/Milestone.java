@@ -48,7 +48,7 @@ public class Milestone {
     @JoinColumn(name = "project_id")
     private Project project;
 
-    public void modify(String name, LocalDate startDate, LocalDate endDate){
+    public void modify(String name, LocalDate startDate, LocalDate endDate) {
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;

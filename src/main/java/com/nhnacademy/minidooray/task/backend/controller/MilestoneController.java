@@ -63,7 +63,7 @@ public class MilestoneController {
     }
 
     @PutMapping("/{milestoneId}/modify")
-    public ResponseEntity<Void> updateMilestone(@PathVariable ("milestoneId") Long id,
+    public ResponseEntity<Void> updateMilestone(@PathVariable("milestoneId") Long id,
                                                 @Valid @RequestBody MilestoneRequest milestoneRequest) {
         boolean isProcessed = projectService.updateMilestone(milestoneRequest, id);
 

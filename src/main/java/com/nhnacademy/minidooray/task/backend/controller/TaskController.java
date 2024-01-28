@@ -1,8 +1,7 @@
 package com.nhnacademy.minidooray.task.backend.controller;
 
-import com.nhnacademy.minidooray.task.backend.domain.dto.task.TaskInfoResponseDTO;
-import com.nhnacademy.minidooray.task.backend.domain.requestbody.project.ProjectIdOnlyRequest;
 import com.nhnacademy.minidooray.task.backend.domain.dto.task.TaskDto;
+import com.nhnacademy.minidooray.task.backend.domain.dto.task.TaskInfoResponseDTO;
 import com.nhnacademy.minidooray.task.backend.domain.requestbody.task.TaskRequest;
 import com.nhnacademy.minidooray.task.backend.service.interfaces.TaskService;
 import java.util.List;
@@ -64,7 +63,7 @@ public class TaskController {
                 ? ResponseEntity.status(HttpStatus.OK).build()
                 : ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
-    
+
     @DeleteMapping("/{taskId}/delete")
     @ResponseStatus(HttpStatus.OK)
     public void deleteTask(@PathVariable("taskId") Long taskId) {

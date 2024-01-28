@@ -13,7 +13,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.ColumnDefault;
 
 @Getter
 @Setter
@@ -43,9 +42,4 @@ public class Project {
     @Column(name = "project_admin_id")
     private String adminId;
 
-//    public Project(String name, String status, String adminId) {
-//        this.name = name;
-//        this.status = status;
-//        this.adminId = adminId;
-//    }
 }

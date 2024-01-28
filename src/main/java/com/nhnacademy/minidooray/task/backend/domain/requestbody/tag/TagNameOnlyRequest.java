@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TagNameOnlyRequest {
-    String name;
+    private String name;
 }

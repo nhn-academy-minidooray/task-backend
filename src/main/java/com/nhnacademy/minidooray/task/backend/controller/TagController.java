@@ -31,18 +31,18 @@ public class TagController {
 
     @GetMapping("/list")
     public ResponseEntity<List<TagDTO>> getTags(@RequestParam(name = "projectId", required = false) Long projectId,
-                                                @RequestParam(name = "taskId", required = false) Long taskId){
-        if(Objects.nonNull(projectId) && Objects.nonNull(taskId)){
+                                                @RequestParam(name = "taskId", required = false) Long taskId) {
+        if (Objects.nonNull(projectId) && Objects.nonNull(taskId)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
-        if(Objects.nonNull(projectId)) {
+        if (Objects.nonNull(projectId)) {
             List<TagDTO> tagList = tagService.findAllByProjectId(projectId);
 
             return ResponseEntity.ok(tagList);
         }
 
-        if(Objects.nonNull(taskId)) {
+        if (Objects.nonNull(taskId)) {
             List<TagDTO> tagList = tagService.findAllByTaskId(taskId);
 
             return ResponseEntity.ok(tagList);
@@ -62,7 +62,7 @@ public class TagController {
 
     @PutMapping("/{tagId}/modify")
     public ResponseEntity<Void> modifyTag(@PathVariable("tagId") Long id,
-                                          @RequestBody TagNameOnlyRequest request){
+                                          @RequestBody TagNameOnlyRequest request) {
         boolean isProcessed = tagService.modifyTag(id, request);
 
         return isProcessed
