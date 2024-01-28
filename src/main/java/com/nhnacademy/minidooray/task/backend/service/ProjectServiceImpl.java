@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -37,6 +38,7 @@ public class ProjectServiceImpl implements ProjectService {
         this.projectMemberRepository = projectMemberRepository;
     }
 
+    @Transactional
     @Override
     public boolean createProject(ProjectRequest projectRequest) {
         Project project = Project.builder()
@@ -64,17 +66,20 @@ public class ProjectServiceImpl implements ProjectService {
         return true;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<ProjectDto> getProjectListByAccountId(String accountId) {
         return projectRepository.getProjectListById(accountId);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Optional<ProjectDto> getProjectDtoById(Long projectId) {
         return projectRepository.findProjectById(projectId);
     }
 
 
+    @Transactional
     @Override
     public boolean createMileStone(MilestoneRequest milestoneRequest) {
         Optional<Project> projectById = projectRepository.getProjectById(milestoneRequest.getProjectId());
@@ -94,17 +99,19 @@ public class ProjectServiceImpl implements ProjectService {
 
     }
 
-
+    @Transactional(readOnly = true)
     @Override
     public List<MilestoneDto> getMilestoneByProject(Long projectId) {
         return milestoneRepository.findMileStoneByProjectId(projectId);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Optional<MilestoneDetailDto> getMilestoneById(Long milestoneId) {
         return milestoneRepository.findMilestoneById(milestoneId);
     }
 
+    @Transactional
     @Override
     public boolean updateMilestone(MilestoneRequest milestoneRequest, Long milestoneId) {
         Optional<Milestone> milestone = milestoneRepository.findById(milestoneId);
@@ -120,6 +127,7 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
+    @Transactional
     @Override
     public boolean deleteMilestone(Long milestoneId) {
         if (milestoneRepository.existsById(milestoneId)) {
@@ -130,6 +138,7 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Optional<MilestoneDto> getMilestoneByTask(Long taskId) {
         return milestoneRepository.findMileStoneByTaskId(taskId);
