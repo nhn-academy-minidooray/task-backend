@@ -1,7 +1,6 @@
 package com.nhnacademy.minidooray.task.backend.controller;
 
 import com.nhnacademy.minidooray.task.backend.domain.dto.milestone.MemberIdOnlyDTO;
-import com.nhnacademy.minidooray.task.backend.domain.requestbody.member.ProjectMemberListRegisterRequest;
 import com.nhnacademy.minidooray.task.backend.domain.requestbody.member.ProjectMemberRegisterRequest;
 import com.nhnacademy.minidooray.task.backend.service.interfaces.ProjectMemberService;
 import java.util.List;
