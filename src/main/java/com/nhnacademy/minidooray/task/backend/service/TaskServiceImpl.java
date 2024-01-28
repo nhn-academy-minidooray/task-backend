@@ -50,13 +50,15 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<TaskInfoResponseDTO> findTaskListByProject(Long projectId) {
         List<List<Object>> nativeTaskList = taskRepository.nativeTaskList(projectId);
-        return nativeTaskList.stream().map(list -> new TaskInfoResponseDTO(
-                ((BigInteger) list.get(0)).longValue(),
-                (String) list.get(1),
-                (String) list.get(2),
-                (String) list.get(3),
-                ((BigInteger) list.get(4)).longValue()
-        ))
+        return nativeTaskList.stream().map(list ->
+            {
+                return new TaskInfoResponseDTO(((BigInteger) list.get(0)).longValue(), // task id
+                    (String) list.get(1),
+                    (String) list.get(2),
+                    Objects.nonNull(list.get(3)) ? (String) list.get(3) : "",
+                    Objects.nonNull(list.get(4)) ? ((BigInteger) list.get(4)).longValue() : null
+                );
+            })
                 .collect(Collectors.toList());
     }
 
