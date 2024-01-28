@@ -3,9 +3,9 @@ package com.nhnacademy.minidooray.task.backend.controller;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -34,49 +34,47 @@ class ProjectMemberControllerTest {
     @Test
     void testGetProjectMembers() throws Exception {
         List<MemberIdOnlyDTO> memberIdOnlyDTOList = List.of(new MemberIdOnlyDTO() {
-            @Override
-            public Pk getPk() {
-                return new Pk() {
-                    @Override
-                    public String getAccountId() {
-                        return "tester";
-                    }
-                };
-            }
-        });
+
+                                                                @Override
+                                                                public String getAccountId() {
+                                                                    return "tester";
+                                                                }
+                                                            }
+
+        );
 
         when(projectMemberService.getProjectMembers(1L))
                 .thenReturn(memberIdOnlyDTOList);
 
         mockMvc.perform(get("/member/list")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .param("projectId", "1"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("projectId", "1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].pk.accountId", equalTo("tester")));
+                .andExpect(jsonPath("$[0].accountId", equalTo("tester")));
 
         verify(projectMemberService).getProjectMembers(1L);
     }
 
     @Test
     @DisplayName("멤버 등록 성공")
-    void testRegisterProjectMemberSuccess() throws Exception{
+    void testRegisterProjectMemberSuccess() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        ProjectMemberRegisterRequest request = new ProjectMemberRegisterRequest(1L , "tester");
+        ProjectMemberRegisterRequest request = new ProjectMemberRegisterRequest(1L, "tester");
 
         when(projectMemberService.registerProjectMember(request))
                 .thenReturn(true);
 
         mockMvc.perform(post("/member/register")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(request)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated());
     }
 
     @Test
     @DisplayName("멤버 등록 실패")
-    void testRegisterProjectMemberFailed() throws Exception{
+    void testRegisterProjectMemberFailed() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        ProjectMemberRegisterRequest request = new ProjectMemberRegisterRequest(1L , "tester");
+        ProjectMemberRegisterRequest request = new ProjectMemberRegisterRequest(1L, "tester");
 
         when(projectMemberService.registerProjectMember(request))
                 .thenReturn(false);
@@ -91,7 +89,7 @@ class ProjectMemberControllerTest {
     @DisplayName("멤버 삭제 성공")
     void testDeleteProjectMemberSuccess() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        ProjectMemberRegisterRequest request = new ProjectMemberRegisterRequest(1L , "tester");
+        ProjectMemberRegisterRequest request = new ProjectMemberRegisterRequest(1L, "tester");
 
         when(projectMemberService.deleteProjectMember(request))
                 .thenReturn(true);
@@ -106,7 +104,7 @@ class ProjectMemberControllerTest {
     @DisplayName("멤버 삭제 실패")
     void testDeleteProjectMemberFailed() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        ProjectMemberRegisterRequest request = new ProjectMemberRegisterRequest(1L , "tester");
+        ProjectMemberRegisterRequest request = new ProjectMemberRegisterRequest(1L, "tester");
 
         when(projectMemberService.deleteProjectMember(request))
                 .thenReturn(false);

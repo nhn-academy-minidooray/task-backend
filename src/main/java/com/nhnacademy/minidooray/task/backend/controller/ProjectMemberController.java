@@ -24,7 +24,7 @@ public class ProjectMemberController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<MemberIdOnlyDTO>> getProjectMembers(@RequestParam(name = "projectId") Long projectId){
+    public ResponseEntity<List<MemberIdOnlyDTO>> getProjectMembers(@RequestParam(name = "projectId") Long projectId) {
         List<MemberIdOnlyDTO> memberList = projectMemberService.getProjectMembers(projectId);
 
         return ResponseEntity.ok(memberList);
@@ -32,7 +32,7 @@ public class ProjectMemberController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Void> registerProjectMember(@RequestBody ProjectMemberRegisterRequest request){
+    public ResponseEntity<Void> registerProjectMember(@RequestBody ProjectMemberRegisterRequest request) {
         boolean isProcessed = projectMemberService.registerProjectMember(request);
 
         return isProcessed
@@ -41,7 +41,7 @@ public class ProjectMemberController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Void> deleteProjectMember(@RequestBody ProjectMemberRegisterRequest request){
+    public ResponseEntity<Void> deleteProjectMember(@RequestBody ProjectMemberRegisterRequest request) {
         boolean isProcessed = projectMemberService.deleteProjectMember(request);
 
         return isProcessed
