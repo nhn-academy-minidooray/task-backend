@@ -12,6 +12,7 @@ import com.nhnacademy.minidooray.task.backend.entity.Project;
 import com.nhnacademy.minidooray.task.backend.entity.Tag;
 import com.nhnacademy.minidooray.task.backend.entity.Task;
 import com.nhnacademy.minidooray.task.backend.entity.TaskTag;
+import com.nhnacademy.minidooray.task.backend.exception.TagRegisterFailedException;
 import com.nhnacademy.minidooray.task.backend.repository.CommentRepository;
 import com.nhnacademy.minidooray.task.backend.repository.MilestoneRepository;
 import com.nhnacademy.minidooray.task.backend.repository.ProjectRepository;
@@ -73,49 +74,39 @@ public class TaskServiceImpl implements TaskService {
 
     @Transactional
     @Override
-    public boolean createTask(TaskRequest taskRequest) {
+    public boolean registerTaskAndTaskTag(TaskRequest taskRequest) {
         Optional<Project> optionalProject = projectRepository.getProjectById(taskRequest.getProjectId());
-        Optional<Milestone> optionalMilestone = milestoneRepository.findById(taskRequest.getMilestoneId());
+        Milestone milestone = null;
+        if(Objects.nonNull(taskRequest.getMilestoneId())) {
+            milestone = milestoneRepository.findById(taskRequest.getMilestoneId())
+                .orElse(null);
+        }
 
-        if (optionalProject.isPresent() && optionalMilestone.isPresent()) {
+        if (optionalProject.isPresent()) {
             Project project = optionalProject.get();
-            System.out.println("project");
-            System.out.println(project);
-            Milestone milestone = optionalMilestone.get();
-            System.out.println("milestone");
-            System.out.println(milestone);
             Task task = Task.builder()
-                    .name(taskRequest.getName())
-                    .project(project)
-                    .milestone(milestone)
-                    .build();
+                .name(taskRequest.getName())
+                .project(project)
+                .milestone(milestone)
+                .detail(taskRequest.getDetail())
+                .build();
             Task saveTask = taskRepository.save(task);
-            saveTaskTag(taskRequest, saveTask);
-
-            return Objects.equals(task, saveTask);
-        } else {
-            return false;
-        }
-    }
-
-    private boolean saveTaskTag(TaskRequest taskRequest, Task saveTask) {
-
-        if (Objects.isNull(taskRequest.getTagList())) {
-            return false;
-        } else {
-            for (Long tagId : taskRequest.getTagList()) {
-                Optional<Tag> byId = tagRepository.findById(tagId);
-                if (byId.isPresent()) {
-                    Tag tag = byId.get();
-                    TaskTag.Pk pk = new TaskTag.Pk(tag.getId(), saveTask.getId());
-                    TaskTag taskTag = new TaskTag(pk, tag, saveTask);
-                    TaskTag save = taskTagRepository.save(taskTag);
-                } else {
-                    return false;
+            if (Objects.nonNull(taskRequest.getTagList())) {
+                for (Long tagId : taskRequest.getTagList()) {
+                    Optional<Tag> byId = tagRepository.findById(tagId);
+                    if (byId.isPresent()) {
+                        Tag tag = byId.get();
+                        TaskTag.Pk pk = new TaskTag.Pk(tag.getId(), saveTask.getId());
+                        TaskTag taskTag = new TaskTag(pk, tag, saveTask);
+                        taskTagRepository.save(taskTag);
+                    } else {
+                        throw new TagRegisterFailedException("태그 저장에 실패하였습니다.");
+                    }
                 }
+                return Objects.equals(task, saveTask);
             }
-            return true;
         }
+        return true;
     }
 
     @Transactional
