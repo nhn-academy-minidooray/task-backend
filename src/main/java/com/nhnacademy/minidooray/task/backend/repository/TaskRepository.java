@@ -28,8 +28,8 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
             "FROM Task t " +
             "INNER JOIN Project p ON p.project_id = t.project_id " +
             "LEFT JOIN `Task-Tag` tt ON t.task_id = tt.task_id " +
-            "JOIN Milestone m ON t.milestone_id = m.milestone_id " +
-            "JOIN Tag tag ON tt.tag_id = tag.tag_id " +
+            "LEFT JOIN Milestone m ON t.milestone_id = m.milestone_id " +
+            "LEFT JOIN Tag tag ON tt.tag_id = tag.tag_id " +
             "WHERE p.project_id = :projectId " +
             "GROUP BY t.task_id", nativeQuery = true)
     List<List<Object>> nativeTaskList(@Param("projectId") Long projectId);

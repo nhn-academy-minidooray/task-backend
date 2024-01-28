@@ -2,6 +2,7 @@ package com.nhnacademy.minidooray.task.backend.domain.dto.task;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.Getter;
@@ -27,8 +28,8 @@ public class TaskInfoResponseDTO {
         this.id = id;
         this.name = name;
         this.detail = detail;
-        this.tagIdList = Arrays.stream(tagIdList.split(",")).map(Long::parseLong).collect(Collectors.toList());
-        this.tagNameList = Arrays.stream(tagNameList.split(",")).collect(Collectors.toList());
+        this.tagIdList = !tagIdList.isEmpty() ? Arrays.stream(tagIdList.split(",")).map(Long::parseLong).collect(Collectors.toList()) : Collections.emptyList();
+        this.tagNameList = !tagNameList.isEmpty() ? Arrays.stream(tagNameList.split(",")).collect(Collectors.toList()) : Collections.emptyList();
         this.milestoneId = milestoneId;
         this.milestoneName = milestoneName;
     }

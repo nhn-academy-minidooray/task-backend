@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,8 +57,8 @@ public class TaskServiceImpl implements TaskService {
                 return new TaskInfoResponseDTO(((BigInteger) list.get(0)).longValue(), // task id
                     (String) list.get(1),
                     (String) list.get(2),
-                    Objects.nonNull(list.get(3)) ? (String) list.get(3) : "",
-                    Objects.nonNull(list.get(4)) ? (String) list.get(4) : "",
+                    Objects.nonNull(list.get(3)) ? (String) list.get(3) : Strings.EMPTY,
+                    Objects.nonNull(list.get(4)) ? (String) list.get(4) : Strings.EMPTY,
                     Objects.nonNull(list.get(5)) ? ((BigInteger) list.get(5)).longValue() : null,
                     Objects.nonNull(list.get(6)) ? (String) list.get(6) : null
                 );
