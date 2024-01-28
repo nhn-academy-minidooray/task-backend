@@ -2,6 +2,7 @@ package com.nhnacademy.minidooray.task.backend.service;
 
 import com.nhnacademy.minidooray.task.backend.domain.dto.comment.CommentDto;
 import com.nhnacademy.minidooray.task.backend.domain.dto.task.TaskDto;
+import com.nhnacademy.minidooray.task.backend.domain.dto.task.TaskInfoResponseDTO;
 import com.nhnacademy.minidooray.task.backend.domain.requestbody.comment.CommentModifyRequest;
 import com.nhnacademy.minidooray.task.backend.domain.requestbody.comment.CommentRequest;
 import com.nhnacademy.minidooray.task.backend.domain.requestbody.task.TaskRequest;
@@ -45,8 +46,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskDto> findTaskListByProject(Long projectId) {
-        return taskRepository.taskListByProjectId(projectId);
+    public List<TaskInfoResponseDTO> findTaskListByProject(Long projectId) {
+        return taskRepository.taskList(projectId);
     }
 
     @Override
