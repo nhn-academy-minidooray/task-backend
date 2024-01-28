@@ -15,14 +15,16 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Task-Tag")
+@Table(name = "`Task-Tag`")
 @Builder
+@ToString
 public class TaskTag {
 
     @EmbeddedId

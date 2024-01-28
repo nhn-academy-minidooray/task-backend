@@ -25,6 +25,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -51,12 +52,12 @@ public class TaskServiceImpl implements TaskService {
     public List<TaskInfoResponseDTO> findTaskListByProject(Long projectId) {
         List<List<Object>> nativeTaskList = taskRepository.nativeTaskList(projectId);
         return nativeTaskList.stream().map(list -> new TaskInfoResponseDTO(
-                ((BigInteger) list.get(0)).longValue(),
-                (String) list.get(1),
-                (String) list.get(2),
-                (String) list.get(3),
-                ((BigInteger) list.get(4)).longValue()
-        ))
+                        ((BigInteger) list.get(0)).longValue(),
+                        (String) list.get(1),
+                        (String) list.get(2),
+                        (String) list.get(3),
+                        ((BigInteger) list.get(4)).longValue()
+                ))
                 .collect(Collectors.toList());
     }
 
@@ -65,50 +66,52 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.findTaskById(taskId);
     }
 
+    @Transactional
     @Override
-    public boolean createTask(TaskRequest taskRequest) {
+    public boolean registerTaskAndTaskTag(TaskRequest taskRequest) {
+        return createTask(taskRequest);
+    }
+
+    private boolean createTask(TaskRequest taskRequest) {
         Optional<Project> optionalProject = projectRepository.getProjectById(taskRequest.getProjectId());
         Optional<Milestone> optionalMilestone = milestoneRepository.findById(taskRequest.getMilestoneId());
 
         if (optionalProject.isPresent() && optionalMilestone.isPresent()) {
             Project project = optionalProject.get();
-            System.out.println("project");
-            System.out.println(project);
             Milestone milestone = optionalMilestone.get();
-            System.out.println("milestone");
-            System.out.println(milestone);
             Task task = Task.builder()
                     .name(taskRequest.getName())
                     .project(project)
                     .milestone(milestone)
                     .build();
             Task saveTask = taskRepository.save(task);
-            saveTaskTag(taskRequest, saveTask);
+            boolean saveTaskTag = saveTaskTag(taskRequest, saveTask);
 
-            return Objects.equals(task, saveTask);
+            return Objects.equals(task, saveTask) || saveTaskTag;
         } else {
             return false;
         }
     }
 
-    private void saveTaskTag(TaskRequest taskRequest, Task saveTask) {
+    private boolean saveTaskTag(TaskRequest taskRequest, Task saveTask) {
 
-        TaskTag.Pk pk;
-        TaskTag taskTag;
-        Tag tag;
-        for (Long tagId : taskRequest.getTagList()) {
-            System.out.println("112321321312");
-            Optional<Tag> byId = tagRepository.findById(tagId);
-            System.out.println("jffjkldfajkfasdj");
-            if (byId.isPresent()) {
-                tag = byId.get();
-                pk = TaskTag.Pk.builder().tagId(tagId).taskId(saveTask.getId()).build();
-                taskTag = TaskTag.builder().pk(pk).tag(tag).task(saveTask).build();
-                taskTagRepository.save(taskTag);
-            } else {
-                //TODO exception
+        if (Objects.isNull(taskRequest.getTagList())) {
+            return false;
+        } else {
+            for (Long tagId : taskRequest.getTagList()) {
+                Optional<Tag> byId = tagRepository.findById(tagId);
+                if (byId.isPresent()) {
+                    Tag tag = byId.get();
+                    TaskTag.Pk pk = new TaskTag.Pk(tag.getId(), saveTask.getId());
+                    TaskTag taskTag = new TaskTag(pk, tag, saveTask);
+                    TaskTag save = taskTagRepository.save(taskTag);
+                } else {
+                    return false;
+                }
             }
+            return true;
         }
+
     }
 
     @Override

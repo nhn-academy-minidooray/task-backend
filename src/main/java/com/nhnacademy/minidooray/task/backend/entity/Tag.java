@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Setter
 @Getter
@@ -19,6 +20,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "Tag")
+@ToString
 public class Tag {
     @Id
     @Column(name = "tag_id")
