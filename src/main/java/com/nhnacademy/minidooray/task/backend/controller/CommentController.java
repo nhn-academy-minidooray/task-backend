@@ -2,7 +2,6 @@ package com.nhnacademy.minidooray.task.backend.controller;
 
 import com.nhnacademy.minidooray.task.backend.domain.dto.comment.CommentDto;
 import com.nhnacademy.minidooray.task.backend.domain.requestbody.comment.CommentRequest;
-import com.nhnacademy.minidooray.task.backend.domain.requestbody.task.TaskIdOnlyRequest;
 import com.nhnacademy.minidooray.task.backend.domain.requestbody.comment.CommentModifyRequest;
 import com.nhnacademy.minidooray.task.backend.service.interfaces.CommentService;
 import java.util.List;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -28,8 +28,8 @@ public class CommentController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<CommentDto>> getCommentList(@RequestBody TaskIdOnlyRequest request) {
-        return ResponseEntity.ok().body(commentService.findCommentListByTask(request.getId()));
+    public ResponseEntity<List<CommentDto>> getCommentList(@RequestParam("taskId") Long taskId) {
+        return ResponseEntity.ok().body(commentService.findCommentListByTask(taskId));
     }
 
     @PostMapping("/register")

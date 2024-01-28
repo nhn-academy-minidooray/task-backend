@@ -33,17 +33,7 @@ class ProjectMemberControllerTest {
 
     @Test
     void testGetProjectMembers() throws Exception {
-        List<MemberIdOnlyDTO> memberIdOnlyDTOList = List.of(new MemberIdOnlyDTO() {
-            @Override
-            public Pk getPk() {
-                return new Pk() {
-                    @Override
-                    public String getAccountId() {
-                        return "tester";
-                    }
-                };
-            }
-        });
+        List<MemberIdOnlyDTO> memberIdOnlyDTOList = List.of(new MemberIdOnlyDTO("tester"));
 
         when(projectMemberService.getProjectMembers(1L))
                 .thenReturn(memberIdOnlyDTOList);
@@ -52,7 +42,7 @@ class ProjectMemberControllerTest {
                     .contentType(MediaType.APPLICATION_JSON)
                     .param("projectId", "1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].pk.accountId", equalTo("tester")));
+                .andExpect(jsonPath("$[0].accountId", equalTo("tester")));
 
         verify(projectMemberService).getProjectMembers(1L);
     }
