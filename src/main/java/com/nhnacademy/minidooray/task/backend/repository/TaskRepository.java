@@ -10,13 +10,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
-    @Query("SELECT " +
-            "new com.nhnacademy.minidooray.task.backend.domain.dto.task.TaskDto(t.id, t.name, t.detail) " +
-            "from Task t " +
-            "inner join Project p " +
-            "ON t.project.id = p.id " +
-            "WHERE p.id = :projectId")
-    List<TaskDto> taskListByProjectId(@Param("projectId") Long projectId);
 
     Optional<TaskDto> findTaskById(Long taskId);
 

@@ -8,9 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-    @Query("SELECT id, content from Comment WHERE task.id = :taskId")
+    @Query("SELECT new com.nhnacademy.minidooray.task.backend.domain.dto.comment.CommentDto(id, content)  from Comment WHERE task.id = :taskId")
     List<CommentDto> commentListByTaskId(@Param("taskId") Long taskId);
 
-    Comment getCommentById(Long commentId);
 
 }

@@ -1,12 +1,13 @@
 package com.nhnacademy.minidooray.task.backend.repository;
 
 
-import com.nhnacademy.minidooray.task.backend.domain.ProjectDto;
-import com.nhnacademy.minidooray.task.backend.entity.Project;
-import org.junit.jupiter.api.Assertions;
-import com.nhnacademy.minidooray.task.backend.domain.requestbody.project.ProjectRequest;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.nhnacademy.minidooray.task.backend.service.interfaces.ProjectService;
+import com.nhnacademy.minidooray.task.backend.domain.dto.project.ProjectDto;
+import com.nhnacademy.minidooray.task.backend.entity.Project;
+import com.nhnacademy.minidooray.task.backend.entity.ProjectMember;
+import java.util.List;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -22,58 +23,75 @@ class ProjectRepositoryTest {
     @Autowired
     private ProjectRepository projectRepository;
 
-//    @Test
-//    void test(){
-//        ProjectRequest projectRegistryRequest = new ProjectRequest("name", "id");
-//        projectService.createProject(projectRegistryRequest);
-//    }
-
-//    @Test
-//    void test1(){
-//
-//        List<ProjectDto> jkjk = projectService.getProjectListByAccountId("jkjk");
-//
-//        System.out.println("00-0--00----0-0-0-0--0-0-");
-//        System.out.println("00-0--00----0-0-0-0--0-0-");
-//        System.out.println("00-0--00----0-0-0-0--0-0-");
-//        System.out.println("00-0--00----0-0-0-0--0-0-");
-//        System.out.println("00-0--00----0-0-0-0--0-0-");
-//        System.out.println("00-0--00----0-0-0-0--0-0-");
-//        System.out.println("00-0--00----0-0-0-0--0-0-");
-//        jkjk.stream().forEach(System.out::println);
-//
-//
-//    }
-    @Test
-    void d() {
-        Project project = testProjectBuilder();
-
-
-    }
-
     @Test
     void findProjectByIdTest() {
-        Project saveProject = testEntityManager.persist(testProjectBuilder());
+        Project saveProject = testEntityManager.persist(Project.builder()
+                .name("dooray")
+                .status("활성")
+                .adminId("jkjk")
+                .build());
 
         ProjectDto findProject = projectRepository.findProjectById(saveProject.getId()).orElse(null);
 
         Assertions.assertNotNull(findProject);
-        Assertions.assertEquals(findProject.getId(), saveProject.getId());
-        Assertions.assertEquals(findProject.getName(), saveProject.getName());
+        assertEquals(findProject.getId(), saveProject.getId());
+        assertEquals(findProject.getName(), saveProject.getName());
+        assertEquals(findProject.getDetail(), saveProject.getDetail());
+        assertEquals(findProject.getStatus(), saveProject.getStatus());
     }
 
     @Test
-    void getProjectByIdTest(){
-        Project saveProject = testEntityManager.persist(testProjectBuilder());
+    void getProjectListByIdTest(){
+        String accountId = "admin1";
+        Project saveProject1 = testEntityManager.persist(Project.builder()
+                .name("dooray")
+                .status("활성")
+                .adminId(accountId)
+                .build());
 
-        Project findProject = projectRepository.getProjectById(saveProject.getId());
+        ProjectMember.Pk pk = new ProjectMember.Pk().builder().projectId(saveProject1.getId()).accountId(accountId).build();
+        ProjectMember projectMember = ProjectMember.builder().project(saveProject1).pk(pk).build();
+        testEntityManager.persist(projectMember);
+        List<ProjectDto> projectList = projectRepository.getProjectListById("admin1");
+
+        Assertions.assertNotNull(projectList);
+        assertEquals(1, projectList.size());
+        assertEquals(saveProject1.getId(), projectList.get(0).getId());
+        assertEquals(saveProject1.getName(), projectList.get(0).getName());
+        assertEquals(saveProject1.getDetail(), projectList.get(0).getDetail());
+        assertEquals(saveProject1.getStatus(), projectList.get(0).getStatus());
+    }
+
+    @Test
+    void getProjectByIdTest() {
+        Project saveProject = testEntityManager.persist(Project.builder()
+                .name("dooray")
+                .status("활성")
+                .adminId("jkjk")
+                .build());
+
+        Project findProject = projectRepository.getProjectById(saveProject.getId()).orElse(null);
 
         Assertions.assertNotNull(findProject);
-        Assertions.assertEquals(findProject.getId(), saveProject.getId());
-        Assertions.assertEquals(findProject.getName(), saveProject.getName());
-        Assertions.assertEquals(findProject.getStatus(), saveProject.getStatus());
-        Assertions.assertEquals(findProject.getAdminId(), saveProject.getAdminId());
+        assertEquals(findProject.getId(), saveProject.getId());
+        assertEquals(findProject.getName(), saveProject.getName());
+        assertEquals(findProject.getDetail(), saveProject.getDetail());
+        assertEquals(findProject.getStatus(), saveProject.getStatus());
     }
+
+
+//    @Test
+//    void getProjectByIdTest(){
+//        Project saveProject = testEntityManager.persist(testProjectBuilder());
+//
+//        Optional<Project> findProject = projectRepository.getProjectById(saveProject.getId());
+//
+//        Assertions.assertNotNull(findProject);
+//        assertEquals(findProject.getId(), saveProject.getId());
+//        assertEquals(findProject.getName(), saveProject.getName());
+//        assertEquals(findProject.getStatus(), saveProject.getStatus());
+//        assertEquals(findProject.getAdminId(), saveProject.getAdminId());
+//    }
 
     private static Project testProjectBuilder() {
         return Project.builder()
@@ -83,9 +101,5 @@ class ProjectRepositoryTest {
                 .build();
     }
 
-//    @Test
-//    void as(){
-//        projectRepository.getProjectListById("jkjk").stream().forEach(System.out::println);
-//    }
 
 }
