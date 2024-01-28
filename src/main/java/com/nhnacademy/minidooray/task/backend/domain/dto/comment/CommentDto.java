@@ -1,18 +1,9 @@
 package com.nhnacademy.minidooray.task.backend.domain.dto.comment;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+public interface CommentDto {
+    Long getId();
 
-@ToString
-@Getter
-@Setter
-@AllArgsConstructor
-public class CommentDto {
-    private Long id;
+    String getOwner();
 
-    private String owner;
-
-    private String content;
+    String getContent();
 }

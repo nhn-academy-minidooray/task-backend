@@ -26,7 +26,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional(readOnly = true)
     @Override
     public List<CommentDto> findCommentListByTask(Long taskId) {
-        return commentRepository.commentListByTaskId(taskId);
+        return commentRepository.findAllByTask_Id(taskId);
     }
 
     @Transactional

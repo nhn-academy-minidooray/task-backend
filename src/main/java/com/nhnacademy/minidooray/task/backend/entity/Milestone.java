@@ -41,7 +41,7 @@ public class Milestone {
     private String overOrNot;
 
     @ManyToOne
-    @JoinColumn(name = "product")
+    @JoinColumn(name = "project_id")
     private Project project;
 
     public Milestone modify(String name, LocalDate startDate, LocalDate endDate){
