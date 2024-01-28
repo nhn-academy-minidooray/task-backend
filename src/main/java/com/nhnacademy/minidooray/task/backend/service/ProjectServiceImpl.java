@@ -49,6 +49,7 @@ public class ProjectServiceImpl implements ProjectService {
                 .build();
 
         Project savedProject = projectRepository.save(project);
+        project.setId(savedProject.getId());
         if (!Objects.equals(project, savedProject)) {
             throw new ProjectCreationFailedException("프로젝트 생성 중 오류가 발생하였습니다");
         }
@@ -57,12 +58,10 @@ public class ProjectServiceImpl implements ProjectService {
                 .pk(projectMemberPk)
                 .project(savedProject)
                 .build();
-
         ProjectMember savedProjectMember = projectMemberRepository.save(projectMember);
         if (!Objects.equals(projectMember, savedProjectMember)) {
             throw new ProjectMemberAddFailedException("멤버 등록 중 오류가 발생하였습니다");
         }
-
         return true;
     }
 
@@ -78,7 +77,6 @@ public class ProjectServiceImpl implements ProjectService {
         return projectRepository.findProjectById(projectId);
     }
 
-
     @Transactional
     @Override
     public boolean createMileStone(MilestoneRequest milestoneRequest) {
@@ -91,6 +89,7 @@ public class ProjectServiceImpl implements ProjectService {
                     .endDate(milestoneRequest.getEndDate())
                     .overOrNot("N").project(projectById.get()).build();
             Milestone saveMilestone = milestoneRepository.save(milestone);
+
             return Objects.equals(milestone, saveMilestone);
         } else {
             return false;

@@ -1,6 +1,6 @@
 package com.nhnacademy.minidooray.task.backend.domain.dto.task;
 
-import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;

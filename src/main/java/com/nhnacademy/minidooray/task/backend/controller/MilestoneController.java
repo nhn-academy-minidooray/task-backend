@@ -3,7 +3,6 @@ package com.nhnacademy.minidooray.task.backend.controller;
 import com.nhnacademy.minidooray.task.backend.domain.dto.milestone.MilestoneDetailDto;
 import com.nhnacademy.minidooray.task.backend.domain.dto.milestone.MilestoneDto;
 import com.nhnacademy.minidooray.task.backend.domain.requestbody.milestone.MilestoneRequest;
-import com.nhnacademy.minidooray.task.backend.domain.requestbody.project.ProjectIdOnlyRequest;
 import com.nhnacademy.minidooray.task.backend.service.interfaces.ProjectService;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
