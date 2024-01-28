@@ -30,9 +30,9 @@ public class MilestoneController {
         this.projectService = projectService;
     }
 
-    @PostMapping("/list")
-    public ResponseEntity<List<MilestoneDto>> getMilestoneList(@RequestBody ProjectIdOnlyRequest request) {
-        return ResponseEntity.ok().body(projectService.getMilestoneByProject(request.getId()));
+    @GetMapping("/list")
+    public ResponseEntity<List<MilestoneDto>> getMilestoneList(@RequestParam("projectId") Long projectId) {
+        return ResponseEntity.ok().body(projectService.getMilestoneByProject(projectId));
     }
 
     @GetMapping("/{milestoneId}")

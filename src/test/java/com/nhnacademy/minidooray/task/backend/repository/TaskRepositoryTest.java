@@ -1,5 +1,7 @@
 package com.nhnacademy.minidooray.task.backend.repository;
 
+import com.nhnacademy.minidooray.task.backend.domain.dto.task.TaskInfoResponseDTO;
+import java.util.List;
 import javax.validation.Valid;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,10 @@ class TaskRepositoryTest {
 
     @Test
     void a(){
-//        taskRepository.taskList(1L);
+        List<List<Object>> taskInfoResponseDTOS = taskRepository.nativeTaskList(1L);
+
+
+        taskInfoResponseDTOS.stream().forEach(System.out::println);
     }
 
 }

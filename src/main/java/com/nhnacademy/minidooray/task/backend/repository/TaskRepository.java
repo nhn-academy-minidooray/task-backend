@@ -24,7 +24,13 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     Task getTaskById(Long taskId);
 
-    @Query(value = "SELECT new com.nhnacademy.minidooray.task.backend.domain.dto.task.TaskInfoResponseDTO(t.id, t.name, t.detail, GROUP_CONCAT(tt.pk.tagId), t.milestone.id) from Task t inner join Project p ON p.id = t.id left join TaskTag tt ON t.id = tt.pk.taskId where p.id = :projectId group by t.id", nativeQuery = true)
-    List<TaskInfoResponseDTO> taskList(@Param("projectId") Long projectId);
+
+    @Query(value = "SELECT t.task_id, t.task_name, t.task_detail, GROUP_CONCAT(tt.tag_id), t.milestone_id " +
+            "FROM Task t " +
+            "INNER JOIN Project p ON p.project_id = t.project_id " +
+            "LEFT JOIN `Task-Tag` tt ON t.task_id = tt.task_id " +
+            "WHERE p.project_id = :projectId " +
+            "GROUP BY t.task_id", nativeQuery = true)
+    List<List<Object>> nativeTaskList(@Param("projectId") Long projectId);
 
 }

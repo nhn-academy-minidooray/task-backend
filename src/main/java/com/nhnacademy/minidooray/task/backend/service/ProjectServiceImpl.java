@@ -1,11 +1,11 @@
 package com.nhnacademy.minidooray.task.backend.service;
 
+import com.nhnacademy.minidooray.task.backend.domain.Status;
 import com.nhnacademy.minidooray.task.backend.domain.dto.milestone.MilestoneDetailDto;
 import com.nhnacademy.minidooray.task.backend.domain.dto.milestone.MilestoneDto;
-import com.nhnacademy.minidooray.task.backend.domain.requestbody.milestone.MilestoneRequest;
 import com.nhnacademy.minidooray.task.backend.domain.dto.project.ProjectDto;
+import com.nhnacademy.minidooray.task.backend.domain.requestbody.milestone.MilestoneRequest;
 import com.nhnacademy.minidooray.task.backend.domain.requestbody.project.ProjectRequest;
-import com.nhnacademy.minidooray.task.backend.domain.Status;
 import com.nhnacademy.minidooray.task.backend.entity.Milestone;
 import com.nhnacademy.minidooray.task.backend.entity.Project;
 import com.nhnacademy.minidooray.task.backend.entity.ProjectMember;
@@ -42,22 +42,22 @@ public class ProjectServiceImpl implements ProjectService {
         Project project = Project.builder()
                 .name(projectRequest.getName())
                 .adminId(projectRequest.getAdminId())
-            .status(Status.ACTIVATION.getValue())
+                .status(Status.ACTIVATION.getValue())
                 .detail(projectRequest.getDetail())
                 .build();
 
         Project savedProject = projectRepository.save(project);
-        if(!Objects.equals(project, savedProject)) {
+        if (!Objects.equals(project, savedProject)) {
             throw new ProjectCreationFailedException("프로젝트 생성 중 오류가 발생하였습니다");
         }
         ProjectMember.Pk projectMemberPk = new ProjectMember.Pk(savedProject.getAdminId(), savedProject.getId());
         ProjectMember projectMember = ProjectMember.builder()
-            .pk(projectMemberPk)
-            .project(savedProject)
-            .build();
+                .pk(projectMemberPk)
+                .project(savedProject)
+                .build();
 
         ProjectMember savedProjectMember = projectMemberRepository.save(projectMember);
-        if(!Objects.equals(projectMember, savedProjectMember)) {
+        if (!Objects.equals(projectMember, savedProjectMember)) {
             throw new ProjectMemberAddFailedException("멤버 등록 중 오류가 발생하였습니다");
         }
 
@@ -78,14 +78,20 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public boolean createMileStone(MilestoneRequest milestoneRequest) {
         Optional<Project> projectById = projectRepository.getProjectById(milestoneRequest.getProjectId());
-        Milestone milestone = Milestone.builder()
-                .name(milestoneRequest.getName())
-                .startDate(milestoneRequest.getStartDate())
-                .endDate(milestoneRequest.getEndDate())
-                .overOrNot("N").project(projectById.get()).build();
 
-        Milestone saveMilestone = milestoneRepository.save(milestone);
-        return Objects.equals(milestone, saveMilestone);
+        if (projectById.isPresent()) {
+            Milestone milestone = Milestone.builder()
+                    .name(milestoneRequest.getName())
+                    .startDate(milestoneRequest.getStartDate())
+                    .endDate(milestoneRequest.getEndDate())
+                    .overOrNot("N").project(projectById.get()).build();
+            Milestone saveMilestone = milestoneRepository.save(milestone);
+            return Objects.equals(milestone, saveMilestone);
+        } else {
+            return false;
+        }
+
+
     }
 
 
