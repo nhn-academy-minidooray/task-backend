@@ -32,15 +32,6 @@ public class ProjectMemberController {
 
     }
 
-    @PostMapping("/list/register")
-    public ResponseEntity<Void> registerProjectMembers(@RequestBody ProjectMemberListRegisterRequest request){
-        boolean isProcessed = projectMemberService.registerProjectMembers(request);
-
-        return isProcessed
-                ? ResponseEntity.status(HttpStatus.CREATED).build()
-                : ResponseEntity.status(HttpStatus.CONFLICT).build();
-    }
-
     @PostMapping("/register")
     public ResponseEntity<Void> registerProjectMember(@RequestBody ProjectMemberRegisterRequest request){
         boolean isProcessed = projectMemberService.registerProjectMember(request);

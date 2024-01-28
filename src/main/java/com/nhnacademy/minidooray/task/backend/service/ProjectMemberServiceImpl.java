@@ -32,31 +32,6 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
 
     @Transactional
     @Override
-    public boolean registerProjectMembers(ProjectMemberListRegisterRequest request) {
-        Optional<Project> project = projectRepository.findById(request.getProjectId());
-
-        if(project.isPresent()){
-            List<ProjectMember> memberList = new ArrayList<>();
-
-            for (String accountId : request.getAccountIdList()) {
-                ProjectMember.Pk pk = new ProjectMember.Pk(accountId, request.getProjectId());
-                if (projectMemberRepository.existsById(pk)) {
-                    return false;
-                }
-                ProjectMember projectMember = new ProjectMember(pk, project.get());
-                memberList.add(projectMember);
-            }
-
-            projectMemberRepository.saveAll(memberList);
-
-            return true;
-        }
-
-        return false;
-    }
-
-    @Transactional
-    @Override
     public boolean registerProjectMember(ProjectMemberRegisterRequest request) {
         Optional<Project> project = projectRepository.findById(request.getProjectId());
 

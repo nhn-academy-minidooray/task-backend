@@ -8,8 +8,6 @@ import java.util.List;
 public interface ProjectMemberService {
     List<MemberIdOnlyDTO> getProjectMembers(Long projectId);
 
-    boolean registerProjectMembers(ProjectMemberListRegisterRequest request);
-
     boolean registerProjectMember(ProjectMemberRegisterRequest request);
 
     boolean deleteProjectMember(ProjectMemberRegisterRequest request);
