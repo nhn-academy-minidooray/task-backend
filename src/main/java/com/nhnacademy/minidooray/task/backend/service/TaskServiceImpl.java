@@ -56,7 +56,8 @@ public class TaskServiceImpl implements TaskService {
                     (String) list.get(1),
                     (String) list.get(2),
                     Objects.nonNull(list.get(3)) ? (String) list.get(3) : "",
-                    Objects.nonNull(list.get(4)) ? ((BigInteger) list.get(4)).longValue() : null
+                    Objects.nonNull(list.get(4)) ? ((BigInteger) list.get(4)).longValue() : null,
+                    Objects.nonNull(list.get(5)) ? (String) list.get(5) : null
                 );
             })
                 .collect(Collectors.toList());

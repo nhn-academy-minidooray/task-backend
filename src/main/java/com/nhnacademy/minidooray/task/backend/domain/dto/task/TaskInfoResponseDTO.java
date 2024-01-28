@@ -19,13 +19,15 @@ public class TaskInfoResponseDTO {
     String detail;
     List<Long> tagList;
     Long milestoneId;
+    String milestoneName;
 
-    public TaskInfoResponseDTO(Long id, String name, String detail, String tagList, Long milestoneId) {
+    public TaskInfoResponseDTO(Long id, String name, String detail, String tagList, Long milestoneId, String milestoneName) {
         this.id = id;
         this.name = name;
         this.detail = detail;
         this.tagList = convertToTagIdsList(tagList);
         this.milestoneId = milestoneId;
+        this.milestoneName = milestoneName;
     }
 
     private List<Long> convertToTagIdsList(String tagList) {

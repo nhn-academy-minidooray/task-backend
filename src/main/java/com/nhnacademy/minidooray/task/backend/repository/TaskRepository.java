@@ -25,10 +25,11 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     Task getTaskById(Long taskId);
 
 
-    @Query(value = "SELECT t.task_id, t.task_name, t.task_detail, GROUP_CONCAT(tt.tag_id), t.milestone_id " +
+    @Query(value = "SELECT t.task_id, t.task_name, t.task_detail, GROUP_CONCAT(tt.tag_id), t.milestone_id, m.milestone_name " +
             "FROM Task t " +
             "INNER JOIN Project p ON p.project_id = t.project_id " +
             "LEFT JOIN `Task-Tag` tt ON t.task_id = tt.task_id " +
+            "JOIN Milestone m ON t.milestone_id = m.milestone_id " +
             "WHERE p.project_id = :projectId " +
             "GROUP BY t.task_id", nativeQuery = true)
     List<List<Object>> nativeTaskList(@Param("projectId") Long projectId);
