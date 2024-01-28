@@ -48,24 +48,26 @@ public class TaskServiceImpl implements TaskService {
         this.tagRepository = tagRepository;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<TaskInfoResponseDTO> findTaskListByProject(Long projectId) {
         List<List<Object>> nativeTaskList = taskRepository.nativeTaskList(projectId);
 
         return nativeTaskList.stream().map(list ->
-            {
-                return new TaskInfoResponseDTO(((BigInteger) list.get(0)).longValue(), // task id
-                    (String) list.get(1),
-                    (String) list.get(2),
-                    Objects.nonNull(list.get(3)) ? (String) list.get(3) : "",
-                    Objects.nonNull(list.get(4)) ? ((BigInteger) list.get(4)).longValue() : null,
-                    Objects.nonNull(list.get(5)) ? (String) list.get(5) : null
-                );
-            })
+                {
+                    return new TaskInfoResponseDTO(((BigInteger) list.get(0)).longValue(), // task id
+                            (String) list.get(1),
+                            (String) list.get(2),
+                            Objects.nonNull(list.get(3)) ? (String) list.get(3) : "",
+                            Objects.nonNull(list.get(4)) ? ((BigInteger) list.get(4)).longValue() : null,
+                            Objects.nonNull(list.get(5)) ? (String) list.get(5) : null
+                    );
+                })
 
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Optional<TaskDto> findTask(Long taskId) {
         return taskRepository.findTaskById(taskId);
@@ -119,6 +121,7 @@ public class TaskServiceImpl implements TaskService {
 
     }
 
+    @Transactional
     @Override
     public boolean deleteTask(Long taskId) {
         if (taskRepository.existsById(taskId)) {
@@ -129,11 +132,13 @@ public class TaskServiceImpl implements TaskService {
         }
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<CommentDto> findCommentListByTask(Long taskId) {
         return commentRepository.commentListByTaskId(taskId);
     }
 
+    @Transactional
     @Override
     public boolean createComment(CommentRequest commentRequest, Long taskId) {
         Task task = taskRepository.getTaskById(taskId);
@@ -145,6 +150,7 @@ public class TaskServiceImpl implements TaskService {
         return Objects.equals(comment, saveComment);
     }
 
+    @Transactional
     @Override
     public boolean modifyComment(Long commentId, CommentModifyRequest commentModifyRequest) {
         Optional<Comment> commentOptional = commentRepository.findById(commentId);
@@ -158,6 +164,7 @@ public class TaskServiceImpl implements TaskService {
         }
     }
 
+    @Transactional
     @Override
     public boolean modifyTask(Long taskId, TaskRequest taskRequest) {
         Optional<Task> task = taskRepository.findById(taskId);
@@ -173,6 +180,7 @@ public class TaskServiceImpl implements TaskService {
         }
     }
 
+    @Transactional
     @Override
     public boolean deleteComment(Long taskId) {
         if (taskRepository.existsById(taskId)) {
