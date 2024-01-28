@@ -75,7 +75,7 @@ public class MilestoneController {
     }
 
     @DeleteMapping("/{milestoneId}/delete")
-    public ResponseEntity<Void> deleteMilestone(@RequestParam("MilestoneId") Long id) {
+    public ResponseEntity<Void> deleteMilestone(@PathVariable("milestoneId") Long id) {
         boolean isProcessed = projectService.deleteMilestone(id);
 
         return isProcessed
