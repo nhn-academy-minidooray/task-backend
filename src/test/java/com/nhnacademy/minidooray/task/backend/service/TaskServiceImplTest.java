@@ -23,8 +23,10 @@ class TaskServiceImplTest {
 
     @Test
     void a() {
-        TaskRequest taskRequest = TaskRequest.builder().projectId(1L).name("hihi").milestoneId(1L).tagList(null).detail("qwer").build();
-
-        System.out.println(taskService.createTask(taskRequest));
+        List<Long> taglist = List.of(4L, 6L);
+        TaskRequest taskRequest =
+                TaskRequest.builder().projectId(1L).name("jaehyeonihihi").milestoneId(1L).detail("qwer").tagList(taglist).build();
+//        taskService.createTask(taskRequest);
+        System.out.println();
     }
 }

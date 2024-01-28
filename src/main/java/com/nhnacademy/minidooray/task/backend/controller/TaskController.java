@@ -48,7 +48,7 @@ public class TaskController {
 
     @PostMapping("/register")
     public ResponseEntity<Void> createTask(@Valid @RequestBody TaskRequest taskRequest) {
-        boolean isProcessed = taskService.createTask(taskRequest);
+        boolean isProcessed = taskService.registerTaskAndTaskTag(taskRequest);
 
         return isProcessed
                 ? ResponseEntity.status(HttpStatus.CREATED).build()

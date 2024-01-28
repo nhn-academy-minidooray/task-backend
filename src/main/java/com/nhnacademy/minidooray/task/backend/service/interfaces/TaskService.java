@@ -14,7 +14,7 @@ public interface TaskService {
 
     Optional<TaskDto> findTask(Long taskId);
 
-    boolean createTask(TaskRequest taskRequest);
+    boolean registerTaskAndTaskTag(TaskRequest taskRequest);
 
     boolean deleteTask(Long taskId);
 
