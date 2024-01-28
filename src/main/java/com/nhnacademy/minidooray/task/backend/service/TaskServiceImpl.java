@@ -52,22 +52,20 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<TaskInfoResponseDTO> findTaskListByProject(Long projectId) {
         List<List<Object>> nativeTaskList = taskRepository.nativeTaskList(projectId);
-
         return nativeTaskList.stream().map(list ->
-                {
-                    return new TaskInfoResponseDTO(((BigInteger) list.get(0)).longValue(), // task id
-                            (String) list.get(1),
-                            (String) list.get(2),
-                            Objects.nonNull(list.get(3)) ? (String) list.get(3) : "",
-                            Objects.nonNull(list.get(4)) ? ((BigInteger) list.get(4)).longValue() : null,
-                            Objects.nonNull(list.get(5)) ? (String) list.get(5) : null
-                    );
-                })
-
+            {
+                return new TaskInfoResponseDTO(((BigInteger) list.get(0)).longValue(), // task id
+                    (String) list.get(1),
+                    (String) list.get(2),
+                    Objects.nonNull(list.get(3)) ? (String) list.get(3) : "",
+                    Objects.nonNull(list.get(4)) ? (String) list.get(4) : "",
+                    Objects.nonNull(list.get(5)) ? ((BigInteger) list.get(5)).longValue() : null,
+                    Objects.nonNull(list.get(6)) ? (String) list.get(6) : null
+                );
+            })
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
     @Override
     public Optional<TaskDto> findTask(Long taskId) {
         return taskRepository.findTaskById(taskId);
@@ -75,26 +73,26 @@ public class TaskServiceImpl implements TaskService {
 
     @Transactional
     @Override
-    public boolean registerTaskAndTaskTag(TaskRequest taskRequest) {
-        return createTask(taskRequest);
-    }
-
-    private boolean createTask(TaskRequest taskRequest) {
+    public boolean createTask(TaskRequest taskRequest) {
         Optional<Project> optionalProject = projectRepository.getProjectById(taskRequest.getProjectId());
         Optional<Milestone> optionalMilestone = milestoneRepository.findById(taskRequest.getMilestoneId());
 
         if (optionalProject.isPresent() && optionalMilestone.isPresent()) {
             Project project = optionalProject.get();
+            System.out.println("project");
+            System.out.println(project);
             Milestone milestone = optionalMilestone.get();
+            System.out.println("milestone");
+            System.out.println(milestone);
             Task task = Task.builder()
                     .name(taskRequest.getName())
                     .project(project)
                     .milestone(milestone)
                     .build();
             Task saveTask = taskRepository.save(task);
-            boolean saveTaskTag = saveTaskTag(taskRequest, saveTask);
+            saveTaskTag(taskRequest, saveTask);
 
-            return Objects.equals(task, saveTask) || saveTaskTag;
+            return Objects.equals(task, saveTask);
         } else {
             return false;
         }
@@ -118,7 +116,6 @@ public class TaskServiceImpl implements TaskService {
             }
             return true;
         }
-
     }
 
     @Transactional
