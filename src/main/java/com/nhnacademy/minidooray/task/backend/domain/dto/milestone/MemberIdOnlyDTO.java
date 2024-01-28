@@ -10,6 +10,5 @@ import lombok.Setter;
 @Setter
 @Getter
 public class MemberIdOnlyDTO {
-    String accountId;
-
+    private String accountId;
 }

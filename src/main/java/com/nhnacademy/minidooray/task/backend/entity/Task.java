@@ -50,7 +50,7 @@ public class Task {
     @JoinColumn(name = "milestone_id")
     private Milestone milestone;
 
-    @OneToMany(mappedBy = "task",cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "task", cascade = CascadeType.REMOVE)
     private List<TaskTag> taskTags;
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.REMOVE)

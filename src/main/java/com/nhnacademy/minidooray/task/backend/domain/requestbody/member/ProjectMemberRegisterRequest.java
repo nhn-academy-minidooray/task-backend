@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class ProjectMemberRegisterRequest {
-    Long projectId;
-    String accountId;
+    private Long projectId;
+    private String accountId;
 }

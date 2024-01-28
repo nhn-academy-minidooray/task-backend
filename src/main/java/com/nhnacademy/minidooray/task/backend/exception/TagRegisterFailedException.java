@@ -1,8 +1,8 @@
 package com.nhnacademy.minidooray.task.backend.exception;
 
-public class TagRegisterFailedException extends RuntimeException{
+public class TagRegisterFailedException extends RuntimeException {
 
-  public TagRegisterFailedException(String message) {
-    super(message);
-  }
+    public TagRegisterFailedException(String message) {
+        super(message);
+    }
 }

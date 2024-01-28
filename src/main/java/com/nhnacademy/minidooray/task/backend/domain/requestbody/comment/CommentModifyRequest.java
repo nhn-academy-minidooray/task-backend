@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class CommentModifyRequest {
-    String owner;
+    private String owner;
 
-    String content;
+    private String content;
 }

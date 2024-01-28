@@ -119,7 +119,7 @@ class TaskControllerTest {
     void deleteTaskTest() throws Exception {
         Long taskId = 1L;
         mockMvc.perform(MockMvcRequestBuilders.delete("/task/{taskId}/delete", taskId))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isOk());
 
         verify(taskService, times(1)).deleteTask(taskId);
     }

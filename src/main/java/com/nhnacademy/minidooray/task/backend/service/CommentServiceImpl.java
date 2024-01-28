@@ -34,7 +34,7 @@ public class CommentServiceImpl implements CommentService {
     public boolean createComment(CommentRequest commentRequest) {
         Optional<Task> task = taskRepository.getTaskById(commentRequest.getTaskId());
 
-        if(task.isPresent()){
+        if (task.isPresent()) {
             Comment comment = Comment.builder()
                     .owner(commentRequest.getOwner())
                     .content(commentRequest.getContent())
