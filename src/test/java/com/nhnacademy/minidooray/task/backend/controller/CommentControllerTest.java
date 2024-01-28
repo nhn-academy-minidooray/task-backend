@@ -76,13 +76,28 @@ class CommentControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         CommentRequest request = new CommentRequest(1L, "tester", "test");
 
-        when(commentService.createComment(request))
-                .thenReturn(true);
+        when(commentService.createComment(request)).thenReturn(true);
 
-        mockMvc.perform(post("/comment/create")
+        mockMvc.perform(post("/comment/register")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk());
+
+        verify(commentService).createComment(request);
+    }
+
+    @Test
+    @DisplayName("Comment 생성 성공")
+    void testCreateCommentFail() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        CommentRequest request = new CommentRequest(1L, "tester", "test");
+
+        when(commentService.createComment(request)).thenReturn(false);
+
+        mockMvc.perform(post("/comment/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isConflict());
 
         verify(commentService).createComment(request);
     }
@@ -96,7 +111,7 @@ class CommentControllerTest {
         when(commentService.createComment(request))
                 .thenReturn(false);
 
-        mockMvc.perform(post("/comment/create")
+        mockMvc.perform(post("/comment/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isConflict());

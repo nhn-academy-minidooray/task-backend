@@ -110,7 +110,9 @@ class TaskRepositoryTest {
                 .milestone(milestone)
                 .build());
 
-        Task result = taskRepository.getTaskById(task.getId());
+        Optional<Task> resultOptional = taskRepository.getTaskById(task.getId());
+        assertTrue(resultOptional.isPresent());
+        Task result = resultOptional.get();
 
         assertEquals(task.getId(), result.getId());
         assertEquals(task.getName(), result.getName());
