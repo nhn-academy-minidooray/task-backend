@@ -28,9 +28,11 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "comment_owner")
+    private String owner;
+
     @Column(name = "comment_content")
     private String content;
-
 
     @ManyToOne
     @JoinColumn(name = "task_id")

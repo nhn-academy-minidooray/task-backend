@@ -26,15 +26,11 @@ public class TaskServiceImpl implements TaskService {
     private final MilestoneRepository milestoneRepository;
 
     private final ProjectRepository projectRepository;
-
-    private final CommentRepository commentRepository;
-
     public TaskServiceImpl(TaskRepository taskRepository, MilestoneRepository milestoneRepository,
-                           ProjectRepository projectRepository, CommentRepository commentRepository) {
+                           ProjectRepository projectRepository) {
         this.taskRepository = taskRepository;
         this.milestoneRepository = milestoneRepository;
         this.projectRepository = projectRepository;
-        this.commentRepository = commentRepository;
     }
 
     @Override
@@ -69,38 +65,6 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<CommentDto> findCommentListByTask(Long taskId) {
-        return commentRepository.commentListByTaskId(taskId);
-    }
-
-    @Override
-    public boolean createComment(CommentRequest commentRequest, Long taskId) {
-        Task task = taskRepository.getTaskById(taskId);
-        Comment comment = Comment.builder()
-            .content(commentRequest.getContent())
-            .task(task)
-            .build();
-
-        commentRepository.save(comment);
-
-        return true;
-    }
-
-    @Override
-    public boolean modifyComment(Long commentId, CommentModifyRequest commentModifyRequest) {
-        Optional<Comment> commentOptional = commentRepository.findById(commentId);
-        if (commentOptional.isPresent()) {
-            Comment comment = commentOptional.get();
-            comment = Comment.builder().id(commentModifyRequest.getId()).content(commentModifyRequest.getContent())
-                    .build();
-            commentRepository.save(comment);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    @Override
     public boolean modifyTask(Long taskId, TaskRequest taskRequest) {
         Project project = projectRepository.getProjectById(taskRequest.getProjectId());
         Task task = Task.builder()
@@ -110,17 +74,5 @@ public class TaskServiceImpl implements TaskService {
             .build();
         taskRepository.save(task);
         return true;
-    }
-
-    @Override
-    public boolean deleteComment(Long taskId) {
-        if (taskRepository.existsById(taskId)) {
-            commentRepository.deleteById(taskId);
-            return true;
-
-        } else {
-            return false;
-        }
-
     }
 }

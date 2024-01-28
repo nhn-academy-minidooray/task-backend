@@ -17,13 +17,5 @@ public interface TaskService {
 
     boolean deleteTask(Long taskId);
 
-    List<CommentDto> findCommentListByTask(Long taskId);
-
-    boolean createComment(CommentRequest commentRequest, Long taskId);
-
-    boolean modifyComment(Long commentId, CommentModifyRequest commentModifyRequest);
-
     boolean modifyTask(Long taskId, TaskRequest taskRequest);
-
-    boolean deleteComment(Long taskId);
 }

@@ -11,6 +11,10 @@ import lombok.NoArgsConstructor;
 public class CommentRequest {
     @NotNull
     private Long taskId;
+
+    @NotNull
+    private String owner;
+
     @NotNull
     private String content;
 

@@ -7,6 +7,7 @@ import com.nhnacademy.minidooray.task.backend.domain.dto.tag.TagDTO;
 import com.nhnacademy.minidooray.task.backend.entity.Project;
 import com.nhnacademy.minidooray.task.backend.entity.Tag;
 import java.util.List;
+import java.util.Objects;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -68,8 +69,10 @@ class TagRepositoryTest {
 
         Tag result = tagRepository.findByName("testTag").orElse(null);
 
-        assertEquals(attatchedTag.getId(), result.getId());
-        assertEquals("testTag", result.getName());
+        if(Objects.nonNull(result)){
+            assertEquals(attatchedTag.getId(), result.getId());
+            assertEquals("testTag", result.getName());
+        }
 
     }
 

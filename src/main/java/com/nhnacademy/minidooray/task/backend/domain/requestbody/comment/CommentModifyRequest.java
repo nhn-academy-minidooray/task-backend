@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class CommentModifyRequest {
-    Long id;
+    String owner;
 
     String content;
 }
