@@ -1,7 +1,6 @@
 package com.nhnacademy.minidooray.task.backend.controller;
 
 import com.nhnacademy.minidooray.task.backend.domain.dto.milestone.MemberIdOnlyDTO;
-import com.nhnacademy.minidooray.task.backend.domain.requestbody.member.ProjectMemberListRegisterRequest;
 import com.nhnacademy.minidooray.task.backend.domain.requestbody.member.ProjectMemberRegisterRequest;
 import com.nhnacademy.minidooray.task.backend.service.interfaces.ProjectMemberService;
 import java.util.List;
@@ -30,15 +29,6 @@ public class ProjectMemberController {
 
         return ResponseEntity.ok(memberList);
 
-    }
-
-    @PostMapping("/list/register")
-    public ResponseEntity<Void> registerProjectMembers(@RequestBody ProjectMemberListRegisterRequest request){
-        boolean isProcessed = projectMemberService.registerProjectMembers(request);
-
-        return isProcessed
-                ? ResponseEntity.status(HttpStatus.CREATED).build()
-                : ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
     @PostMapping("/register")

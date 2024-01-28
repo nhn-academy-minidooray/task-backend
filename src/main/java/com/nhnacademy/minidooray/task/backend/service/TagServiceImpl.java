@@ -43,7 +43,8 @@ public class TagServiceImpl implements TagService {
     public boolean createTag(TagRegisterRequest request) {
         Optional<Project> project = projectRepository.findById(request.getProjectId());
 
-        if(tagRepository.findByName(request.getName()).isPresent()){
+        if(tagRepository.findByName(request.getName())
+                .isPresent()){
             log.error("createTag() : Already exist tag name {}", request.getName());
 
             return false;

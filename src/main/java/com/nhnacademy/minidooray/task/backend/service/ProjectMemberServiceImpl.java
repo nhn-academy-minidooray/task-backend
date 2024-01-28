@@ -1,14 +1,12 @@
 package com.nhnacademy.minidooray.task.backend.service;
 
 import com.nhnacademy.minidooray.task.backend.domain.dto.milestone.MemberIdOnlyDTO;
-import com.nhnacademy.minidooray.task.backend.domain.requestbody.member.ProjectMemberListRegisterRequest;
 import com.nhnacademy.minidooray.task.backend.domain.requestbody.member.ProjectMemberRegisterRequest;
 import com.nhnacademy.minidooray.task.backend.entity.Project;
 import com.nhnacademy.minidooray.task.backend.entity.ProjectMember;
 import com.nhnacademy.minidooray.task.backend.repository.ProjectMemberRepository;
 import com.nhnacademy.minidooray.task.backend.repository.ProjectRepository;
 import com.nhnacademy.minidooray.task.backend.service.interfaces.ProjectMemberService;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -28,31 +26,6 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
     @Override
     public List<MemberIdOnlyDTO> getProjectMembers(Long projectId) {
         return projectMemberRepository.getProjectMembersByPk_ProjectId(projectId);
-    }
-
-    @Transactional
-    @Override
-    public boolean registerProjectMembers(ProjectMemberListRegisterRequest request) {
-        Optional<Project> project = projectRepository.findById(request.getProjectId());
-
-        if(project.isPresent()){
-            List<ProjectMember> memberList = new ArrayList<>();
-
-            for (String accountId : request.getAccountIdList()) {
-                ProjectMember.Pk pk = new ProjectMember.Pk(accountId, request.getProjectId());
-                if (projectMemberRepository.existsById(pk)) {
-                    return false;
-                }
-                ProjectMember projectMember = new ProjectMember(pk, project.get());
-                memberList.add(projectMember);
-            }
-
-            projectMemberRepository.saveAll(memberList);
-
-            return true;
-        }
-
-        return false;
     }
 
     @Transactional

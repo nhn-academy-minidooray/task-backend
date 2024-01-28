@@ -56,10 +56,9 @@ class CommentServiceImplTest {
     @DisplayName("Comment 생성 성공")
     void testCreateCommentSuccess() {
         CommentRequest request = new CommentRequest(1L, "tester", "test");
-        Task task =new Task();
 
         when(taskRepository.getTaskById(request.getTaskId()))
-                .thenReturn(Optional.of(task));
+                .thenReturn(Optional.of(new Task()));
 
         boolean result = commentService.createComment(request);
 
