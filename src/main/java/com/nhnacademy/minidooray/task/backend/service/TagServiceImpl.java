@@ -43,6 +43,12 @@ public class TagServiceImpl implements TagService {
     public boolean createTag(TagRegisterRequest request) {
         Optional<Project> project = projectRepository.findById(request.getProjectId());
 
+        if(tagRepository.findByName(request.getName()).isPresent()){
+            log.error("createTag() : Already exist tag name {}", request.getName());
+
+            return false;
+        }
+
         if(project.isPresent()) {
             Tag tag = new Tag(request.getName(), project.get());
             tagRepository.save(tag);
@@ -59,6 +65,12 @@ public class TagServiceImpl implements TagService {
     @Override
     public boolean modifyTag(Long id, TagNameOnlyRequest request) {
         Optional<Tag> tag = tagRepository.findById(id);
+
+        if(tagRepository.findByName(request.getName()).isPresent()){
+            log.error("createTag() : Already exist tag name {}", request.getName());
+
+            return false;
+        }
 
         if(tag.isPresent()){
             Tag modifiedTag = tag.get();

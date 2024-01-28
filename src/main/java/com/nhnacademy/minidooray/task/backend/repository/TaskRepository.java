@@ -22,8 +22,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     void deleteTaskById(Long taskId);
 
-    Task getTaskById(Long taskId);
-
+    Optional<Task> getTaskById(Long taskId);
 
     @Query(value = "SELECT t.task_id, t.task_name, t.task_detail, GROUP_CONCAT(tt.tag_id), GROUP_CONCAT(tag.tag_name), t.milestone_id, m.milestone_name " +
             "FROM Task t " +
@@ -34,5 +33,4 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
             "WHERE p.project_id = :projectId " +
             "GROUP BY t.task_id", nativeQuery = true)
     List<List<Object>> nativeTaskList(@Param("projectId") Long projectId);
-
 }
