@@ -1,9 +1,10 @@
 package com.nhnacademy.minidooray.task.backend.domain.dto.task;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,28 +18,20 @@ public class TaskInfoResponseDTO {
     Long id;
     String name;
     String detail;
-    List<Long> tagList;
+    List<Long> tagIdList;
+    List<String> tagNameList;
+
     Long milestoneId;
     String milestoneName;
 
-    public TaskInfoResponseDTO(Long id, String name, String detail, String tagList, Long milestoneId, String milestoneName) {
+    public TaskInfoResponseDTO(Long id, String name, String detail, String tagIdList, String tagNameList, Long milestoneId, String milestoneName) {
         this.id = id;
         this.name = name;
         this.detail = detail;
-        this.tagList = convertToTagIdsList(tagList);
+        this.tagIdList = !tagIdList.isEmpty() ? Arrays.stream(tagIdList.split(",")).map(Long::parseLong).collect(Collectors.toList()) : Collections.emptyList();
+        this.tagNameList = !tagNameList.isEmpty() ? Arrays.stream(tagNameList.split(",")).collect(Collectors.toList()) : Collections.emptyList();
         this.milestoneId = milestoneId;
         this.milestoneName = milestoneName;
-    }
-
-    private List<Long> convertToTagIdsList(String tagList) {
-        List<Long> tagIdList = new ArrayList<>();
-        if (tagList != null && !tagList.isEmpty()) {
-            String[] tagIdArray = tagList.split(",");
-            for (String tagId : tagIdArray) {
-                tagIdList.add(Long.parseLong(tagId));
-            }
-        }
-        return tagIdList;
     }
 
 }

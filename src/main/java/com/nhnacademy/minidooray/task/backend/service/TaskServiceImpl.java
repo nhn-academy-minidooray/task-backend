@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,17 +35,15 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
     private final MilestoneRepository milestoneRepository;
     private final ProjectRepository projectRepository;
-    private final CommentRepository commentRepository;
     private final TaskTagRepository taskTagRepository;
     private final TagRepository tagRepository;
 
     public TaskServiceImpl(TaskRepository taskRepository, MilestoneRepository milestoneRepository,
-                           ProjectRepository projectRepository, CommentRepository commentRepository,
+                           ProjectRepository projectRepository,
                            TaskTagRepository taskTagRepository, TagRepository tagRepository) {
         this.taskRepository = taskRepository;
         this.milestoneRepository = milestoneRepository;
         this.projectRepository = projectRepository;
-        this.commentRepository = commentRepository;
         this.taskTagRepository = taskTagRepository;
         this.tagRepository = tagRepository;
     }
@@ -53,22 +52,20 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<TaskInfoResponseDTO> findTaskListByProject(Long projectId) {
         List<List<Object>> nativeTaskList = taskRepository.nativeTaskList(projectId);
-
         return nativeTaskList.stream().map(list ->
-                {
-                    return new TaskInfoResponseDTO(((BigInteger) list.get(0)).longValue(), // task id
-                            (String) list.get(1),
-                            (String) list.get(2),
-                            Objects.nonNull(list.get(3)) ? (String) list.get(3) : "",
-                            Objects.nonNull(list.get(4)) ? ((BigInteger) list.get(4)).longValue() : null,
-                            Objects.nonNull(list.get(5)) ? (String) list.get(5) : null
-                    );
-                })
-
+            {
+                return new TaskInfoResponseDTO(((BigInteger) list.get(0)).longValue(), // task id
+                    (String) list.get(1),
+                    (String) list.get(2),
+                    Objects.nonNull(list.get(3)) ? (String) list.get(3) : Strings.EMPTY,
+                    Objects.nonNull(list.get(4)) ? (String) list.get(4) : Strings.EMPTY,
+                    Objects.nonNull(list.get(5)) ? ((BigInteger) list.get(5)).longValue() : null,
+                    Objects.nonNull(list.get(6)) ? (String) list.get(6) : null
+                );
+            })
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
     @Override
     public Optional<TaskDto> findTask(Long taskId) {
         return taskRepository.findTaskById(taskId);
@@ -78,17 +75,22 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public boolean registerTaskAndTaskTag(TaskRequest taskRequest) {
         Optional<Project> optionalProject = projectRepository.getProjectById(taskRequest.getProjectId());
-        Milestone milestone = milestoneRepository.findById(taskRequest.getMilestoneId()).orElse(null);
+        Milestone milestone = null;
+        if(Objects.nonNull(taskRequest.getMilestoneId())) {
+            milestone = milestoneRepository.findById(taskRequest.getMilestoneId())
+                .orElse(null);
+        }
 
         if (optionalProject.isPresent()) {
             Project project = optionalProject.get();
             Task task = Task.builder()
-                    .name(taskRequest.getName())
-                    .project(project)
-                    .milestone(milestone)
-                    .build();
+                .name(taskRequest.getName())
+                .project(project)
+                .milestone(milestone)
+                .detail(taskRequest.getDetail())
+                .build();
             Task saveTask = taskRepository.save(task);
-            if (!taskRequest.getTagList().isEmpty()) {
+            if (Objects.nonNull(taskRequest.getTagList())) {
                 for (Long tagId : taskRequest.getTagList()) {
                     Optional<Tag> byId = tagRepository.findById(tagId);
                     if (byId.isPresent()) {
@@ -101,8 +103,6 @@ public class TaskServiceImpl implements TaskService {
                     }
                 }
                 return Objects.equals(task, saveTask);
-            } else {
-                return false;
             }
         }
         return true;
@@ -114,38 +114,6 @@ public class TaskServiceImpl implements TaskService {
         if (taskRepository.existsById(taskId)) {
             taskRepository.deleteTaskById(taskId);
             return true;
-        } else {
-            return false;
-        }
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public List<CommentDto> findCommentListByTask(Long taskId) {
-        return commentRepository.commentListByTaskId(taskId);
-    }
-
-    @Transactional
-    @Override
-    public boolean createComment(CommentRequest commentRequest, Long taskId) {
-        Task task = taskRepository.getTaskById(taskId);
-        Comment comment = Comment.builder()
-                .content(commentRequest.getContent())
-                .task(task)
-                .build();
-        Comment saveComment = commentRepository.save(comment);
-        return Objects.equals(comment, saveComment);
-    }
-
-    @Transactional
-    @Override
-    public boolean modifyComment(Long commentId, CommentModifyRequest commentModifyRequest) {
-        Optional<Comment> commentOptional = commentRepository.findById(commentId);
-        if (commentOptional.isPresent()) {
-            Comment comment = commentOptional.get();
-            comment.modify(commentModifyRequest.getContent());
-            Comment modifyComment = commentRepository.save(comment);
-            return Objects.equals(comment, modifyComment);
         } else {
             return false;
         }
@@ -165,18 +133,5 @@ public class TaskServiceImpl implements TaskService {
         } else {
             return false;
         }
-    }
-
-    @Transactional
-    @Override
-    public boolean deleteComment(Long taskId) {
-        if (taskRepository.existsById(taskId)) {
-            commentRepository.deleteById(taskId);
-            return true;
-
-        } else {
-            return false;
-        }
-
     }
 }
