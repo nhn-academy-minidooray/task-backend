@@ -11,6 +11,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,6 +25,7 @@ import lombok.ToString;
 @Table(name = "Task")
 @Builder
 @ToString
+@EqualsAndHashCode
 public class Task {
 
     @Id
