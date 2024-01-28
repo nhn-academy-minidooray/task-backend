@@ -10,8 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +23,8 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "Member")
+@Builder
+@EqualsAndHashCode
 public class ProjectMember {
 
     @EmbeddedId
@@ -30,7 +32,7 @@ public class ProjectMember {
 
     @MapsId("projectId")
     @ManyToOne
-    @JoinColumn(name = "project_id", insertable = false, updatable = false)
+    @JoinColumn(name = "project_id")
     private Project project;
 
 
@@ -40,6 +42,7 @@ public class ProjectMember {
     @EqualsAndHashCode
     @AllArgsConstructor
     @NoArgsConstructor
+    @Builder
     public static class Pk implements Serializable {
 
         @Column(name = "account_id")

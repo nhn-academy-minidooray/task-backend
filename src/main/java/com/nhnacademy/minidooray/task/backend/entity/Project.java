@@ -6,11 +6,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -18,6 +20,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "Project")
+@Builder
+@EqualsAndHashCode
+@ToString
 public class Project {
 
     @Id
@@ -31,6 +36,10 @@ public class Project {
     @Column(name = "project_status")
     private String status;
 
+    @Column(name = "project_detail")
+    private String detail;
+
     @Column(name = "project_admin_id")
     private String adminId;
+
 }

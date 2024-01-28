@@ -8,6 +8,7 @@ class MinidoorayTaskBackendApplicationTests {
 
 	@Test
 	void contextLoads() {
+
 	}
 
 }
