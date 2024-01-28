@@ -21,10 +21,10 @@ import org.springframework.test.annotation.DirtiesContext;
 class TagRepositoryTest {
 
     @Autowired
-    TestEntityManager testEntityManager;
+    private TestEntityManager testEntityManager;
 
     @Autowired
-    TagRepository tagRepository;
+    private TagRepository tagRepository;
 
     @Test
     void testFindAllByProject_id() {

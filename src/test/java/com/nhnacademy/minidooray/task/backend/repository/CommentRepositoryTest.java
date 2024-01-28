@@ -23,10 +23,10 @@ import org.springframework.test.annotation.DirtiesContext;
 class CommentRepositoryTest {
 
     @Autowired
-    TestEntityManager testEntityManager;
+    private TestEntityManager testEntityManager;
 
     @Autowired
-    CommentRepository commentRepository;
+    private CommentRepository commentRepository;
 
     @Test
     void testCommentListByTaskId() {
