@@ -33,8 +33,7 @@ public class TaskController {
     @GetMapping("/list")
     public ResponseEntity<List<TaskInfoResponseDTO>> taskDtoList(@RequestParam("projectId") Long projectId) {
         List<TaskInfoResponseDTO> taskListByProject = taskService.findTaskListByProject(projectId);
-        System.out.println("-==--=--==-");
-        taskListByProject.stream().forEach(System.out::println);
+
         return ResponseEntity.ok().body(taskListByProject);
     }
 
