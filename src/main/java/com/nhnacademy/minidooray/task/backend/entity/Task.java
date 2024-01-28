@@ -14,6 +14,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Setter
 @Getter
@@ -22,6 +23,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "Task")
 @Builder
+@ToString
 public class Task {
 
     @Id
@@ -32,6 +34,9 @@ public class Task {
     @Column(name = "task_name")
     private String name;
 
+    @Column(name = "task_detail")
+    private String detail;
+
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
@@ -39,6 +44,11 @@ public class Task {
     @OneToOne
     @JoinColumn(name = "milestone_id")
     private Milestone milestone;
+
+    public void modify(String name, Milestone milestone) {
+        this.name = name;
+        this.milestone = milestone;
+    }
 
 
 }

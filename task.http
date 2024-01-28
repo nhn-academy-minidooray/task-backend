@@ -1,0 +1,49 @@
+GET /task/list?projectId=1 HTTP/1.1
+Host: localhost:7070
+
+###
+
+GET /task/1 HTTP/1.1
+Host: localhost:7070
+
+###
+
+POST /task/register HTTP/1.1
+Host: localhost:7070
+Content-Type: application/json
+
+{
+  "projectId": 1,
+  "name": "hahaha",
+  "milestoneId": 1,
+  "tagList": null,
+  "detail": "haha"
+}
+
+###
+
+PUT /task/1/modify HTTP/1.1
+Host: localhost:7070
+Content-Type: application/json
+
+{
+  "projectId": 1,
+  "name": "",
+  "mildestoneId": 1,
+  "tagList": null,
+  "detail": ""
+}
+
+###
+
+DELETE /task/1/delete HTTP/1.1
+Host: localhost:7070
+Content-Type: application/json
+
+{
+  "projectId": 1,
+  "name": "",
+  "mildestoneId": 1,
+  "tagList": null,
+  "detail": ""
+}

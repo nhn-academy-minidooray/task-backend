@@ -8,9 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
 
 @Getter
 @Setter
@@ -19,6 +22,8 @@ import lombok.Setter;
 @Entity
 @Table(name = "Project")
 @Builder
+@EqualsAndHashCode
+@ToString
 public class Project {
 
     @Id
@@ -32,12 +37,15 @@ public class Project {
     @Column(name = "project_status")
     private String status;
 
+    @Column(name = "project_detail")
+    private String detail;
+
     @Column(name = "project_admin_id")
     private String adminId;
 
-    public Project(String name, String status, String adminId) {
-        this.name = name;
-        this.status = status;
-        this.adminId = adminId;
-    }
+//    public Project(String name, String status, String adminId) {
+//        this.name = name;
+//        this.status = status;
+//        this.adminId = adminId;
+//    }
 }
