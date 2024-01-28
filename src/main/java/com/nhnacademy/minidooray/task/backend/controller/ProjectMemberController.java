@@ -28,9 +28,7 @@ public class ProjectMemberController {
     public ResponseEntity<List<MemberIdOnlyDTO>> getProjectMembers(@RequestParam(name = "projectId") Long projectId){
         List<MemberIdOnlyDTO> memberList = projectMemberService.getProjectMembers(projectId);
 
-        return memberList.isEmpty()
-                ? ResponseEntity.status(HttpStatus.NOT_FOUND).build()
-                : ResponseEntity.ok(memberList);
+        return ResponseEntity.ok(memberList);
 
     }
 

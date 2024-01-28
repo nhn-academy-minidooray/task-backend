@@ -33,20 +33,16 @@ public class TagController {
         if(Objects.nonNull(projectId)) {
             List<TagDTO> tagList = tagService.findAllByProjectId(projectId);
 
-            return tagList.isEmpty()
-                    ? ResponseEntity.status(HttpStatus.NOT_FOUND).build()
-                    : ResponseEntity.ok(tagList);
+            return ResponseEntity.ok(tagList);
         }
 
         if(Objects.nonNull(taskId)) {
             List<TagDTO> tagList = tagService.findAllByTaskId(taskId);
 
-            return tagList.isEmpty()
-                    ? ResponseEntity.status(HttpStatus.NOT_FOUND).build()
-                    : ResponseEntity.ok(tagList);
+            return ResponseEntity.ok(tagList);
         }
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     @PostMapping("/register")

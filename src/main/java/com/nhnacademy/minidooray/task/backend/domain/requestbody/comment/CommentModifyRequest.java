@@ -1,10 +1,12 @@
 package com.nhnacademy.minidooray.task.backend.domain.requestbody.comment;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class CommentModifyRequest {
-    Long id;
+    String owner;
 
     String content;
 }

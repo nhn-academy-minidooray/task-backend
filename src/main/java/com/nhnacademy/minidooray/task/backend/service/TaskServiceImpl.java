@@ -33,17 +33,15 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
     private final MilestoneRepository milestoneRepository;
     private final ProjectRepository projectRepository;
-    private final CommentRepository commentRepository;
     private final TaskTagRepository taskTagRepository;
     private final TagRepository tagRepository;
 
     public TaskServiceImpl(TaskRepository taskRepository, MilestoneRepository milestoneRepository,
-                           ProjectRepository projectRepository, CommentRepository commentRepository,
+                           ProjectRepository projectRepository,
                            TaskTagRepository taskTagRepository, TagRepository tagRepository) {
         this.taskRepository = taskRepository;
         this.milestoneRepository = milestoneRepository;
         this.projectRepository = projectRepository;
-        this.commentRepository = commentRepository;
         this.taskTagRepository = taskTagRepository;
         this.tagRepository = tagRepository;
     }
@@ -129,38 +127,6 @@ public class TaskServiceImpl implements TaskService {
         }
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    public List<CommentDto> findCommentListByTask(Long taskId) {
-        return commentRepository.commentListByTaskId(taskId);
-    }
-
-    @Transactional
-    @Override
-    public boolean createComment(CommentRequest commentRequest, Long taskId) {
-        Task task = taskRepository.getTaskById(taskId);
-        Comment comment = Comment.builder()
-                .content(commentRequest.getContent())
-                .task(task)
-                .build();
-        Comment saveComment = commentRepository.save(comment);
-        return Objects.equals(comment, saveComment);
-    }
-
-    @Transactional
-    @Override
-    public boolean modifyComment(Long commentId, CommentModifyRequest commentModifyRequest) {
-        Optional<Comment> commentOptional = commentRepository.findById(commentId);
-        if (commentOptional.isPresent()) {
-            Comment comment = commentOptional.get();
-            comment.modify(commentModifyRequest.getContent());
-            Comment modifyComment = commentRepository.save(comment);
-            return Objects.equals(comment, modifyComment);
-        } else {
-            return false;
-        }
-    }
-
     @Transactional
     @Override
     public boolean modifyTask(Long taskId, TaskRequest taskRequest) {
@@ -175,18 +141,5 @@ public class TaskServiceImpl implements TaskService {
         } else {
             return false;
         }
-    }
-
-    @Transactional
-    @Override
-    public boolean deleteComment(Long taskId) {
-        if (taskRepository.existsById(taskId)) {
-            commentRepository.deleteById(taskId);
-            return true;
-
-        } else {
-            return false;
-        }
-
     }
 }
