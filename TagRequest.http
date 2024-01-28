@@ -1,12 +1,12 @@
-GET http://localhost:8080/tag/list?projectId=1
+GET http://localhost:7070/tag/list?projectId=1
 Content-Type: application/json
 
 ###
-GET http://localhost:8080/tag/list?taskId=1
+GET http://localhost:7070/tag/list?taskId=1
 Content-Type: application/json
 
 ###
-POST http://localhost:8080/tag/register
+POST http://localhost:7070/tag/register
 Content-Type: application/json
 
 {
@@ -15,7 +15,7 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:8080/tag/1/modify
+PUT http://localhost:7070/tag/24/modify
 Content-Type: application/json
 
 {
@@ -23,4 +23,4 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:8080/tag/1/delete
+DELETE http://localhost:7070/tag/1/delete

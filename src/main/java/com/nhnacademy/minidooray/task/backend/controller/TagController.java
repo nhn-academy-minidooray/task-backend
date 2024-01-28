@@ -6,6 +6,7 @@ import com.nhnacademy.minidooray.task.backend.domain.requestbody.tag.TagRegister
 import com.nhnacademy.minidooray.task.backend.service.interfaces.TagService;
 import java.util.List;
 import java.util.Objects;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequestMapping("/tag")
 public class TagController {
@@ -30,6 +32,10 @@ public class TagController {
     @GetMapping("/list")
     public ResponseEntity<List<TagDTO>> getTags(@RequestParam(name = "projectId", required = false) Long projectId,
                                                 @RequestParam(name = "taskId", required = false) Long taskId){
+        if(Objects.nonNull(projectId) && Objects.nonNull(taskId)){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
         if(Objects.nonNull(projectId)) {
             List<TagDTO> tagList = tagService.findAllByProjectId(projectId);
 
@@ -51,7 +57,7 @@ public class TagController {
 
         return isProcessed
                 ? ResponseEntity.status(HttpStatus.CREATED).build()
-                : ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                : ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
     @PutMapping("/{tagId}/modify")
