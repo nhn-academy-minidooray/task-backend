@@ -2,6 +2,7 @@ package com.nhnacademy.minidooray.task.backend.service;
 
 import com.nhnacademy.minidooray.task.backend.domain.dto.comment.CommentDto;
 import com.nhnacademy.minidooray.task.backend.domain.dto.task.TaskDto;
+import com.nhnacademy.minidooray.task.backend.domain.dto.task.TaskInfoResponseDTO;
 import com.nhnacademy.minidooray.task.backend.domain.requestbody.comment.CommentModifyRequest;
 import com.nhnacademy.minidooray.task.backend.domain.requestbody.comment.CommentRequest;
 import com.nhnacademy.minidooray.task.backend.domain.requestbody.task.TaskRequest;
@@ -18,9 +19,11 @@ import com.nhnacademy.minidooray.task.backend.repository.TagRepository;
 import com.nhnacademy.minidooray.task.backend.repository.TaskRepository;
 import com.nhnacademy.minidooray.task.backend.repository.TaskTagRepository;
 import com.nhnacademy.minidooray.task.backend.service.interfaces.TaskService;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -45,8 +48,16 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskDto> findTaskListByProject(Long projectId) {
-        return taskRepository.taskListByProjectId(projectId);
+    public List<TaskInfoResponseDTO> findTaskListByProject(Long projectId) {
+        List<List<Object>> nativeTaskList = taskRepository.nativeTaskList(projectId);
+        return nativeTaskList.stream().map(list -> new TaskInfoResponseDTO(
+                ((BigInteger) list.get(0)).longValue(),
+                (String) list.get(1),
+                (String) list.get(2),
+                (String) list.get(3),
+                ((BigInteger) list.get(4)).longValue()
+        ))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -61,8 +72,11 @@ public class TaskServiceImpl implements TaskService {
 
         if (optionalProject.isPresent() && optionalMilestone.isPresent()) {
             Project project = optionalProject.get();
+            System.out.println("project");
+            System.out.println(project);
             Milestone milestone = optionalMilestone.get();
-
+            System.out.println("milestone");
+            System.out.println(milestone);
             Task task = Task.builder()
                     .name(taskRequest.getName())
                     .project(project)
@@ -83,7 +97,9 @@ public class TaskServiceImpl implements TaskService {
         TaskTag taskTag;
         Tag tag;
         for (Long tagId : taskRequest.getTagList()) {
+            System.out.println("112321321312");
             Optional<Tag> byId = tagRepository.findById(tagId);
+            System.out.println("jffjkldfajkfasdj");
             if (byId.isPresent()) {
                 tag = byId.get();
                 pk = TaskTag.Pk.builder().tagId(tagId).taskId(saveTask.getId()).build();

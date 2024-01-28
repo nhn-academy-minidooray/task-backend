@@ -1,5 +1,6 @@
 package com.nhnacademy.minidooray.task.backend.controller;
 
+import com.nhnacademy.minidooray.task.backend.domain.dto.task.TaskInfoResponseDTO;
 import com.nhnacademy.minidooray.task.backend.domain.requestbody.project.ProjectIdOnlyRequest;
 import com.nhnacademy.minidooray.task.backend.domain.dto.task.TaskDto;
 import com.nhnacademy.minidooray.task.backend.domain.requestbody.task.TaskRequest;
@@ -30,8 +31,10 @@ public class TaskController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<TaskDto>> taskDtoList(@RequestParam("projectId") Long projectId) {
-        return ResponseEntity.ok().body(taskService.findTaskListByProject(projectId));
+    public ResponseEntity<List<TaskInfoResponseDTO>> taskDtoList(@RequestParam("projectId") Long projectId) {
+        List<TaskInfoResponseDTO> taskListByProject = taskService.findTaskListByProject(projectId);
+
+        return ResponseEntity.ok().body(taskListByProject);
     }
 
     @GetMapping("/{taskId}")
