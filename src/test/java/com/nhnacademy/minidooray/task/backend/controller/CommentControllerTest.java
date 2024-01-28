@@ -14,7 +14,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.minidooray.task.backend.domain.dto.comment.CommentDto;
 import com.nhnacademy.minidooray.task.backend.domain.requestbody.comment.CommentModifyRequest;
 import com.nhnacademy.minidooray.task.backend.domain.requestbody.comment.CommentRequest;
-import com.nhnacademy.minidooray.task.backend.domain.requestbody.task.TaskIdOnlyRequest;
 import com.nhnacademy.minidooray.task.backend.service.interfaces.CommentService;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -36,9 +35,6 @@ class CommentControllerTest {
 
     @Test
     void testGetCommentList() throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
-        TaskIdOnlyRequest taskIdOnlyRequest = new TaskIdOnlyRequest(1L);
-
         List<CommentDto> commentDtoList = List.of(new CommentDto() {
             @Override
             public Long getId() {
@@ -61,7 +57,7 @@ class CommentControllerTest {
 
         mockMvc.perform(get("/comment/list")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(taskIdOnlyRequest)))
+                    .param("taskId", "1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id", equalTo(1)))
                 .andExpect(jsonPath("$[0].owner", equalTo("tester")))

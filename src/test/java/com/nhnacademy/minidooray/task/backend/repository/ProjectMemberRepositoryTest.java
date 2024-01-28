@@ -49,7 +49,9 @@ class ProjectMemberRepositoryTest {
                 .getProjectMembersByPk_ProjectId(attachedProject.getId());
 
         assertEquals(1, result.size());
+
 //        assertEquals(pk.getAccountId(), result.get(0).getPk().getAccountId());
+
     }
 
 }

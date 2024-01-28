@@ -124,7 +124,9 @@ public class TaskServiceImpl implements TaskService {
     public boolean modifyTask(Long taskId, TaskRequest taskRequest) {
         Optional<Task> task = taskRepository.findById(taskId);
         if (task.isPresent()) {
-            Milestone milestone = milestoneRepository.findById(taskRequest.getMilestoneId()).orElse(null);
+            Milestone milestone = null;
+            if(Objects.nonNull(taskRequest.getMilestoneId()))
+                milestone = milestoneRepository.findById(taskRequest.getMilestoneId()).orElse(null);
             Task modifyTask = task.get();
             modifyTask.modify(taskRequest.getName(), milestone);
 

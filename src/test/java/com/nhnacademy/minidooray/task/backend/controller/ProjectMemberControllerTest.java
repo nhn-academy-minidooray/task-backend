@@ -33,6 +33,7 @@ class ProjectMemberControllerTest {
 
     @Test
     void testGetProjectMembers() throws Exception {
+
         List<MemberIdOnlyDTO> memberIdOnlyDTOList = List.of(new MemberIdOnlyDTO() {
 
                                                                 @Override
@@ -42,6 +43,7 @@ class ProjectMemberControllerTest {
                                                             }
 
         );
+
 
         when(projectMemberService.getProjectMembers(1L))
                 .thenReturn(memberIdOnlyDTOList);
