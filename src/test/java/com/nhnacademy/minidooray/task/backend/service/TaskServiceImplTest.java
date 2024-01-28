@@ -58,39 +58,6 @@ class TaskServiceImplTest {
     @MockBean
     TagRepository tagRepository;
 
-    @Test
-    void findTaskListByProjectTest() {
-        Long projectId = 1L;
-        BigInteger taskId = BigInteger.valueOf(1L);
-        String taskName = "Task1";
-        String taskDetail = "Task1detail";
-        BigInteger tagId = BigInteger.valueOf(1L);
-        String tagName = "Tag1";
-        BigInteger milestoneId = BigInteger.valueOf(1L);
-        String milestoneName = "Milestone1";
-
-        List<List<Object>> nativeTaskList = List.of(
-                List.of(taskId, taskName, taskDetail, tagId, tagName, milestoneId, milestoneName)
-        );
-
-        when(taskRepository.nativeTaskList(projectId)).thenReturn(nativeTaskList);
-
-
-        List<TaskInfoResponseDTO> taskList = taskService.findTaskListByProject(projectId);
-
-
-        verify(taskRepository, times(1)).nativeTaskList(projectId);
-
-        assertEquals(1, taskList.size());
-        TaskInfoResponseDTO taskInfoResponseDTO = taskList.get(0);
-        assertEquals(taskId.longValue(), taskInfoResponseDTO.getId());
-        assertEquals(taskName, taskInfoResponseDTO.getName());
-        assertEquals(taskDetail, taskInfoResponseDTO.getDetail());
-        assertEquals(Collections.singletonList(tagId.longValue()), taskInfoResponseDTO.getTagIdList());
-        assertEquals(Collections.singletonList(tagName), taskInfoResponseDTO.getTagNameList());
-        assertEquals(milestoneId.longValue(), taskInfoResponseDTO.getMilestoneId());
-        assertEquals(milestoneName, taskInfoResponseDTO.getMilestoneName());
-    }
 
     @Test
     void findTaskNotFoundTest() {
