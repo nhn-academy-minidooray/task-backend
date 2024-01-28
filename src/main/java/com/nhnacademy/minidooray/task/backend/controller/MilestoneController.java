@@ -30,9 +30,9 @@ public class MilestoneController {
         this.projectService = projectService;
     }
 
-    @PostMapping("/list")
-    public ResponseEntity<List<MilestoneDto>> getMilestoneList(@RequestBody ProjectIdOnlyRequest request) {
-        return ResponseEntity.ok().body(projectService.getMilestoneByProject(request.getId()));
+    @GetMapping("/list")
+    public ResponseEntity<List<MilestoneDto>> getMilestoneList(@RequestParam(name = "projectId") Long projectId) {
+        return ResponseEntity.ok().body(projectService.getMilestoneByProject(projectId));
     }
 
     @GetMapping("/{milestoneId}")
@@ -65,7 +65,7 @@ public class MilestoneController {
     }
 
     @PutMapping("/{milestoneId}/modify")
-    public ResponseEntity<Void> updateMilestone(@RequestParam("milestoneId") Long id,
+    public ResponseEntity<Void> updateMilestone(@PathVariable ("milestoneId") Long id,
                                                 @Valid @RequestBody MilestoneRequest milestoneRequest) {
         boolean isProcessed = projectService.updateMilestone(milestoneRequest, id);
 

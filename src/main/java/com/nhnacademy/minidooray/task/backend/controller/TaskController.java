@@ -30,8 +30,8 @@ public class TaskController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<TaskDto>> taskDtoList(@RequestBody ProjectIdOnlyRequest projectId) {
-        return ResponseEntity.ok().body(taskService.findTaskListByProject(projectId.getId()));
+    public ResponseEntity<List<TaskDto>> taskDtoList(@RequestParam("projectId") Long projectId) {
+        return ResponseEntity.ok().body(taskService.findTaskListByProject(projectId));
     }
 
     @GetMapping("/{taskId}")
