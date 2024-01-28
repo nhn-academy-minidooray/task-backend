@@ -19,7 +19,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     Optional<ProjectDto> findProjectById(Long projectId);
 
-    Project getProjectById(Long projectId);
+    Optional<Project> getProjectById(Long projectId);
 
 
 

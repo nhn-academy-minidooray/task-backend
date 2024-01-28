@@ -40,9 +40,9 @@ class ProjectRepositoryTest {
 //
 //    }
 
-    @Test
-    void as(){
-        projectRepository.getProjectListById("jkjk").stream().forEach(System.out::println);
-    }
+//    @Test
+//    void as(){
+//        projectRepository.getProjectListById("jkjk").stream().forEach(System.out::println);
+//    }
 
 }

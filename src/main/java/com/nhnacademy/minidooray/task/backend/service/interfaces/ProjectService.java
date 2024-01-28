@@ -26,4 +26,6 @@ public interface ProjectService {
 
     boolean deleteMilestone(Long milestoneId);
 
+    Optional<MilestoneDto> getMilestoneByTask(Long taskId);
+
 }

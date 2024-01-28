@@ -11,4 +11,6 @@ public interface MilestoneDetailDto {
 
     LocalDate getEndDate();
 
+    String getOverOrNot();
+
 }

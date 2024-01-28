@@ -1,11 +1,11 @@
 package com.nhnacademy.minidooray.task.backend.service;
 
+import com.nhnacademy.minidooray.task.backend.domain.Status;
 import com.nhnacademy.minidooray.task.backend.domain.dto.milestone.MilestoneDetailDto;
 import com.nhnacademy.minidooray.task.backend.domain.dto.milestone.MilestoneDto;
-import com.nhnacademy.minidooray.task.backend.domain.requestbody.milestone.MilestoneRequest;
 import com.nhnacademy.minidooray.task.backend.domain.dto.project.ProjectDto;
+import com.nhnacademy.minidooray.task.backend.domain.requestbody.milestone.MilestoneRequest;
 import com.nhnacademy.minidooray.task.backend.domain.requestbody.project.ProjectRequest;
-import com.nhnacademy.minidooray.task.backend.domain.Status;
 import com.nhnacademy.minidooray.task.backend.entity.Milestone;
 import com.nhnacademy.minidooray.task.backend.entity.Project;
 import com.nhnacademy.minidooray.task.backend.entity.ProjectMember;
@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -37,82 +38,96 @@ public class ProjectServiceImpl implements ProjectService {
         this.projectMemberRepository = projectMemberRepository;
     }
 
+    @Transactional
     @Override
     public boolean createProject(ProjectRequest projectRequest) {
         Project project = Project.builder()
                 .name(projectRequest.getName())
                 .adminId(projectRequest.getAdminId())
-            .status(Status.ACTIVATION.getValue())
+                .status(Status.ACTIVATION.getValue())
                 .detail(projectRequest.getDetail())
                 .build();
 
         Project savedProject = projectRepository.save(project);
-        if(!Objects.equals(project, savedProject)) {
+        if (!Objects.equals(project, savedProject)) {
             throw new ProjectCreationFailedException("프로젝트 생성 중 오류가 발생하였습니다");
         }
         ProjectMember.Pk projectMemberPk = new ProjectMember.Pk(savedProject.getAdminId(), savedProject.getId());
         ProjectMember projectMember = ProjectMember.builder()
-            .pk(projectMemberPk)
-            .project(savedProject)
-            .build();
+                .pk(projectMemberPk)
+                .project(savedProject)
+                .build();
 
         ProjectMember savedProjectMember = projectMemberRepository.save(projectMember);
-        if(!Objects.equals(projectMember, savedProjectMember)) {
+        if (!Objects.equals(projectMember, savedProjectMember)) {
             throw new ProjectMemberAddFailedException("멤버 등록 중 오류가 발생하였습니다");
         }
 
         return true;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<ProjectDto> getProjectListByAccountId(String accountId) {
         return projectRepository.getProjectListById(accountId);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Optional<ProjectDto> getProjectDtoById(Long projectId) {
         return projectRepository.findProjectById(projectId);
     }
 
 
-
+    @Transactional
     @Override
     public boolean createMileStone(MilestoneRequest milestoneRequest) {
-        Project projectById = projectRepository.getProjectById(milestoneRequest.getProjectId());
-        Milestone milestone = Milestone.builder()
-                .name(milestoneRequest.getName())
-                .startDate(milestoneRequest.getStartDate())
-                .endDate(milestoneRequest.getEndDate())
-                .overOrNot("N").project(projectById).build();
+        Optional<Project> projectById = projectRepository.getProjectById(milestoneRequest.getProjectId());
 
-        milestoneRepository.save(milestone);
-        return true;
+        if (projectById.isPresent()) {
+            Milestone milestone = Milestone.builder()
+                    .name(milestoneRequest.getName())
+                    .startDate(milestoneRequest.getStartDate())
+                    .endDate(milestoneRequest.getEndDate())
+                    .overOrNot("N").project(projectById.get()).build();
+            Milestone saveMilestone = milestoneRepository.save(milestone);
+            return Objects.equals(milestone, saveMilestone);
+        } else {
+            return false;
+        }
+
+
     }
 
-
+    @Transactional(readOnly = true)
     @Override
     public List<MilestoneDto> getMilestoneByProject(Long projectId) {
         return milestoneRepository.findMileStoneByProjectId(projectId);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Optional<MilestoneDetailDto> getMilestoneById(Long milestoneId) {
         return milestoneRepository.findMilestoneById(milestoneId);
     }
 
+    @Transactional
     @Override
     public boolean updateMilestone(MilestoneRequest milestoneRequest, Long milestoneId) {
-        Milestone milestone = milestoneRepository.findById(milestoneId).orElse(null);
-        if (Objects.isNull(milestone)) {
-            return false;
-        } else {
-            Milestone modify = milestone.modify(milestoneRequest.getName(), milestoneRequest.getStartDate(),
+        Optional<Milestone> milestone = milestoneRepository.findById(milestoneId);
+        if (milestone.isPresent()) {
+            Milestone getMilestone = milestone.get();
+            getMilestone.modify(milestoneRequest.getName(), milestoneRequest.getStartDate(),
                     milestoneRequest.getEndDate());
-            milestoneRepository.save(modify);
-            return true;
+            Milestone saveMilestone = milestoneRepository.save(getMilestone);
+            return Objects.equals(getMilestone, saveMilestone);
+        } else {
+
+            return false;
         }
     }
 
+    @Transactional
     @Override
     public boolean deleteMilestone(Long milestoneId) {
         if (milestoneRepository.existsById(milestoneId)) {
@@ -121,5 +136,11 @@ public class ProjectServiceImpl implements ProjectService {
         } else {
             return false;
         }
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<MilestoneDto> getMilestoneByTask(Long taskId) {
+        return milestoneRepository.findMileStoneByTaskId(taskId);
     }
 }

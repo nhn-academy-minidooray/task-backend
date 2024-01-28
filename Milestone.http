@@ -1,0 +1,25 @@
+GET /milestone/list?projectId=1 HTTP/1.1
+Host: localhost:7070
+
+###
+
+GET /milestone/1 HTTP/1.1
+Host: localhost:7070
+
+###
+
+GET /milestone?taskId=1 HTTP/1.1
+Host: localhost:7070
+
+###
+
+POST /milestone/register HTTP/1.1
+Host: localhost:7070
+Content-Type: application/json
+
+{
+  "projectId": 1,
+  "name": "My Milestone",
+  "startDate": "2022-02-01",
+  "endDate": "2022-02-28"
+}

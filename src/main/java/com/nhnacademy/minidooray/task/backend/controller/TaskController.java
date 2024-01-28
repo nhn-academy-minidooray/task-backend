@@ -1,5 +1,6 @@
 package com.nhnacademy.minidooray.task.backend.controller;
 
+import com.nhnacademy.minidooray.task.backend.domain.dto.task.TaskInfoResponseDTO;
 import com.nhnacademy.minidooray.task.backend.domain.requestbody.project.ProjectIdOnlyRequest;
 import com.nhnacademy.minidooray.task.backend.domain.dto.task.TaskDto;
 import com.nhnacademy.minidooray.task.backend.domain.requestbody.task.TaskRequest;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,13 +31,14 @@ public class TaskController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<TaskDto>> taskDtoList(@RequestBody ProjectIdOnlyRequest projectId) {
-        return ResponseEntity.ok().body(taskService.findTaskListByProject(projectId.getId()));
+    public ResponseEntity<List<TaskInfoResponseDTO>> taskDtoList(@RequestParam("projectId") Long projectId) {
+        List<TaskInfoResponseDTO> taskListByProject = taskService.findTaskListByProject(projectId);
+
+        return ResponseEntity.ok().body(taskListByProject);
     }
 
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<TaskDto> findTaskDto(@RequestParam("taskId") Long taskId) {
+    @GetMapping("/{taskId}")
+    public ResponseEntity<TaskDto> findTaskDto(@PathVariable("taskId") Long taskId) {
         Optional<TaskDto> info = taskService.findTask(taskId);
 
         return info.isPresent()
@@ -44,18 +47,16 @@ public class TaskController {
     }
 
     @PostMapping("/register")
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> createTask(@Valid @RequestBody TaskRequest taskRequest) {
-        boolean isProcessed = taskService.createTask(taskRequest);
+        boolean isProcessed = taskService.registerTaskAndTaskTag(taskRequest);
 
         return isProcessed
                 ? ResponseEntity.status(HttpStatus.CREATED).build()
                 : ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
-    @PutMapping("/modify")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Void> modifyTask(@RequestParam("taskId") Long taskId,
+    @PutMapping("/{taskId}/modify")
+    public ResponseEntity<Void> modifyTask(@PathVariable("taskId") Long taskId,
                                            @Valid @RequestBody TaskRequest taskRequest) {
         boolean isProcessed = taskService.modifyTask(taskId, taskRequest);
 
@@ -63,10 +64,10 @@ public class TaskController {
                 ? ResponseEntity.status(HttpStatus.OK).build()
                 : ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
-
-    @DeleteMapping("/delete")
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteTask(@RequestParam("taskId") Long taskId) {
+    
+    @DeleteMapping("/{taskId}/delete")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTask(@PathVariable("taskId") Long taskId) {
         taskService.deleteTask(taskId);
     }
 }
